@@ -5,16 +5,6 @@ services:
     environment:
       - "ASPNETCORE_ENVIRONMENT=Development"
       - "SpaBaseUrl=http://clientapp:4200"
-
-  clientapp:
-    image: ${DOCKER_REGISTRY-}clientapp
-    build:
-      context: src/WebUI/ClientApp
-      dockerfile: Dockerfile
-    depends_on:
-      - webui
-    restart: on-failure
-
   db:
     ports:
       - "1433:1433"
