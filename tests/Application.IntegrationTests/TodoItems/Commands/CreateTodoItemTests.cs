@@ -1,6 +1,6 @@
-﻿using bejebeje.admin.Application.Common.Exceptions;
+﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Application.TodoItems.Commands.CreateTodoItem;
-using bejebeje.admin.Application.TodoLists.Commands.CreateTodoList;
 using bejebeje.admin.Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
@@ -25,7 +25,7 @@ public class CreateTodoItemTests : TestBase
     {
         var userId = await RunAsDefaultUserAsync();
 
-        var listId = await SendAsync(new CreateTodoListCommand
+        var listId = await SendAsync(new CreateArtistCommand
         {
             Title = "New List"
         });
@@ -38,14 +38,14 @@ public class CreateTodoItemTests : TestBase
 
         var itemId = await SendAsync(command);
 
-        var item = await FindAsync<TodoItem>(itemId);
+        var item = await FindAsync<Lyric>(itemId);
 
         item.Should().NotBeNull();
         item!.ListId.Should().Be(command.ListId);
         item.Title.Should().Be(command.Title);
         item.CreatedBy.Should().Be(userId);
-        item.Created.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
+        item.CreatedAt.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
         item.LastModifiedBy.Should().BeNull();
-        item.LastModified.Should().BeNull();
+        item.ModifiedAt.Should().BeNull();
     }
 }

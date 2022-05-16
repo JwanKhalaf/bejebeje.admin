@@ -1,6 +1,6 @@
-﻿using bejebeje.admin.Application.Common.Exceptions;
+﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Application.Common.Security;
-using bejebeje.admin.Application.TodoLists.Commands.CreateTodoList;
 using bejebeje.admin.Application.TodoLists.Commands.PurgeTodoLists;
 using bejebeje.admin.Domain.Entities;
 using FluentAssertions;
@@ -50,24 +50,24 @@ public class PurgeTodoListsTests : TestBase
     {
         await RunAsAdministratorAsync();
 
-        await SendAsync(new CreateTodoListCommand
+        await SendAsync(new CreateArtistCommand
         {
             Title = "New List #1"
         });
 
-        await SendAsync(new CreateTodoListCommand
+        await SendAsync(new CreateArtistCommand
         {
             Title = "New List #2"
         });
 
-        await SendAsync(new CreateTodoListCommand
+        await SendAsync(new CreateArtistCommand
         {
             Title = "New List #3"
         });
 
         await SendAsync(new PurgeTodoListsCommand());
 
-        var count = await CountAsync<TodoList>();
+        var count = await CountAsync<Artist>();
 
         count.Should().Be(0);
     }

@@ -1,5 +1,5 @@
-﻿using bejebeje.admin.Application.Common.Exceptions;
-using bejebeje.admin.Application.TodoLists.Commands.CreateTodoList;
+﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Application.TodoLists.Commands.UpdateTodoList;
 using bejebeje.admin.Domain.Entities;
 using FluentAssertions;
@@ -21,12 +21,12 @@ public class UpdateTodoListTests : TestBase
     [Test]
     public async Task ShouldRequireUniqueTitle()
     {
-        var listId = await SendAsync(new CreateTodoListCommand
+        var listId = await SendAsync(new CreateArtistCommand
         {
             Title = "New List"
         });
 
-        await SendAsync(new CreateTodoListCommand
+        await SendAsync(new CreateArtistCommand
         {
             Title = "Other List"
         });
@@ -48,7 +48,7 @@ public class UpdateTodoListTests : TestBase
     {
         var userId = await RunAsDefaultUserAsync();
 
-        var listId = await SendAsync(new CreateTodoListCommand
+        var listId = await SendAsync(new CreateArtistCommand
         {
             Title = "New List"
         });
@@ -61,13 +61,13 @@ public class UpdateTodoListTests : TestBase
 
         await SendAsync(command);
 
-        var list = await FindAsync<TodoList>(listId);
+        var list = await FindAsync<Artist>(listId);
 
         list.Should().NotBeNull();
         list!.Title.Should().Be(command.Title);
         list.LastModifiedBy.Should().NotBeNull();
         list.LastModifiedBy.Should().Be(userId);
-        list.LastModified.Should().NotBeNull();
-        list.LastModified.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
+        list.ModifiedAt.Should().NotBeNull();
+        list.ModifiedAt.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
 }

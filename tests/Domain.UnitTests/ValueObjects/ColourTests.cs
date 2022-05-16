@@ -45,6 +45,6 @@ public class ColourTests
     public void ShouldThrowUnsupportedColourExceptionGivenNotSupportedColourCode()
     {
         FluentActions.Invoking(() => Colour.From("##FF33CC"))
-            .Should().Throw<UnsupportedColourException>();
+            .Should().Throw<ArtistNotFoundException>();
     }
 }

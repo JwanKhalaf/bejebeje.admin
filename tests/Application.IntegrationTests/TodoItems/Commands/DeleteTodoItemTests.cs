@@ -1,7 +1,7 @@
-﻿using bejebeje.admin.Application.Common.Exceptions;
+﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Application.TodoItems.Commands.CreateTodoItem;
 using bejebeje.admin.Application.TodoItems.Commands.DeleteTodoItem;
-using bejebeje.admin.Application.TodoLists.Commands.CreateTodoList;
 using bejebeje.admin.Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
@@ -24,7 +24,7 @@ public class DeleteTodoItemTests : TestBase
     [Test]
     public async Task ShouldDeleteTodoItem()
     {
-        var listId = await SendAsync(new CreateTodoListCommand
+        var listId = await SendAsync(new CreateArtistCommand
         {
             Title = "New List"
         });
@@ -40,7 +40,7 @@ public class DeleteTodoItemTests : TestBase
             Id = itemId
         });
 
-        var item = await FindAsync<TodoItem>(itemId);
+        var item = await FindAsync<Lyric>(itemId);
 
         item.Should().BeNull();
     }

@@ -12,7 +12,6 @@ namespace bejebeje.admin.Infrastructure.Persistence;
 
 public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
 {
-    private readonly ICurrentUserService _currentUserService;
     private readonly IDateTime _dateTime;
     private readonly IDomainEventService _domainEventService;
 
@@ -23,14 +22,13 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
         IDomainEventService domainEventService,
         IDateTime dateTime) : base(options, operationalStoreOptions)
     {
-        _currentUserService = currentUserService;
         _domainEventService = domainEventService;
         _dateTime = dateTime;
     }
 
-    public DbSet<TodoList> TodoLists => Set<TodoList>();
+    public DbSet<Artist> Artists => Set<Artist>();
 
-    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
+    public DbSet<Lyric> Lyrics => Set<Lyric>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
@@ -39,13 +37,11 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _currentUserService.UserId;
-                    entry.Entity.Created = _dateTime.Now;
+                    entry.Entity.CreatedAt = _dateTime.Now;
                     break;
 
                 case EntityState.Modified:
-                    entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                    entry.Entity.LastModified = _dateTime.Now;
+                    entry.Entity.ModifiedAt = _dateTime.Now;
                     break;
             }
         }

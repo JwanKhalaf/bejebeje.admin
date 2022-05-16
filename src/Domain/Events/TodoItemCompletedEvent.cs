@@ -2,10 +2,10 @@
 
 public class TodoItemCompletedEvent : DomainEvent
 {
-    public TodoItemCompletedEvent(TodoItem item)
+    public TodoItemCompletedEvent(Lyric item)
     {
         Item = item;
     }
 
-    public TodoItem Item { get; }
+    public Lyric Item { get; }
 }

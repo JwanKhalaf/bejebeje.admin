@@ -5,9 +5,9 @@ namespace bejebeje.admin.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
-    DbSet<TodoList> TodoLists { get; }
+    DbSet<Artist> Artists { get; }
 
-    DbSet<TodoItem> TodoItems { get; }
+    DbSet<Lyric> Lyrics { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
