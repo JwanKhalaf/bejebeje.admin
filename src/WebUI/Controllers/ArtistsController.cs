@@ -13,7 +13,9 @@ public class ArtistsController : CustomControllerBase
     [HttpGet]
     public async Task<ActionResult<ArtistsViewModel>> Index()
     {
-        return View(await Mediator.Send(new GetArtistsQuery()));
+        ArtistsViewModel viewModel = await Mediator.Send(new GetArtistsQuery());
+        
+        return View(viewModel);
     }
 
     [HttpPost]

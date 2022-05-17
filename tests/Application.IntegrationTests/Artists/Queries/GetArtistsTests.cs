@@ -22,17 +22,7 @@ public class GetArtistsTests : TestBase
     {
         await AddAsync(new Artist
         {
-            FirstName = "Shopping",
-            Lyrics =
-                    {
-                        new Lyric { Title = "Apples" },
-                        new Lyric { Title = "Milk"},
-                        new Lyric { Title = "Bread" },
-                        new Lyric { Title = "Toilet paper" },
-                        new Lyric { Title = "Pasta" },
-                        new Lyric { Title = "Tissues" },
-                        new Lyric { Title = "Tuna" }
-                    }
+            FirstName = "Shopping"
         });
 
         var query = new GetArtistsQuery();
@@ -40,6 +30,5 @@ public class GetArtistsTests : TestBase
         var result = await SendAsync(query);
 
         result.Artists.Should().HaveCount(1);
-        result.Artists.First().Items.Should().HaveCount(7);
     }
 }

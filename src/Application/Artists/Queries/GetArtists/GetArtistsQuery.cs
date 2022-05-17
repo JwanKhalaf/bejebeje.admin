@@ -23,15 +23,15 @@ public class GetArtistsQueryHandler : IRequestHandler<GetArtistsQuery, ArtistsVi
 
     public async Task<ArtistsViewModel> Handle(GetArtistsQuery request, CancellationToken cancellationToken)
     {
-        var result = await _context.Artists
+        List<ArtistDto> result = await _context.Artists
             .AsNoTracking()
             .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
-            .OrderBy(t => t.Title)
+            .OrderBy(t => t.FirstName)
             .ToListAsync(cancellationToken);
         
         return new ArtistsViewModel
         {
-            Artists = result 
+            Artists = result
         };
     }
 }

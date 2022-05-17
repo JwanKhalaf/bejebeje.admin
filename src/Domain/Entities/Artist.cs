@@ -20,7 +20,7 @@ public class Artist : AuditableEntity
 
     public bool HasImage { get; set; }
 
-    public char Sex { get; set; }
+    public char? Sex { get; set; }
 
     public IList<Lyric> Lyrics { get; private set; } = new List<Lyric>();
 }

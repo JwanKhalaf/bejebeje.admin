@@ -19,21 +19,15 @@ public static class DependencyInjection
     {
         IdentityModelEventSource.ShowPII = true;
         string authority = configuration["Cognito:Authority"];
-        string tir = configuration.GetValue<string>("Cognito:Authority");
         string clientId = configuration["Cognito:ClientId"];
         string clientSecret = configuration["Cognito:ClientSecret"];
-        
-        if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase("bejebeje.adminDb"));
-        }
-        else
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("ConnectionString")));
-        }
-        
+        string connectionString = configuration["ConnectionString"];
+
+        services.AddDbContext<ApplicationDbContext>(
+            options => options
+                .UseNpgsql(connectionString)
+                .UseSnakeCaseNamingConvention());
+
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddAuthentication(options =>
@@ -54,7 +48,10 @@ public static class DependencyInjection
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.ClaimActions.MapUniqueJsonKey("role", "role");
-                options.TokenValidationParameters = new TokenValidationParameters { NameClaimType = "cognito:user", RoleClaimType = "cognito:groups" };
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = "cognito:user", RoleClaimType = "cognito:groups"
+                };
             });
 
         JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
