@@ -1,13 +1,13 @@
 ﻿using bejebeje.admin.Application.Common.Interfaces;
 using FluentValidation;
 
-namespace bejebeje.admin.Application.Artists.Commands.CreateArtist;
+namespace bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 
-public class CreateArtistCommandValidator : AbstractValidator<CreateArtistCommand>
+public class UpdateArtistCommandValidator : AbstractValidator<UpdateArtistCommand>
 {
     private readonly IApplicationDbContext _context;
 
-    public CreateArtistCommandValidator(IApplicationDbContext context)
+    public UpdateArtistCommandValidator(IApplicationDbContext context)
     {
         _context = context;
 

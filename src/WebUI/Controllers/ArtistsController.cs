@@ -1,28 +1,19 @@
 ﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
+using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Application.TodoLists.Commands.DeleteTodoList;
-using bejebeje.admin.Application.TodoLists.Commands.UpdateTodoList;
-using bejebeje.admin.Application.TodoLists.Queries.ExportTodos;
-using bejebeje.admin.Application.TodoLists.Queries.GetTodos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bejebeje.admin.WebUI.Controllers;
 
 [Authorize]
-public class TodoListsController : CustomControllerBase
+public class ArtistsController : CustomControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<TodosVm>> Get()
+    public async Task<ActionResult<ArtistsViewModel>> Index()
     {
-        return await Mediator.Send(new GetTodosQuery());
-    }
-
-    [HttpGet("{id}")]
-    public async Task<FileResult> Get(int id)
-    {
-        var vm = await Mediator.Send(new ExportTodosQuery { ListId = id });
-
-        return File(vm.Content, vm.ContentType, vm.FileName);
+        return View(await Mediator.Send(new GetArtistsQuery()));
     }
 
     [HttpPost]
@@ -32,7 +23,7 @@ public class TodoListsController : CustomControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update(int id, UpdateTodoListCommand command)
+    public async Task<ActionResult> Update(int id, UpdateArtistCommand command)
     {
         if (id != command.Id)
         {

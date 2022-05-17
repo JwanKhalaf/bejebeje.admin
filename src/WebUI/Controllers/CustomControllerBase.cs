@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace bejebeje.admin.WebUI.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public abstract class CustomControllerBase : ControllerBase
+public abstract class CustomControllerBase : Controller
 {
     private ISender _mediator = null!;
 

@@ -12,7 +12,7 @@
 
         <!-- Set this to true if you enable server-side prerendering -->
         <BuildServerSideRenderer>false</BuildServerSideRenderer>
-        <UserSecretsId>efad71c6-743c-4b87-9de8-f26d77146f6d</UserSecretsId>
+        <UserSecretsId>bejebeje-admin-efad71c6-743c-4b87-9de8-f26d77146f6d</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <DockerfileContext>..\..</DockerfileContext>
         <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -33,6 +33,12 @@
     <ItemGroup>
         <ProjectReference Include="..\Application\Application.csproj" />
         <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Shared\_LoginPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\_ViewImports.cshtml" />
     </ItemGroup>
 
     <PropertyGroup>

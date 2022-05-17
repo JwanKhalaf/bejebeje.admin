@@ -11,6 +11,8 @@ public class Lyric : AuditableEntity
     public string UserId { get; set; }
 
     public IEnumerable<LyricSlug> Slugs { get; set; } = new List<LyricSlug>();
+    
+    public bool IsVerified { get; set; }
 
     public bool IsDeleted { get; set; }
 

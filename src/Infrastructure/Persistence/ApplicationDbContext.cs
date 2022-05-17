@@ -2,27 +2,16 @@
 using bejebeje.admin.Application.Common.Interfaces;
 using bejebeje.admin.Domain.Common;
 using bejebeje.admin.Domain.Entities;
-using bejebeje.admin.Infrastructure.Identity;
-using Duende.IdentityServer.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace bejebeje.admin.Infrastructure.Persistence;
 
-public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly IDateTime _dateTime;
-    private readonly IDomainEventService _domainEventService;
 
-    public ApplicationDbContext(
-        DbContextOptions<ApplicationDbContext> options,
-        IOptions<OperationalStoreOptions> operationalStoreOptions,
-        ICurrentUserService currentUserService,
-        IDomainEventService domainEventService,
-        IDateTime dateTime) : base(options, operationalStoreOptions)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTime dateTime) : base(options)
     {
-        _domainEventService = domainEventService;
         _dateTime = dateTime;
     }
 
@@ -54,8 +43,6 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
 
         var result = await base.SaveChangesAsync(cancellationToken);
 
-        await DispatchEvents(events);
-
         return result;
     }
 
@@ -64,14 +51,5 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(builder);
-    }
-
-    private async Task DispatchEvents(DomainEvent[] events)
-    {
-        foreach (var @event in events)
-        {
-            @event.IsPublished = true;
-            await _domainEventService.Publish(@event);
-        }
     }
 }
