@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace bejebeje.admin.WebUI.Controllers;
 
-public class WeatherForecastController : ApiControllerBase
+public class WeatherForecastController : CustomControllerBase
 {
     [HttpGet]
     public async Task<IEnumerable<WeatherForecast>> Get()

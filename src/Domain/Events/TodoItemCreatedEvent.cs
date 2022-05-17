@@ -2,10 +2,10 @@
 
 public class TodoItemCreatedEvent : DomainEvent
 {
-    public TodoItemCreatedEvent(TodoItem item)
+    public TodoItemCreatedEvent(Lyric item)
     {
         Item = item;
     }
 
-    public TodoItem Item { get; }
+    public Lyric Item { get; }
 }

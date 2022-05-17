@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using AutoMapper;
+using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Application.Common.Mappings;
-using bejebeje.admin.Application.TodoLists.Queries.GetTodos;
 using bejebeje.admin.Domain.Entities;
 using NUnit.Framework;
 
@@ -27,8 +27,8 @@ public class MappingTests
     }
 
     [Test]
-    [TestCase(typeof(TodoList), typeof(TodoListDto))]
-    [TestCase(typeof(TodoItem), typeof(TodoItemDto))]
+    [TestCase(typeof(Artist), typeof(ArtistDto))]
+    [TestCase(typeof(Lyric), typeof(LyricDto))]
     public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
     {
         var instance = GetInstanceOf(source);
