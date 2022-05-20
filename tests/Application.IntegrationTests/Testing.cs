@@ -3,7 +3,6 @@ using bejebeje.admin.Infrastructure.Persistence;
 using bejebeje.admin.WebUI;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,8 +42,8 @@ public class Testing
 
         startup.ConfigureServices(services);
 
-        // Replace service registration for ICurrentUserService
-        // Remove existing registration
+        // replace service registration for icurrentuserservice
+        // remove existing registration
         var currentUserServiceDescriptor = services.FirstOrDefault(d =>
             d.ServiceType == typeof(ICurrentUserService));
 
@@ -53,7 +52,7 @@ public class Testing
             services.Remove(currentUserServiceDescriptor);
         }
 
-        // Register testing version
+        // register testing version
         services.AddTransient(provider =>
             Mock.Of<ICurrentUserService>(s => s.UserId == _currentUserId));
 
@@ -87,7 +86,7 @@ public class Testing
 
     public static async Task ResetState()
     {
-        await _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));
+        await _checkpoint.Reset(_configuration["ConnectionString"]);
 
         _currentUserId = null;
     }

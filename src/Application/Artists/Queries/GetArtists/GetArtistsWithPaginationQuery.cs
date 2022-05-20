@@ -1,16 +1,21 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using bejebeje.admin.Application.Common.Interfaces;
+using bejebeje.admin.Application.Common.Mappings;
+using bejebeje.admin.Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace bejebeje.admin.Application.Artists.Queries.GetArtists;
 
-public class GetArtistsQuery : IRequest<ArtistsViewModel>
+public class GetArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
 {
+    public int PageNumber { get; set; } = 1;
+
+    public int PageSize { get; set; } = 10;
 }
 
-public class GetArtistsQueryHandler : IRequestHandler<GetArtistsQuery, ArtistsViewModel>
+public class GetArtistsQueryHandler : IRequestHandler<GetArtistsWithPaginationQuery, PaginatedList<ArtistDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -21,17 +26,12 @@ public class GetArtistsQueryHandler : IRequestHandler<GetArtistsQuery, ArtistsVi
         _mapper = mapper;
     }
 
-    public async Task<ArtistsViewModel> Handle(GetArtistsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ArtistDto>> Handle(GetArtistsWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        List<ArtistDto> result = await _context.Artists
+        return await _context.Artists
             .AsNoTracking()
             .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
             .OrderBy(t => t.FirstName)
-            .ToListAsync(cancellationToken);
-        
-        return new ArtistsViewModel
-        {
-            Artists = result
-        };
+            .PaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }
