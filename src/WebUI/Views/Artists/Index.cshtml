@@ -10,6 +10,7 @@
 <table class="table">
     <thead>
     <tr>
+        <th scope="col"></th>
         <th scope="col">Id</th>
         <th scope="col">First name</th>
         <th scope="col">Last name</th>
@@ -23,16 +24,23 @@
     @foreach (var item in Model.Artists)
     {
         <tr>
+            <td>
+                <picture>
+                  <source type="image/webp" srcset=@($"{item.ImageUrl}.webp")>
+                  <source type="image/jpeg" srcset=@($"{item.ImageUrl}.jpg")>
+
+                  <img src=@($"{item.ImageUrl}.jpg")
+                       width="80"
+                       height="80"
+                       loading="lazy"
+                       alt="@item.ImageAlternateText" />
+                </picture>
+            </td>
             <td>@item.Id</td>
             <td>@item.FirstName</td>
             <td>@item.LastName</td>
             <td>@item.IsApproved.ToYesOrNo()</td>
             <td>@item.IsDeleted.ToYesOrNo()</td>
-            @* <td style="text-align: right"> *@
-            @*     @Html.ActionLink("View", "Details", new { id = item.Id }) | *@
-            @*     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | *@
-            @*     @Html.ActionLink("Lyrics", "Index", "Lyric", new { artistId = item.Id }) *@
-            @* </td> *@
         </tr>
     }
     </tbody>
