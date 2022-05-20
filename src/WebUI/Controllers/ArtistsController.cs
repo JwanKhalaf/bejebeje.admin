@@ -1,6 +1,7 @@
 ﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
+using bejebeje.admin.Application.Common.Models;
 using bejebeje.admin.Application.TodoLists.Commands.DeleteTodoList;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ public class ArtistsController : CustomControllerBase
     [HttpGet]
     public async Task<ActionResult<ArtistsViewModel>> Index()
     {
-        ArtistsViewModel viewModel = await Mediator.Send(new GetArtistsQuery());
+        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetArtistsWithPaginationQuery());
         
         return View(viewModel);
     }

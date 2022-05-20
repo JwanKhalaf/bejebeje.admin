@@ -1,5 +1,5 @@
 @using bejebeje.admin.Application.Common.Extensions
-@model bejebeje.admin.Application.Artists.Queries.GetArtists.ArtistsViewModel
+@model bejebeje.admin.Application.Common.Models.PaginatedList<bejebeje.admin.Application.Artists.Queries.GetArtists.ArtistDto>
 
 @{
     ViewData["Title"] = "List of artists";
@@ -21,7 +21,7 @@
     </thead>
 
     <tbody>
-    @foreach (var item in Model.Artists)
+    @foreach (var item in Model.Items)
     {
         <tr>
             <td>

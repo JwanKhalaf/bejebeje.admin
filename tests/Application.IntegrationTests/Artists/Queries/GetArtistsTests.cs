@@ -10,25 +10,17 @@ using static Testing;
 public class GetArtistsTests : TestBase
 {
     [Test]
-    public async Task ShouldReturnPriorityLevels()
-    {
-        var query = new GetArtistsQuery();
-
-        var result = await SendAsync(query);
-    }
-
-    [Test]
-    public async Task ShouldReturnAllListsAndItems()
+    public async Task ShouldReturnArtists()
     {
         await AddAsync(new Artist
         {
-            FirstName = "Shopping"
+            FirstName = "Beytocan"
         });
 
-        var query = new GetArtistsQuery();
+        var query = new GetArtistsWithPaginationQuery();
 
         var result = await SendAsync(query);
 
-        result.Artists.Should().HaveCount(1);
+        result.Items.Should().HaveCount(1);
     }
 }
