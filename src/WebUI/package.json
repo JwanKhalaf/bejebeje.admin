@@ -1,0 +1,25 @@
+{
+  "name": "bejebeje.admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "processcss": "npx tailwindcss -i ./Styles/styles.css -o ./wwwroot/css/styles.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JwanKhalaf/bejebeje.admin.git"
+  },
+  "author": "Jwan Khalaf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JwanKhalaf/bejebeje.admin/issues"
+  },
+  "homepage": "https://github.com/JwanKhalaf/bejebeje.admin#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.0.24"
+  }
+}
