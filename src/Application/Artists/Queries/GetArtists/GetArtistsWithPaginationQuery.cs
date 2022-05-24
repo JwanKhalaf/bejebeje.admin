@@ -32,12 +32,14 @@ public class GetArtistsQueryHandler : IRequestHandler<GetArtistsWithPaginationQu
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<ArtistDto>> Handle(GetArtistsWithPaginationQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ArtistDto>> Handle(
+        GetArtistsWithPaginationQuery request,
+        CancellationToken cancellationToken)
     {
         return await _context.Artists
             .AsNoTracking()
-            .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
             .OrderBy(t => t.FirstName)
+            .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }

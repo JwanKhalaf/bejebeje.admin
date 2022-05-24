@@ -30,18 +30,16 @@ public class Startup
 
         services.AddHttpContextAccessor();
 
-        services.AddHealthChecks()
+        services
+            .AddHealthChecks()
             .AddDbContextCheck<ApplicationDbContext>();
 
-        services.AddControllersWithViews(options =>
-            options.Filters.Add<ApiExceptionFilterAttribute>())
-                .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
-
-        services.AddRazorPages();
+        services
+            .AddControllersWithViews(options => options.Filters.Add<ApiExceptionFilterAttribute>())
+            .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
 
         // customise default api behaviour
-        services.Configure<ApiBehaviorOptions>(options => 
-            options.SuppressModelStateInvalidFilter = true);
+        services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
     }
 
     // this method gets called by the runtime. use this method to configure the http request pipeline.

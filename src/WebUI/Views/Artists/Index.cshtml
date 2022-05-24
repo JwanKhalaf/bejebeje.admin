@@ -1,28 +1,18 @@
-@using bejebeje.admin.Application.Common.Extensions
 @model bejebeje.admin.Application.Common.Models.PaginatedList<bejebeje.admin.Application.Artists.Queries.GetArtists.ArtistDto>
 
 @{
     ViewData["Title"] = "List of artists";
 }
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col"></th>
-        <th scope="col">Id</th>
-        <th scope="col">First name</th>
-        <th scope="col">Last name</th>
-        <th scope="col">Is approved?</th>
-        <th scope="col">Is deleted?</th>
-        <th></th>
-    </tr>
-    </thead>
+<div class="mb-8">
+    <h1 class="text-5xl">Artists</h1>
+</div>
 
-    <tbody>
+<div class="grid grid-cols-2 gap-4 bg-slate-800 rounded-md mb-5 p-4">
     @foreach (var item in Model.Items)
     {
-        <tr>
-            <td>
+        <div class="bg-slate-900 flex p-3 rounded-md">
+            <div class="">
                 <picture>
                     <source type="image/webp" srcset=@($"{item.ImageUrl}.webp")>
                     <source type="image/jpeg" srcset=@($"{item.ImageUrl}.jpg")>
@@ -30,21 +20,27 @@
                     <img src=@($"{item.ImageUrl}.jpg")
                          width="80"
                          height="80"
-                         class="rounded-md"
+                         class="border-2 border-slate-800 rounded-md"
                          loading="lazy"
-                         alt="@item.ImageAlternateText" />
+                         alt="@item.ImageAlternateText"/>
                 </picture>
-            </td>
-            <td>@item.Id</td>
-            <td>@item.FirstName</td>
-            <td>@item.LastName</td>
-            <td>@item.IsApproved.ToYesOrNo()</td>
-            <td>@item.IsDeleted.ToYesOrNo()</td>
-        </tr>
+            </div>
+
+            <div class="flex items-center justify-between w-full ml-4">
+                <h3>@item.FirstName @item.LastName</h3>
+                @await Html.PartialAsync("_ApprovalStatusPartial", item.IsApproved)
+            </div>
+        </div>
     }
-    </tbody>
-</table>
-<div>
-    <a class="text-white @(Model.HasPreviousPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
-    <a class="text-white @(Model.HasNextPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
+</div>
+
+<div class="flex justify-between">
+    <div class="">
+        <p>Page @Model.PageNumber of @Model.TotalPages</p>
+    </div>
+
+    <div>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 @(Model.HasPreviousPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3 @(Model.HasNextPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
+    </div>
 </div>

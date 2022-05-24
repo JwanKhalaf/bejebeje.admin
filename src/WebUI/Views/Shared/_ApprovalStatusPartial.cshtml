@@ -1,0 +1,14 @@
+@model bool
+
+@if (Model)
+{
+    <div class="bg-green-200 rounded-md py-1 px-2">
+        <h5 class="text-green-800 font-semibold text-xs">Approved</h5>
+    </div>
+}
+else
+{
+    <div class="bg-red-200 rounded-md py-1 px-2">
+        <h5 class="text-red-800 font-semibold text-xs">Unapproved</h5>
+    </div>
+}
