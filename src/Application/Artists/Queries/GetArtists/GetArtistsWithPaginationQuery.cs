@@ -13,6 +13,12 @@ public class GetArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
     public int PageNumber { get; set; } = 1;
 
     public int PageSize { get; set; } = 10;
+
+    public GetArtistsWithPaginationQuery(int pageNumber, int pageSize)
+    {
+        PageNumber = pageNumber;
+        PageSize = pageSize;
+    }
 }
 
 public class GetArtistsQueryHandler : IRequestHandler<GetArtistsWithPaginationQuery, PaginatedList<ArtistDto>>

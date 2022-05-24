@@ -2,7 +2,6 @@
 @model bejebeje.admin.Application.Common.Models.PaginatedList<bejebeje.admin.Application.Artists.Queries.GetArtists.ArtistDto>
 
 @{
-    Layout = "_Layout";
     ViewData["Title"] = "List of artists";
 }
 
@@ -25,15 +24,15 @@
         <tr>
             <td>
                 <picture>
-                  <source type="image/webp" srcset=@($"{item.ImageUrl}.webp")>
-                  <source type="image/jpeg" srcset=@($"{item.ImageUrl}.jpg")>
+                    <source type="image/webp" srcset=@($"{item.ImageUrl}.webp")>
+                    <source type="image/jpeg" srcset=@($"{item.ImageUrl}.jpg")>
 
-                  <img src=@($"{item.ImageUrl}.jpg")
-                       width="80"
-                       height="80"
-                       class="rounded-md"
-                       loading="lazy"
-                       alt="@item.ImageAlternateText" />
+                    <img src=@($"{item.ImageUrl}.jpg")
+                         width="80"
+                         height="80"
+                         class="rounded-md"
+                         loading="lazy"
+                         alt="@item.ImageAlternateText" />
                 </picture>
             </td>
             <td>@item.Id</td>
@@ -45,3 +44,7 @@
     }
     </tbody>
 </table>
+<div>
+    <a class="text-white @(Model.HasPreviousPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
+    <a class="text-white @(Model.HasNextPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
+</div>
