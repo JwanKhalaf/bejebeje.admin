@@ -8,7 +8,7 @@
     <h1 class="text-5xl">Artists</h1>
 </div>
 
-<div class="grid grid-cols-2 gap-4 bg-slate-800 rounded-md mb-5 p-4">
+<div class="grid grid-cols-2 gap-4 bg-slate-800 rounded-md mb-5 p-8">
     @foreach (var item in Model.Items)
     {
         <div class="bg-slate-900 flex p-3 rounded-md">
@@ -19,7 +19,7 @@
 
                     <img src=@($"{item.ImageUrl}.jpg")
                          width="80"
-                         height="80"
+                         height="80" 
                          class="border-2 border-slate-800 rounded-md"
                          loading="lazy"
                          alt="@item.ImageAlternateText"/>
