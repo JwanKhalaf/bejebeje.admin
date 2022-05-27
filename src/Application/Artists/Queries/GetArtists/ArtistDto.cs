@@ -23,6 +23,10 @@ public class ArtistDto : IMapFrom<Artist>
 
     public bool IsDeleted { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+    
+    public DateTime? ModifiedAt { get; set; }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Artist, ArtistDto>()
