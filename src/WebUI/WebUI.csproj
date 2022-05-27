@@ -44,6 +44,8 @@
 
     <ItemGroup>
       <Folder Include="wwwroot\css" />
+      <Folder Include="wwwroot\fonts" />
+      <Folder Include="wwwroot\images" />
     </ItemGroup>
     
     <Target Name="CheckForNpm" BeforeTargets="NpmInstall">
