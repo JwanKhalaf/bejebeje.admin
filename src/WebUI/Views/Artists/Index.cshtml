@@ -9,14 +9,26 @@
 </div>
 
 <div class="bg-slate-800 rounded-md mb-5 p-8">
+    <ul class="flex items-center mb-4 border-b">
+        <li class="p-4">
+            <a href="" class="font-semibold block">All Artists <span class="bg-slate-700 rounded-md p-2 ml-2">@Model.TotalCount</span></a>
+        </li>
+        <li class="p-4">
+            <a href="" class="font-semibold block">Unapproved</a>
+        </li>
+        <li class="p-4">
+            <a href="" class="font-semibold block">Duplicates</a>
+        </li>
+    </ul>
+    
     <table class="w-full">
         <thead class="bg-slate-900 rounded-md">
         <tr class="">
-            <th class="rounded-tl-md rounded-bl-md text-left py-2 px-4">Artist Id</th>
-            <th class="text-left py-2 px-4">Name</th>
-            <th class="text-left py-2 px-4">Created at</th>
-            <th class="text-left py-2 px-4">Modified at</th>
-            <th class="text-left rounded-tr-md rounded-br-md py-2 px-4">Approved</th>
+            <th class="text-sm text-left rounded-tl-md rounded-bl-md py-2 px-4">Artist Id</th>
+            <th class="text-sm text-left py-2 px-4">Name</th>
+            <th class="text-sm text-left py-2 px-4">Created at</th>
+            <th class="text-sm text-left py-2 px-4">Modified at</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4">Approved</th>
         </tr>
         </thead>
 
