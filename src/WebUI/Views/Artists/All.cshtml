@@ -1,3 +1,4 @@
+@using bejebeje.admin.Application.Common.Models
 @model bejebeje.admin.Application.Common.Models.PaginatedList<bejebeje.admin.Application.Artists.Queries.GetArtists.ArtistDto>
 
 @{
@@ -9,16 +10,12 @@
 </div>
 
 <div class="bg-slate-800 rounded-md mb-5 p-8">
-    <ul class="flex items-center mb-4 border-b">
-        <li class="p-4">
-            <a href="" class="font-semibold block">All Artists <span class="bg-slate-700 rounded-md p-2 ml-2">@Model.TotalCount</span></a>
-        </li>
-        <li class="p-4">
-            <a href="" class="font-semibold block">Unapproved</a>
-        </li>
-        <li class="p-4">
-            <a href="" class="font-semibold block">Duplicates</a>
-        </li>
+    <ul class="flex items-center mb-6 border-slate-400 border-b-2">
+        @await Html.PartialAsync("_ActiveTab", new ActiveTab("artists", "all", "All Artists"))
+        
+        @await Html.PartialAsync("_ActiveTab", new ActiveTab("artists", "unapproved", "Unapproved"))
+        
+        @await Html.PartialAsync("_ActiveTab", new ActiveTab("artists", "duplicates", "Duplicates"))
     </ul>
     
     <table class="w-full">
@@ -28,16 +25,16 @@
             <th class="text-sm text-left py-2 px-4">Name</th>
             <th class="text-sm text-left py-2 px-4">Created at</th>
             <th class="text-sm text-left py-2 px-4">Modified at</th>
-            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4">Approved</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Approved</th>
         </tr>
         </thead>
 
         <tbody>
         @foreach (var item in Model.Items)
         {
-            <tr class="py-4">
-                <td class="py-2 px-4">@item.Id</td>
-                <td class="py-2 px-4 flex items-center">
+            <tr class="border-b border-slate-600 last:border-0">
+                <td class="py-4 px-4">@item.Id</td>
+                <td class="py-4 px-4 flex items-center">
                     <picture>
                         <source type="image/webp" srcset=@($"{item.ImageUrl}.webp")>
                         <source type="image/jpeg" srcset=@($"{item.ImageUrl}.jpg")>
@@ -49,14 +46,14 @@
                     </picture>
                     @item.FirstName @item.LastName
                 </td>
-                <td class="px-4">@item.CreatedAt</td>
-                <td class="px-4">
+                <td class="py-4 px-4">@item.CreatedAt</td>
+                <td class="py-4 px-4">
                     @if (item.ModifiedAt != null)
                     {
                         @item.ModifiedAt
                     }
                 </td>
-                <td class="px-4">@await Html.PartialAsync("_ApprovalStatusPartial", item.IsApproved)</td>
+                <td class="py-4 px-4">@await Html.PartialAsync("_ApprovalStatusPartial", item.IsApproved)</td>
             </tr>
         }
         </tbody>
@@ -65,11 +62,11 @@
 
 <div class="flex justify-between">
     <div class="">
-        <p>Page @Model.PageNumber of @Model.TotalPages</p>
+        <p>Page @Model.PageNumber of @Model.TotalPages (@Model.TotalCount total records)</p>
     </div>
 
     <div>
-        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 @(Model.HasPreviousPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
-        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3 @(Model.HasNextPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 @(Model.HasPreviousPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="All" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3 @(Model.HasNextPage ? "" : "pointer-events-none")" asp-controller="Artists" asp-action="All" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
     </div>
 </div>

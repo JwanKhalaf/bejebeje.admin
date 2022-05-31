@@ -1,0 +1,14 @@
+@model bejebeje.admin.Application.Common.Models.ActiveTab;
+
+@if (Html.IsActiveRoute(Model.Controller, Model.Action))
+{
+    <li class="p-4 border-b-2 border-slate-100 -mb-0.5">
+        <a href="" class="font-semibold text-slate-100 block">@Model.TabTitle</a>
+    </li>
+}
+else
+{
+    <li class="p-4">
+        <a href="" class="font-semibold text-slate-400 block">@Model.TabTitle</a>
+    </li>
+}

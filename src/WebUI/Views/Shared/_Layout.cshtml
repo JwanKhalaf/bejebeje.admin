@@ -10,7 +10,7 @@
 <div class="h-full grid grid-cols-10">
     <div class="bg-slate-800 col-span-2">
         <div class="p-12">
-            <a class="flex items-center block" asp-controller="dashboard" asp-action="index">
+            <a class="flex items-center block" asp-controller="dashboard" asp-action="All">
                 <img class="w-14 h-14 mr-4" src="~/images/bejebeje-logo.svg"/>
 
                 <h1 class="text-4xl font-semibold">ADMIN</h1>
@@ -39,7 +39,7 @@
                     hover:after:rounded-tr-2xl
                     hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                     hover:after:shadow-slate-900
-                    @Html.IsActive("dashboard", "index")">
+                    @Html.IsActiveNavLink("dashboard", "index")">
                 <a href="" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-hashtag mr-4"></i>
                     Dashboard
@@ -67,7 +67,7 @@
                        hover:after:rounded-tr-2xl
                        hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                        hover:after:shadow-slate-900
-@Html.IsActive("artists", "index")">
+@Html.IsActiveNavLink("artists", "all")">
                 <a href="" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-album-collection mr-4"></i>
                     Artists
@@ -95,7 +95,7 @@
                        hover:after:rounded-tr-2xl
                        hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                        hover:after:shadow-slate-900
-@Html.IsActive("lyrics", "index")">
+@Html.IsActiveNavLink("lyrics", "index")">
                 <a href="" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-comment-alt-music mr-4"></i>
                     Lyrics
