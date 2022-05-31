@@ -18,6 +18,10 @@
         @await Html.PartialAsync("_ActiveTab", new ActiveTab("artists", "duplicates", "Duplicates"))
     </ul>
     
+    <form action="">
+        <input class="bg-slate-900 px-4 py-2 mb-6 w-1/2 rounded-md" type="text" name="searchTerm" placeholder="Artist name or alias">
+    </form>
+    
     <table class="w-full">
         <thead class="bg-slate-900 rounded-md">
         <tr class="">

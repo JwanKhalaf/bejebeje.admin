@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace bejebeje.admin.Domain.Entities;
 
+[Table("artist_slugs")]
 public class ArtistSlug : AuditableEntity
 {
     public int Id { get; set; }
