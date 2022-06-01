@@ -40,7 +40,7 @@
                     hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                     hover:after:shadow-slate-900
                     @Html.IsActiveNavLink("dashboard", "index")">
-                <a href="" class="block cursor-pointer p-4">
+                <a asp-controller="dashboard" asp-action="index" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-hashtag mr-4"></i>
                     Dashboard
                 </a>
@@ -68,7 +68,7 @@
                        hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                        hover:after:shadow-slate-900
 @Html.IsActiveNavLink("artists", "all")">
-                <a href="" class="block cursor-pointer p-4">
+                <a asp-controller="artists" asp-action="all" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-album-collection mr-4"></i>
                     Artists
                 </a>
@@ -96,7 +96,7 @@
                        hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                        hover:after:shadow-slate-900
 @Html.IsActiveNavLink("lyrics", "index")">
-                <a href="" class="block cursor-pointer p-4">
+                <a asp-controller="lyrics" asp-action="all" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-comment-alt-music mr-4"></i>
                     Lyrics
                 </a>
