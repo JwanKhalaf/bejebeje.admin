@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace bejebeje.admin.Application.Artists.Queries.GetArtists;
 
-public class GetArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
+public class GetAllArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
 {
     public int PageNumber { get; set; } = 1;
 
@@ -17,7 +17,7 @@ public class GetArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
 
     public string SearchTerm { get; set; }
 
-    public GetArtistsWithPaginationQuery(string searchTerm, int pageNumber, int pageSize)
+    public GetAllArtistsWithPaginationQuery(string searchTerm, int pageNumber, int pageSize)
     {
         SearchTerm = searchTerm;
         PageNumber = pageNumber;
@@ -25,7 +25,7 @@ public class GetArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
     }
 }
 
-public class GetArtistsQueryHandler : IRequestHandler<GetArtistsWithPaginationQuery, PaginatedList<ArtistDto>>
+public class GetArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPaginationQuery, PaginatedList<ArtistDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -37,7 +37,7 @@ public class GetArtistsQueryHandler : IRequestHandler<GetArtistsWithPaginationQu
     }
 
     public async Task<PaginatedList<ArtistDto>> Handle(
-        GetArtistsWithPaginationQuery request,
+        GetAllArtistsWithPaginationQuery request,
         CancellationToken cancellationToken)
     {
         PaginatedList<ArtistDto> result;
