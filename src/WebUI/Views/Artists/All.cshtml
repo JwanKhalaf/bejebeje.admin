@@ -16,6 +16,8 @@
         @await Html.PartialAsync("_ActiveTab", new ActiveTab("artists", "unapproved", "Unapproved"))
         
         @await Html.PartialAsync("_ActiveTab", new ActiveTab("artists", "duplicates", "Duplicates"))
+        
+        @await Html.PartialAsync("_ActiveTab", new ActiveTab("artists", "deleted", "Deleted"))
     </ul>
     
     <form action="">
