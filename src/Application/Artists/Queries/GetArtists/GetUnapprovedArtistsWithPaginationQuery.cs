@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using bejebeje.admin.Application.Common.Interfaces;
 using bejebeje.admin.Application.Common.Mappings;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace bejebeje.admin.Application.Artists.Queries.GetArtists;
 
-public class GetAllArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
+public class GetUnapprovedArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
 {
     public int PageNumber { get; set; } = 1;
 
@@ -17,7 +17,7 @@ public class GetAllArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto
 
     public string SearchTerm { get; set; }
 
-    public GetAllArtistsWithPaginationQuery(string searchTerm, int pageNumber, int pageSize)
+    public GetUnapprovedArtistsWithPaginationQuery(string searchTerm, int pageNumber, int pageSize)
     {
         SearchTerm = searchTerm;
         PageNumber = pageNumber;
@@ -25,19 +25,21 @@ public class GetAllArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto
     }
 }
 
-public class GetAllArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPaginationQuery, PaginatedList<ArtistDto>>
+public class
+    GetUnapprovedArtistsQueryHandler : IRequestHandler<GetUnapprovedArtistsWithPaginationQuery,
+        PaginatedList<ArtistDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetAllArtistsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetUnapprovedArtistsQueryHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
     public async Task<PaginatedList<ArtistDto>> Handle(
-        GetAllArtistsWithPaginationQuery request,
+        GetUnapprovedArtistsWithPaginationQuery request,
         CancellationToken cancellationToken)
     {
         PaginatedList<ArtistDto> result;
@@ -48,6 +50,7 @@ public class GetAllArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPagina
         if (string.IsNullOrEmpty(request.SearchTerm))
         {
             result = await artists
+                .Where(x => !x.IsApproved)
                 .OrderBy(t => t.FirstName)
                 .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
@@ -56,12 +59,13 @@ public class GetAllArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPagina
         {
             string search = request.SearchTerm.ToLowerInvariant();
             string pattern = $"%{search}%";
-            
+
             result = await artists
-                .Where(x => 
-                    EF.Functions.Like(x.FirstName, pattern) || 
-                    EF.Functions.Like(x.LastName, pattern) ||
-                    x.Slugs.Any(y => EF.Functions.Like(y.Name, pattern)))
+                .Where(x =>
+                    !x.IsApproved && (
+                        EF.Functions.Like(x.FirstName, pattern) ||
+                        EF.Functions.Like(x.LastName, pattern) ||
+                        x.Slugs.Any(y => EF.Functions.Like(y.Name, pattern))))
                 .OrderBy(t => t.FirstName)
                 .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
