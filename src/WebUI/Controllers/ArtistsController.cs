@@ -26,6 +26,14 @@ public class ArtistsController : CustomControllerBase
         
         return View(viewModel);
     }
+    
+    [HttpGet]
+    public async Task<ActionResult<ArtistsViewModel>> Deleted(string searchTerm, int pageNumber = 1, int pageSize = 10)
+    {
+        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetDeletedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+        
+        return View(viewModel);
+    }
 
     [HttpPost]
     public async Task<ActionResult<int>> Create(CreateArtistCommand command)
