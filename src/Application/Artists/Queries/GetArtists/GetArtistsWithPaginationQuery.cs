@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using bejebeje.admin.Application.Common.Interfaces;
 using bejebeje.admin.Application.Common.Mappings;
 using bejebeje.admin.Application.Common.Models;
+using bejebeje.admin.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,8 +15,11 @@ public class GetArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
 
     public int PageSize { get; set; } = 10;
 
-    public GetArtistsWithPaginationQuery(int pageNumber, int pageSize)
+    public string SearchTerm { get; set; }
+
+    public GetArtistsWithPaginationQuery(string searchTerm, int pageNumber, int pageSize)
     {
+        SearchTerm = searchTerm;
         PageNumber = pageNumber;
         PageSize = pageSize;
     }
@@ -36,10 +40,33 @@ public class GetArtistsQueryHandler : IRequestHandler<GetArtistsWithPaginationQu
         GetArtistsWithPaginationQuery request,
         CancellationToken cancellationToken)
     {
-        return await _context.Artists
-            .AsNoTracking()
-            .OrderBy(t => t.FirstName)
-            .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
+        PaginatedList<ArtistDto> result;
+
+        IQueryable<Artist> artists = _context.Artists
+            .AsNoTracking();
+
+        if (string.IsNullOrEmpty(request.SearchTerm))
+        {
+            result = await artists
+                .OrderBy(t => t.FirstName)
+                .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
+                .PaginatedListAsync(request.PageNumber, request.PageSize);
+        }
+        else
+        {
+            string search = request.SearchTerm.ToLowerInvariant();
+            string pattern = $"%{search}%";
+            
+            result = await artists
+                .Where(x => 
+                    EF.Functions.Like(x.FirstName, pattern) || 
+                    EF.Functions.Like(x.LastName, pattern) ||
+                    x.Slugs.Any(y => EF.Functions.Like(y.Name, pattern)))
+                .OrderBy(t => t.FirstName)
+                .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
+                .PaginatedListAsync(request.PageNumber, request.PageSize);
+        }
+
+        return result;
     }
 }

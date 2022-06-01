@@ -12,9 +12,9 @@ namespace bejebeje.admin.WebUI.Controllers;
 public class ArtistsController : CustomControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Index(int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<ArtistsViewModel>> All(string searchTerm, int pageNumber = 1, int pageSize = 10)
     {
-        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetArtistsWithPaginationQuery(pageNumber, pageSize));
+        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
         
         return View(viewModel);
     }
