@@ -14,7 +14,15 @@ public class ArtistsController : CustomControllerBase
     [HttpGet]
     public async Task<ActionResult<ArtistsViewModel>> All(string searchTerm, int pageNumber = 1, int pageSize = 10)
     {
-        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetAllArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+        
+        return View(viewModel);
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<ArtistsViewModel>> Unapproved(string searchTerm, int pageNumber = 1, int pageSize = 10)
+    {
+        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetUnapprovedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
         
         return View(viewModel);
     }
