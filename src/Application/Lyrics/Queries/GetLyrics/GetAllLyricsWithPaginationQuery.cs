@@ -8,43 +8,41 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace bejebeje.admin.Application.Artists.Queries.GetArtists;
+namespace bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 
 [BindProperties]
-public class GetAllArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
+public class GetAllLyricsWithPaginationQuery : IRequest<PaginatedList<LyricDto>>
 {
     public int PageNumber { get; set; } = 1;
-
+    
     public int PageSize { get; set; } = 10;
-
+    
     public string SearchTerm { get; set; } = string.Empty;
 }
 
-public class GetAllArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPaginationQuery, PaginatedList<ArtistDto>>
+public class GetAllLyricsWithPaginationQueryHandler : IRequestHandler<GetAllLyricsWithPaginationQuery, PaginatedList<LyricDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetAllArtistsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetAllLyricsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<ArtistDto>> Handle(
-        GetAllArtistsWithPaginationQuery request,
-        CancellationToken cancellationToken)
+    public async Task<PaginatedList<LyricDto>> Handle(GetAllLyricsWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        PaginatedList<ArtistDto> result;
+        PaginatedList<LyricDto> result;
 
-        IQueryable<Artist> artists = _context.Artists
+        IQueryable<Lyric> lyrics = _context.Lyrics
             .AsNoTracking();
 
         if (string.IsNullOrEmpty(request.SearchTerm))
         {
-            result = await artists
-                .OrderBy(t => t.FirstName)
-                .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
+            result = await lyrics
+                .OrderBy(t => t.Title)
+                .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
         else
@@ -52,13 +50,12 @@ public class GetAllArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPagina
             string search = request.SearchTerm.ToLowerInvariant();
             string pattern = $"%{search}%";
             
-            result = await artists
+            result = await lyrics
                 .Where(x => 
-                    EF.Functions.Like(x.FirstName, pattern) || 
-                    EF.Functions.Like(x.LastName, pattern) ||
+                    EF.Functions.Like(x.Title, pattern) ||
                     x.Slugs.Any(y => EF.Functions.Like(y.Name, pattern)))
-                .OrderBy(t => t.FirstName)
-                .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
+                .OrderBy(t => t.Title)
+                .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
 

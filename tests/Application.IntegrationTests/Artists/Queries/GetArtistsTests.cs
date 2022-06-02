@@ -17,7 +17,7 @@ public class GetArtistsTests : TestBase
             FirstName = "Beytocan"
         });
 
-        var query = new GetAllArtistsWithPaginationQuery(pageNumber: 1, pageSize: 10);
+        var query = new GetAllArtistsWithPaginationQuery();
 
         var result = await SendAsync(query);
 

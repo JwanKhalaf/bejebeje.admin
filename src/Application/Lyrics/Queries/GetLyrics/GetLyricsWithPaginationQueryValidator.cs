@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 
-namespace bejebeje.admin.Application.Lyrics.Queries.GetLyricsWithPagination;
+namespace bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 
-public class GetLyricsWithPaginationQueryValidator : AbstractValidator<GetLyricsWithPaginationQuery>
+public class GetLyricsWithPaginationQueryValidator : AbstractValidator<GetAllLyricsWithPaginationQuery>
 {
     public GetLyricsWithPaginationQueryValidator()
     {
