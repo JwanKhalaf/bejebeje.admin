@@ -5,6 +5,44 @@
     Layout = "_Layout";
 }
 
-<h2>Welcome!</h2>
+<div class="mb-8">
+    <h1 class="text-5xl">Dashboard</h1>
+</div>
 
-<h3>You have @Model.NumberOfUnapprovedArtists unapproved artists!</h3>
+<div class="grid gap-6 grid-cols-10">
+    <div class="col-span-2 bg-slate-800 p-8 rounded-md">
+        <div class="flex items-center mb-4">
+            <span class="bg-slate-600 px-3 py-2 rounded-md mr-4">
+                <i class="fas fa-album-collection"></i>
+            </span>
+
+            <h5 class="text-lg">Artists</h5>
+        </div>
+
+        <h5 class="text-4xl">@Model.NumberOfArtists</h5>
+    </div>
+
+    <div class="col-span-2 bg-slate-800 p-8 rounded-md">
+        <div class="flex items-center mb-4">
+            <span class="bg-slate-600 px-3 py-2 rounded-md mr-4">
+                <i class="fas fa-comment-alt-music"></i>
+            </span>
+
+            <h5 class="text-lg">Lyrics</h5>
+        </div>
+
+        <h5 class="text-4xl">@Model.NumberOfLyrics</h5>
+    </div>
+
+    <div class="col-span-2 bg-slate-800 p-8 rounded-md">
+        <div class="flex items-center mb-4">
+            <span class="bg-slate-600 px-3 py-2 rounded-md mr-4">
+                <i class="fas fa-pencil-alt"></i>
+            </span>
+
+            <h5 class="text-lg">Authors</h5>
+        </div>
+
+        <h5 class="text-4xl">@Model.NumberOfLyrics</h5>
+    </div>
+</div>

@@ -23,9 +23,13 @@ public class GetDashboardQueryHandler : IRequestHandler<GetDashboardQuery, Dashb
     {
         DashboardViewModel viewModel = new DashboardViewModel();
 
-        var blah = await _context.Artists.AsNoTracking().Where(x => !x.IsApproved && !x.IsDeleted).CountAsync();
+        int numberOfArtists = await _context.Artists.AsNoTracking().Where(x => x.IsApproved && !x.IsDeleted).CountAsync();
 
-        viewModel.NumberOfUnapprovedArtists = blah;
+        int numberOfLyrics = await _context.Lyrics.AsNoTracking().Where(x => !x.IsDeleted && x.IsApproved).CountAsync();
+        
+
+        viewModel.NumberOfArtists = numberOfArtists;
+        viewModel.NumberOfLyrics = numberOfLyrics;
 
         return viewModel;
     }
