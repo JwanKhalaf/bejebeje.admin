@@ -8,10 +8,10 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace bejebeje.admin.Application.Artists.Queries.GetArtists;
+namespace bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 
 [BindProperties]
-public class GetAllArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto>>
+public class GetDeletedLyricsWithPaginationQuery : IRequest<PaginatedList<LyricDto>>
 {
     public int PageNumber { get; set; } = 1;
 
@@ -20,45 +20,48 @@ public class GetAllArtistsWithPaginationQuery : IRequest<PaginatedList<ArtistDto
     public string SearchTerm { get; set; } = string.Empty;
 }
 
-public class GetAllArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPaginationQuery, PaginatedList<ArtistDto>>
+public class
+    GetDeletedLyricsWithPaginationQueryHandler : IRequestHandler<GetDeletedLyricsWithPaginationQuery,
+        PaginatedList<LyricDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetAllArtistsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetDeletedLyricsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<ArtistDto>> Handle(
-        GetAllArtistsWithPaginationQuery request,
+    public async Task<PaginatedList<LyricDto>> Handle(GetDeletedLyricsWithPaginationQuery request,
         CancellationToken cancellationToken)
     {
-        PaginatedList<ArtistDto> result;
+        PaginatedList<LyricDto> result;
 
-        IQueryable<Artist> artists = _context.Artists
+        IQueryable<Lyric> lyrics = _context.Lyrics
             .AsNoTracking();
 
         if (string.IsNullOrEmpty(request.SearchTerm))
         {
-            result = await artists
-                .OrderBy(a => a.FirstName)
-                .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
+            result = await lyrics
+                .AsNoTracking()
+                .Where(l => l.IsDeleted)
+                .OrderBy(l => l.Title)
+                .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
         else
         {
             string search = request.SearchTerm.ToLowerInvariant();
             string pattern = $"%{search}%";
-            
-            result = await artists
-                .Where(a => 
-                    EF.Functions.Like(a.FirstName, pattern) || 
-                    EF.Functions.Like(a.LastName, pattern) ||
-                    a.Slugs.Any(y => EF.Functions.Like(y.Name, pattern)))
-                .OrderBy(a => a.FirstName)
-                .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
+
+            result = await lyrics
+                .AsNoTracking()
+                .Where(l => l.IsDeleted && (
+                    EF.Functions.Like(l.Title, pattern) ||
+                    l.Slugs.Any(y => EF.Functions.Like(y.Name, pattern))))
+                .OrderBy(l => l.Title)
+                .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
 
