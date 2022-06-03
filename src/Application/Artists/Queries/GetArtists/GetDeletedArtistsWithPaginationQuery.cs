@@ -50,8 +50,8 @@ public class
         if (string.IsNullOrEmpty(request.SearchTerm))
         {
             result = await artists
-                .Where(x => x.IsDeleted)
-                .OrderBy(t => t.FirstName)
+                .Where(a => a.IsDeleted)
+                .OrderBy(a => a.FirstName)
                 .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
@@ -61,12 +61,12 @@ public class
             string pattern = $"%{search}%";
 
             result = await artists
-                .Where(x =>
-                    x.IsDeleted && (
-                        EF.Functions.Like(x.FirstName, pattern) ||
-                        EF.Functions.Like(x.LastName, pattern) ||
-                        x.Slugs.Any(y => EF.Functions.Like(y.Name, pattern))))
-                .OrderBy(t => t.FirstName)
+                .Where(a =>
+                    a.IsDeleted && (
+                        EF.Functions.Like(a.FirstName, pattern) ||
+                        EF.Functions.Like(a.LastName, pattern) ||
+                        a.Slugs.Any(y => EF.Functions.Like(y.Name, pattern))))
+                .OrderBy(a => a.FirstName)
                 .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }

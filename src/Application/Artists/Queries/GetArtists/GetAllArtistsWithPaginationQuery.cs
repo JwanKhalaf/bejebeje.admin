@@ -43,7 +43,7 @@ public class GetAllArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPagina
         if (string.IsNullOrEmpty(request.SearchTerm))
         {
             result = await artists
-                .OrderBy(t => t.FirstName)
+                .OrderBy(a => a.FirstName)
                 .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
@@ -53,11 +53,11 @@ public class GetAllArtistsQueryHandler : IRequestHandler<GetAllArtistsWithPagina
             string pattern = $"%{search}%";
             
             result = await artists
-                .Where(x => 
-                    EF.Functions.Like(x.FirstName, pattern) || 
-                    EF.Functions.Like(x.LastName, pattern) ||
-                    x.Slugs.Any(y => EF.Functions.Like(y.Name, pattern)))
-                .OrderBy(t => t.FirstName)
+                .Where(a => 
+                    EF.Functions.Like(a.FirstName, pattern) || 
+                    EF.Functions.Like(a.LastName, pattern) ||
+                    a.Slugs.Any(y => EF.Functions.Like(y.Name, pattern)))
+                .OrderBy(a => a.FirstName)
                 .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }

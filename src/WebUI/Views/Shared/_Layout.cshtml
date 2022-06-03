@@ -39,7 +39,7 @@
                     hover:after:rounded-tr-2xl
                     hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                     hover:after:shadow-slate-900
-                    @Html.IsActiveNavLink("dashboard", "index")">
+                    @Html.IsActiveNavLink("dashboard")">
                 <a asp-controller="dashboard" asp-action="index" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-hashtag mr-4"></i>
                     Dashboard
@@ -67,7 +67,7 @@
                        hover:after:rounded-tr-2xl
                        hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                        hover:after:shadow-slate-900
-@Html.IsActiveNavLink("artists", "all")">
+                       @Html.IsActiveNavLink("artists")">
                 <a asp-controller="artists" asp-action="all" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-album-collection mr-4"></i>
                     Artists
@@ -95,7 +95,7 @@
                        hover:after:rounded-tr-2xl
                        hover:after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]
                        hover:after:shadow-slate-900
-@Html.IsActiveNavLink("lyrics", "all")">
+                       @Html.IsActiveNavLink("lyrics")">
                 <a asp-controller="lyrics" asp-action="all" class="block cursor-pointer p-4">
                     <i class="fas fa-lg fa-comment-alt-music mr-4"></i>
                     Lyrics
@@ -104,7 +104,7 @@
         </ul>
     </div>
 
-    <div class="col-span-8 pt-10 px-10">
+    <div class="col-span-8 p-10">
         @RenderBody()
     </div>
 </div>

@@ -18,6 +18,22 @@ public class LyricsController : CustomControllerBase
         
         return View(viewModel);
     }
+    
+    [HttpGet]
+    public async Task<ActionResult<PaginatedList<LyricDto>>> Unapproved([FromQuery] GetUnapprovedLyricsWithPaginationQuery query)
+    {
+        PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
+        
+        return View(viewModel);
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<PaginatedList<LyricDto>>> Deleted([FromQuery] GetDeletedLyricsWithPaginationQuery query)
+    {
+        PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
+        
+        return View(viewModel);
+    }
 
     [HttpPost]
     public async Task<ActionResult<int>> Create(CreateLyricCommand command)

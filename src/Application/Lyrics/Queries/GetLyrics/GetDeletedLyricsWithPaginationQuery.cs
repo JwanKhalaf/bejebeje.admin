@@ -11,27 +11,30 @@ using Microsoft.EntityFrameworkCore;
 namespace bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 
 [BindProperties]
-public class GetAllLyricsWithPaginationQuery : IRequest<PaginatedList<LyricDto>>
+public class GetDeletedLyricsWithPaginationQuery : IRequest<PaginatedList<LyricDto>>
 {
     public int PageNumber { get; set; } = 1;
-    
+
     public int PageSize { get; set; } = 10;
-    
+
     public string SearchTerm { get; set; } = string.Empty;
 }
 
-public class GetAllLyricsWithPaginationQueryHandler : IRequestHandler<GetAllLyricsWithPaginationQuery, PaginatedList<LyricDto>>
+public class
+    GetDeletedLyricsWithPaginationQueryHandler : IRequestHandler<GetDeletedLyricsWithPaginationQuery,
+        PaginatedList<LyricDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetAllLyricsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetDeletedLyricsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<LyricDto>> Handle(GetAllLyricsWithPaginationQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<LyricDto>> Handle(GetDeletedLyricsWithPaginationQuery request,
+        CancellationToken cancellationToken)
     {
         PaginatedList<LyricDto> result;
 
@@ -42,7 +45,7 @@ public class GetAllLyricsWithPaginationQueryHandler : IRequestHandler<GetAllLyri
         {
             result = await lyrics
                 .AsNoTracking()
-                .Include(l => l.Artist)
+                .Where(l => l.IsDeleted)
                 .OrderBy(l => l.Title)
                 .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
@@ -51,13 +54,12 @@ public class GetAllLyricsWithPaginationQueryHandler : IRequestHandler<GetAllLyri
         {
             string search = request.SearchTerm.ToLowerInvariant();
             string pattern = $"%{search}%";
-            
+
             result = await lyrics
                 .AsNoTracking()
-                .Include(l => l.Artist)
-                .Where(l => 
+                .Where(l => l.IsDeleted && (
                     EF.Functions.Like(l.Title, pattern) ||
-                    l.Slugs.Any(y => EF.Functions.Like(y.Name, pattern)))
+                    l.Slugs.Any(y => EF.Functions.Like(y.Name, pattern))))
                 .OrderBy(l => l.Title)
                 .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
