@@ -3,6 +3,7 @@ using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Application.Common.Models;
 using bejebeje.admin.Application.TodoLists.Commands.DeleteTodoList;
+using bejebeje.admin.WebUI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,17 +21,27 @@ public class ArtistsController : CustomControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Unapproved(string searchTerm, int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<ArtistsViewModel>> Unapproved([FromQuery] GetAllArtistsWithPaginationQuery query)
     {
-        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetUnapprovedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+        PaginatedList<ArtistDto> viewModel = await Mediator.Send(query);
         
         return View(viewModel);
     }
     
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Deleted(string searchTerm, int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<ArtistsViewModel>> Deleted([FromQuery] GetAllArtistsWithPaginationQuery query)
     {
-        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetDeletedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+        PaginatedList<ArtistDto> viewModel = await Mediator.Send(query);
+        
+        return View(viewModel);
+    }
+    
+    [HttpGet]
+    public ActionResult Create()
+    {
+        CreateArtistViewModel viewModel = new CreateArtistViewModel();
+
+        viewModel.Sex = new SexViewModel();
         
         return View(viewModel);
     }
