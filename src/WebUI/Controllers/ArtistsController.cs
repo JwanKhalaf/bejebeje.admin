@@ -40,8 +40,8 @@ public class ArtistsController : CustomControllerBase
     [HttpGet]
     public async Task<ActionResult> Create()
     {
-        CreateArtistGenderDto viewModel = await Mediator.Send(new CreateArtistQuery());
-        
+        CreateArtistBandViewModel viewModel = new CreateArtistBandViewModel();
+
         return View(viewModel);
     }
 

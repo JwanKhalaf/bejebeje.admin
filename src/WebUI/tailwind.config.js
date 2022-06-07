@@ -1,9 +1,9 @@
 module.exports = {
-  content: ["./Views/**/*.{cshtml, html,js}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+    content: ["./Views/**/*.{cshtml, html,js}"],
+    theme: {
+        extend: {},
+    },
+    plugins: [require('@tailwindcss/forms')],
     safelist: [
         'bg-slate-900',
         'before:absolute',

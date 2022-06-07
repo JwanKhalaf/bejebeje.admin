@@ -21,5 +21,8 @@
   "homepage": "https://github.com/JwanKhalaf/bejebeje.admin#readme",
   "devDependencies": {
     "tailwindcss": "^3.0.24"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.2"
   }
 }
