@@ -1,5 +1,6 @@
 ﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
+using bejebeje.admin.Application.Artists.Queries.CreateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Application.Common.Models;
 using bejebeje.admin.Application.TodoLists.Commands.DeleteTodoList;
@@ -37,11 +38,9 @@ public class ArtistsController : CustomControllerBase
     }
     
     [HttpGet]
-    public ActionResult Create()
+    public async Task<ActionResult> Create()
     {
-        CreateArtistViewModel viewModel = new CreateArtistViewModel();
-
-        viewModel.Sex = new SexViewModel();
+        CreateArtistGenderDto viewModel = await Mediator.Send(new CreateArtistQuery());
         
         return View(viewModel);
     }
