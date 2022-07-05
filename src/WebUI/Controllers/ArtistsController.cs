@@ -17,38 +17,48 @@ public class ArtistsController : CustomControllerBase
     public async Task<ActionResult<ArtistsViewModel>> All([FromQuery] GetAllArtistsWithPaginationQuery query)
     {
         PaginatedList<ArtistDto> viewModel = await Mediator.Send(query);
-        
+
         return View(viewModel);
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<ArtistsViewModel>> Unapproved([FromQuery] GetAllArtistsWithPaginationQuery query)
     {
         PaginatedList<ArtistDto> viewModel = await Mediator.Send(query);
-        
+
         return View(viewModel);
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<ArtistsViewModel>> Deleted([FromQuery] GetAllArtistsWithPaginationQuery query)
     {
         PaginatedList<ArtistDto> viewModel = await Mediator.Send(query);
-        
+
         return View(viewModel);
     }
-    
+
     [HttpGet]
     public async Task<ActionResult> Create()
     {
-        CreateArtistBandViewModel viewModel = new CreateArtistBandViewModel();
+        CreateArtistViewModel viewModel = new CreateArtistViewModel();
 
         return View(viewModel);
     }
 
     [HttpPost]
-    public async Task<ActionResult<int>> Create(CreateArtistCommand command)
+    public async Task<ActionResult> CreateBand(CreateArtistBandViewModel viewModel)
     {
-        return await Mediator.Send(command);
+        CreateArtistViewModel model = new CreateArtistViewModel {Band = viewModel};
+
+        return View("CreateName", model);
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult> CreateName(CreateArtistBandViewModel viewModel)
+    {
+        CreateArtistViewModel model = new CreateArtistViewModel {Band = viewModel};
+
+        return View("CreateName", model);
     }
 
     [HttpPut("{id}")]
@@ -67,7 +77,7 @@ public class ArtistsController : CustomControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        await Mediator.Send(new DeleteTodoListCommand { Id = id });
+        await Mediator.Send(new DeleteTodoListCommand {Id = id});
 
         return NoContent();
     }
