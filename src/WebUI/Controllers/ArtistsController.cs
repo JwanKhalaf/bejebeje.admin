@@ -54,11 +54,28 @@ public class ArtistsController : CustomControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult> CreateName(CreateArtistBandViewModel viewModel)
+    public async Task<ActionResult> CreateName(CreateArtistNameViewModel nameViewModel, CreateArtistBandViewModel bandViewModel)
     {
-        CreateArtistViewModel model = new CreateArtistViewModel {Band = viewModel};
+        CreateArtistViewModel model = new CreateArtistViewModel
+        {
+            Band = bandViewModel,
+            Name = nameViewModel
+        };
 
-        return View("CreateName", model);
+        return View("CreateGender", model);
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult> CreateGender(CreateArtistGenderViewModel genderViewModel, CreateArtistNameViewModel nameViewModel, CreateArtistBandViewModel bandViewModel)
+    {
+        CreateArtistViewModel model = new CreateArtistViewModel
+        {
+            Band = bandViewModel,
+            Name = nameViewModel,
+            Gender = genderViewModel
+        };
+
+        return View("CreatePhoto", model);
     }
 
     [HttpPut("{id}")]

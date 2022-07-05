@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace bejebeje.admin.WebUI.ViewModels;
 
-public class SexViewModel
+public class CreateArtistGenderViewModel
 {
-    [Display(Name = "Sex")] public string SelectedSex { get; set; }
+    [Display(Name = "Sex")] public string SelectedGender { get; set; }
 
-    public List<SelectListItem> SexOptions = new List<SelectListItem>
+    public List<SelectListItem> GenderOptions = new List<SelectListItem>
     {
         new SelectListItem { Value = "m", Text = "Male" }, new SelectListItem { Value = "f", Text = "Female" },
     };

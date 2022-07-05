@@ -6,5 +6,5 @@ public class CreateArtistViewModel
     
     public CreateArtistNameViewModel Name { get; set; }
     
-    public SexViewModel Sex { get; set; }
+    public CreateArtistGenderViewModel Gender { get; set; }
 }
