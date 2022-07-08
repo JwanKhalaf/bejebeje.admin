@@ -43,6 +43,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Elm" />
       <Folder Include="wwwroot\css" />
       <Folder Include="wwwroot\fonts" />
       <Folder Include="wwwroot\images" />

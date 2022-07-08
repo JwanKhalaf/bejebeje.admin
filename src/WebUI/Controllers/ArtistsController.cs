@@ -41,6 +41,30 @@ public class ArtistsController : CustomControllerBase
     public async Task<ActionResult> Create()
     {
         CreateArtistViewModel viewModel = new CreateArtistViewModel();
+        viewModel.StepNumber = 1;
+
+        return View(viewModel);
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult> Create(CreateArtistViewModel viewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            if (viewModel.Band != null)
+            {
+                viewModel.StepNumber = 2;
+
+                if (viewModel.Name != null)
+                {
+                    viewModel.StepNumber = 3;
+                
+                    return View("CreateGender", viewModel);
+                }
+            
+                return View("CreateName", viewModel);
+            }
+        }
 
         return View(viewModel);
     }

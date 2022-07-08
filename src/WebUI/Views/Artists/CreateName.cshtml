@@ -39,8 +39,9 @@
     </div>
 
     <div class="rounded-r-md p-8">
-        <form method="post" asp-controller="artists" asp-action="createname">
+        <form method="post">
             <input type="hidden" asp-for="Band.IsBand" />
+            <input type="hidden" asp-for="StepNumber" />
             
             <div class="mb-8">
                 <h3 class="text-xl">What is the artist called?</h3>
