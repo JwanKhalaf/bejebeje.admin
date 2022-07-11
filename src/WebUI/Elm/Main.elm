@@ -23,11 +23,26 @@ main =
 -- MODEL
 
 
-type FormSection
-    = Band
-    | Name
-    | Gender
-    | Photo
+type Steps
+    = Step1Type (Maybe ArtistType)
+    | BandForm BandSteps
+    | SoloForm SoloSteps
+
+
+type BandSteps
+    = BandStep2Name String
+    | BandStep3Photo
+
+
+type SoloSteps
+    = SoloStep2Name String String
+    | SoloStep3Gender String String Gender
+    | SoloStep4Photo
+
+
+type ArtistType
+    = SoloArtist
+    | Band
 
 
 type Gender
@@ -36,14 +51,12 @@ type Gender
 
 
 type alias Model =
-    { section : FormSection
-    , gender : Maybe Gender
-    }
+    Steps
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { section = Band, gender = Nothing }
+    ( Step1Type Nothing
     , Cmd.none
     )
 
@@ -78,8 +91,8 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    case ( model.section, model.gender ) of
-        ( Band, Nothing ) ->
+    case model of
+        Step1Type Nothing ->
             div []
                 [ div [ Attr.class "bg-slate-800 flex rounded-md mb-5" ]
                     [ div [ Attr.class "bg-slate-800 border-r border-slate-500 rounded-l-md p-8" ]
@@ -127,14 +140,11 @@ view model =
                 , a [ Attr.class "text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3" ] [ text "Back" ]
                 ]
 
-        ( Name, _ ) ->
+        Step1Type (Just _) ->
             text "blah"
 
-        ( Gender, _ ) ->
+        BandForm _ ->
             text "blah"
 
-        ( Photo, _ ) ->
-            text "blah"
-
-        ( Band, Just _ ) ->
+        SoloForm _ ->
             text "blah"

@@ -5159,12 +5159,14 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Main$Band = {$: 'Band'};
+var $author$project$Main$Step1Type = function (a) {
+	return {$: 'Step1Type', a: a};
+};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{gender: $elm$core$Maybe$Nothing, section: $author$project$Main$Band},
+		$author$project$Main$Step1Type($elm$core$Maybe$Nothing),
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5200,21 +5202,10 @@ var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$view = function (model) {
-	var _v0 = _Utils_Tuple2(model.section, model.gender);
-	switch (_v0.a.$) {
-		case 'Name':
-			var _v3 = _v0.a;
-			return $elm$html$Html$text('blah');
-		case 'Gender':
-			var _v4 = _v0.a;
-			return $elm$html$Html$text('blah');
-		case 'Photo':
-			var _v5 = _v0.a;
-			return $elm$html$Html$text('blah');
-		default:
-			if (_v0.b.$ === 'Nothing') {
-				var _v1 = _v0.a;
-				var _v2 = _v0.b;
+	switch (model.$) {
+		case 'Step1Type':
+			if (model.a.$ === 'Nothing') {
+				var _v1 = model.a;
 				return A2(
 					$elm$html$Html$div,
 					_List_Nil,
@@ -5506,9 +5497,12 @@ var $author$project$Main$view = function (model) {
 								]))
 						]));
 			} else {
-				var _v6 = _v0.a;
 				return $elm$html$Html$text('blah');
 			}
+		case 'BandForm':
+			return $elm$html$Html$text('blah');
+		default:
+			return $elm$html$Html$text('blah');
 	}
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
