@@ -6,8 +6,16 @@ module.exports = {
     plugins: [require('@tailwindcss/forms')],
     safelist: [
         'cursor-pointer',
+        'cursor-not-allowed',
         'bg-slate-900',
+        'bg-slate-800',
+        'bg-slate-700',
+        'bg-slate-600',
+        'bg-slate-500',
+        'bg-slate-400',
+        'bg-slate-200',
         'bg-green-500',
+        'bg-green-200',
         'before:absolute',
         'after:absolute',
         'before:-top-12',
@@ -23,6 +31,17 @@ module.exports = {
         'after:w-12',
         'after:rounded-tr-2xl',
         'after:shadow-[0_-1rem_0_0_rgba(15,23,42,1)]',
-        'after:shadow-slate-900'
+        'after:shadow-slate-900',
+        'border-t-2',
+        'border-green-500',
+        'hover:bg-green-400',
+        'bg-gray-200',
+        'bg-gray-600',
+        'h-2.5',
+        'dark:bg-gray-300',
+        'w-1/5',
+        'w-2/5',
+        'w-3/5',
+        'w-4/5'
     ]
 }

@@ -5175,32 +5175,148 @@ var $author$project$Main$subscriptions = function (model) {
 	return $elm$core$Platform$Sub$none;
 };
 var $author$project$Main$Band = {$: 'Band'};
+var $author$project$Main$BandForm = function (a) {
+	return {$: 'BandForm', a: a};
+};
+var $author$project$Main$BandStep2Name = function (a) {
+	return {$: 'BandStep2Name', a: a};
+};
+var $author$project$Main$Female = {$: 'Female'};
+var $author$project$Main$Male = {$: 'Male'};
 var $author$project$Main$SoloArtist = {$: 'SoloArtist'};
+var $author$project$Main$SoloArtistForm = function (a) {
+	return {$: 'SoloArtistForm', a: a};
+};
+var $author$project$Main$SoloStep2Name = F2(
+	function (a, b) {
+		return {$: 'SoloStep2Name', a: a, b: b};
+	});
+var $author$project$Main$SoloStep3Gender = F3(
+	function (a, b, c) {
+		return {$: 'SoloStep3Gender', a: a, b: b, c: c};
+	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'ClickedNext':
+				_v1$3:
+				while (true) {
+					switch (model.$) {
+						case 'Step1Type':
+							if (model.a.$ === 'Just') {
+								if (model.a.a.$ === 'SoloArtist') {
+									var _v2 = model.a.a;
+									return _Utils_Tuple2(
+										$author$project$Main$SoloArtistForm(
+											A2($author$project$Main$SoloStep2Name, '', '')),
+										$elm$core$Platform$Cmd$none);
+								} else {
+									var _v3 = model.a.a;
+									return _Utils_Tuple2(
+										$author$project$Main$BandForm(
+											$author$project$Main$BandStep2Name('')),
+										$elm$core$Platform$Cmd$none);
+								}
+							} else {
+								break _v1$3;
+							}
+						case 'SoloArtistForm':
+							if (model.a.$ === 'SoloStep2Name') {
+								var _v4 = model.a;
+								var firstName = _v4.a;
+								var lastName = _v4.b;
+								return _Utils_Tuple2(
+									$author$project$Main$SoloArtistForm(
+										A3($author$project$Main$SoloStep3Gender, firstName, lastName, $author$project$Main$Male)),
+									$elm$core$Platform$Cmd$none);
+							} else {
+								break _v1$3;
+							}
+						default:
+							break _v1$3;
+					}
+				}
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+			case 'SoloArtistSelected':
+				return _Utils_Tuple2(
+					$author$project$Main$Step1Type(
+						$elm$core$Maybe$Just($author$project$Main$SoloArtist)),
+					$elm$core$Platform$Cmd$none);
 			case 'BandSelected':
 				return _Utils_Tuple2(
 					$author$project$Main$Step1Type(
 						$elm$core$Maybe$Just($author$project$Main$Band)),
 					$elm$core$Platform$Cmd$none);
+			case 'SoloArtistFirstNameUpdated':
+				var newFirstName = msg.a;
+				if ((model.$ === 'SoloArtistForm') && (model.a.$ === 'SoloStep2Name')) {
+					var _v6 = model.a;
+					var firstName = _v6.a;
+					var lastName = _v6.b;
+					return _Utils_Tuple2(
+						$author$project$Main$SoloArtistForm(
+							A2($author$project$Main$SoloStep2Name, newFirstName, lastName)),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				}
+			case 'SoloArtistLastNameUpdated':
+				var newLastName = msg.a;
+				if ((model.$ === 'SoloArtistForm') && (model.a.$ === 'SoloStep2Name')) {
+					var _v8 = model.a;
+					var firstName = _v8.a;
+					var lastName = _v8.b;
+					return _Utils_Tuple2(
+						$author$project$Main$SoloArtistForm(
+							A2($author$project$Main$SoloStep2Name, firstName, newLastName)),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				}
+			case 'SoloArtistMaleGenderSelected':
+				if ((model.$ === 'SoloArtistForm') && (model.a.$ === 'SoloStep3Gender')) {
+					var _v10 = model.a;
+					var firstName = _v10.a;
+					var lastName = _v10.b;
+					var gender = _v10.c;
+					return _Utils_Tuple2(
+						$author$project$Main$SoloArtistForm(
+							A3($author$project$Main$SoloStep3Gender, firstName, lastName, $author$project$Main$Male)),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				}
 			default:
-				return _Utils_Tuple2(
-					$author$project$Main$Step1Type(
-						$elm$core$Maybe$Just($author$project$Main$SoloArtist)),
-					$elm$core$Platform$Cmd$none);
+				if ((model.$ === 'SoloArtistForm') && (model.a.$ === 'SoloStep3Gender')) {
+					var _v12 = model.a;
+					var firstName = _v12.a;
+					var lastName = _v12.b;
+					var gender = _v12.c;
+					return _Utils_Tuple2(
+						$author$project$Main$SoloArtistForm(
+							A3($author$project$Main$SoloStep3Gender, firstName, lastName, $author$project$Main$Female)),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				}
 		}
 	});
 var $author$project$Main$BandSelected = {$: 'BandSelected'};
 var $author$project$Main$ClickedNext = {$: 'ClickedNext'};
+var $author$project$Main$SoloArtistFemaleGenderSelected = {$: 'SoloArtistFemaleGenderSelected'};
+var $author$project$Main$SoloArtistFirstNameUpdated = function (a) {
+	return {$: 'SoloArtistFirstNameUpdated', a: a};
+};
+var $author$project$Main$SoloArtistLastNameUpdated = function (a) {
+	return {$: 'SoloArtistLastNameUpdated', a: a};
+};
+var $author$project$Main$SoloArtistMaleGenderSelected = {$: 'SoloArtistMaleGenderSelected'};
 var $author$project$Main$SoloArtistSelected = {$: 'SoloArtistSelected'};
-var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$core$Basics$always = F2(
 	function (a, _v0) {
 		return a;
 	});
+var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5210,6 +5326,15 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty('disabled');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
@@ -5251,358 +5376,38 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
-var $elm$html$Html$li = _VirtualDom_node('li');
-var $elm$html$Html$ul = _VirtualDom_node('ul');
-var $author$project$Main$viewStepsIndicators = function (model) {
-	switch (model.$) {
-		case 'Step1Type':
-			return A2(
-				$elm$html$Html$ul,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full bg-slate-500 mr-4 flex items-center justify-center')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$i,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('fas text-slate-700 fa-circle')
-											]),
-										_List_Nil)
-									])),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Type')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full border-slate-500 border-2 mr-4 flex items-center justify-center')
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Name')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full border-slate-500 border-2 mr-4 flex items-center justify-center')
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Gender')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full border-slate-500 border-2 mr-4 flex items-center justify-center')
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Photo')
-									]))
-							]))
-					]));
-		case 'BandForm':
-			return A2(
-				$elm$html$Html$ul,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full bg-slate-500 mr-4 flex items-center justify-center')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$i,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('fas text-slate-700 fa-circle')
-											]),
-										_List_Nil)
-									])),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Type')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full bg-slate-500 mr-4 flex items-center justify-center')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$i,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('fas text-slate-700 fa-circle')
-											]),
-										_List_Nil)
-									])),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Name')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full border-slate-500 border-2 mr-4 flex items-center justify-center')
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Gender')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full border-slate-500 border-2 mr-4 flex items-center justify-center')
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Photo')
-									]))
-							]))
-					]));
-		default:
-			return A2(
-				$elm$html$Html$ul,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full bg-slate-500 mr-4 flex items-center justify-center')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$i,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('fas text-slate-700 fa-circle')
-											]),
-										_List_Nil)
-									])),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Type')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full bg-slate-500 mr-4 flex items-center justify-center')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$i,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('fas text-slate-700 fa-circle')
-											]),
-										_List_Nil)
-									])),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Name')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full border-slate-500 border-2 mr-4 flex items-center justify-center')
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Gender')
-									]))
-							])),
-						A2(
-						$elm$html$Html$li,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('mb-8 flex items-center')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('block w-8 h-8 rounded-full border-slate-500 border-2 mr-4 flex items-center justify-center')
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$a,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Photo')
-									]))
-							]))
-					]));
-	}
-};
 var $author$project$Main$view = function (model) {
 	switch (model.$) {
 		case 'Step1Type':
@@ -5617,20 +5422,10 @@ var $author$project$Main$view = function (model) {
 							$elm$html$Html$div,
 							_List_fromArray(
 								[
-									$elm$html$Html$Attributes$class('bg-slate-800 flex rounded-md mb-5')
+									$elm$html$Html$Attributes$class('bg-slate-800 rounded-md mb-5')
 								]),
 							_List_fromArray(
 								[
-									A2(
-									$elm$html$Html$div,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('bg-slate-800 border-r border-slate-500 rounded-l-md p-8')
-										]),
-									_List_fromArray(
-										[
-											$author$project$Main$viewStepsIndicators(model)
-										])),
 									A2(
 									$elm$html$Html$div,
 									_List_fromArray(
@@ -5783,28 +5578,62 @@ var $author$project$Main$view = function (model) {
 																]))
 														]))
 												]))
+										])),
+									A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('bg-slate-800 border-t-2 border-slate-500 p-8')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$div,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('mb-8')
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('mb-2 text-base font-medium dark:text-white')
+														]),
+													_List_fromArray(
+														[
+															$elm$html$Html$text('1 of 5')
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('w-full bg-slate-500 rounded-full h-2.5 mb-4 dark:bg-slate-600')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$div,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('bg-slate-900 h-2.5 rounded-full dark:bg-gray-300 w-1/5')
+																]),
+															_List_Nil)
+														]))
+												])),
+											A2(
+											$elm$html$Html$button,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-not-allowed bg-slate-500 rounded-md py-1 px-2'),
+													$elm$html$Html$Attributes$disabled(true)
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text('Next')
+												]))
 										]))
-								])),
-							A2(
-							$elm$html$Html$a,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3'),
-									$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Next')
-								])),
-							A2(
-							$elm$html$Html$a,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Back')
 								]))
 						]));
 			} else {
@@ -5817,20 +5646,10 @@ var $author$project$Main$view = function (model) {
 							$elm$html$Html$div,
 							_List_fromArray(
 								[
-									$elm$html$Html$Attributes$class('bg-slate-800 flex rounded-md mb-5')
+									$elm$html$Html$Attributes$class('bg-slate-800 rounded-md mb-5')
 								]),
 							_List_fromArray(
 								[
-									A2(
-									$elm$html$Html$div,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('bg-slate-800 border-r border-slate-500 rounded-l-md p-8')
-										]),
-									_List_fromArray(
-										[
-											$author$project$Main$viewStepsIndicators(model)
-										])),
 									A2(
 									$elm$html$Html$div,
 									_List_fromArray(
@@ -5983,32 +5802,660 @@ var $author$project$Main$view = function (model) {
 																]))
 														]))
 												]))
+										])),
+									A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('bg-slate-800 border-t-2 border-slate-500 p-8')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$div,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('mb-8')
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('mb-2 text-base font-medium dark:text-white')
+														]),
+													_List_fromArray(
+														[
+															$elm$html$Html$text('1 of 5')
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('w-full bg-slate-500 rounded-full h-2.5 mb-4 dark:bg-slate-600')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$div,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('bg-slate-900 h-2.5 rounded-full dark:bg-gray-300 w-1/5')
+																]),
+															_List_Nil)
+														]))
+												])),
+											A2(
+											$elm$html$Html$button,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('text-white border-2 border-green-500 cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-green-400'),
+													$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text('Next')
+												])),
+											A2(
+											$elm$html$Html$button,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text('Back')
+												]))
 										]))
-								])),
-							A2(
-							$elm$html$Html$a,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3'),
-									$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Next')
-								])),
-							A2(
-							$elm$html$Html$a,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Back')
 								]))
 						]));
 			}
-		case 'BandForm':
+		case 'SoloArtistForm':
+			switch (model.a.$) {
+				case 'SoloStep2Name':
+					var _v2 = model.a;
+					return A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('bg-slate-800 rounded-md mb-5')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('rounded-r-md p-8')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$form,
+												_List_Nil,
+												_List_fromArray(
+													[
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-8')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$h3,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('text-xl')
+																	]),
+																_List_fromArray(
+																	[
+																		$elm$html$Html$text('What is the artist called?')
+																	]))
+															])),
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-4')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$label,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('block mb-2')
+																	]),
+																_List_fromArray(
+																	[
+																		$elm$html$Html$text('First name')
+																	])),
+																A2(
+																$elm$html$Html$input,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$name('first_name'),
+																		$elm$html$Html$Attributes$class('p-2 bg-slate-600 rounded-md'),
+																		$elm$html$Html$Attributes$type_('text'),
+																		$elm$html$Html$Events$onInput($author$project$Main$SoloArtistFirstNameUpdated)
+																	]),
+																_List_Nil)
+															])),
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-4')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$label,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('block mb-2')
+																	]),
+																_List_fromArray(
+																	[
+																		$elm$html$Html$text('Last name')
+																	])),
+																A2(
+																$elm$html$Html$input,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$name('last_name'),
+																		$elm$html$Html$Attributes$class('p-2 bg-slate-600 rounded-md'),
+																		$elm$html$Html$Attributes$type_('text'),
+																		$elm$html$Html$Events$onInput($author$project$Main$SoloArtistLastNameUpdated)
+																	]),
+																_List_Nil)
+															]))
+													]))
+											])),
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('bg-slate-800 border-t-2 border-slate-500 p-8')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$div,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('mb-8')
+													]),
+												_List_fromArray(
+													[
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-2 text-base font-medium dark:text-white')
+															]),
+														_List_fromArray(
+															[
+																$elm$html$Html$text('2 of 5 - Artist Name')
+															])),
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('w-full bg-slate-500 rounded-full h-2.5 mb-4 dark:bg-slate-600')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$div,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('bg-slate-900 h-2.5 rounded-full dark:bg-gray-300 w-2/5')
+																	]),
+																_List_Nil)
+															]))
+													])),
+												A2(
+												$elm$html$Html$button,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('text-white border-2 border-green-500 cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-green-400'),
+														$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+													]),
+												_List_fromArray(
+													[
+														$elm$html$Html$text('Next')
+													])),
+												A2(
+												$elm$html$Html$button,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+													]),
+												_List_fromArray(
+													[
+														$elm$html$Html$text('Back')
+													]))
+											]))
+									]))
+							]));
+				case 'SoloStep3Gender':
+					var _v3 = model.a;
+					return A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('bg-slate-800 rounded-md mb-5')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('rounded-r-md p-8')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$form,
+												_List_Nil,
+												_List_fromArray(
+													[
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-8')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$h3,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('text-xl')
+																	]),
+																_List_fromArray(
+																	[
+																		$elm$html$Html$text('What gender is the artist?')
+																	]))
+															])),
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('flex')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$label,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('mr-8 bg-slate-900 rounded-md w-36 cursor-pointer p-4')
+																	]),
+																_List_fromArray(
+																	[
+																		A2(
+																		$elm$html$Html$span,
+																		_List_fromArray(
+																			[
+																				$elm$html$Html$Attributes$class('flex items-center justify-center py-8 px-12')
+																			]),
+																		_List_fromArray(
+																			[
+																				A2(
+																				$elm$html$Html$i,
+																				_List_fromArray(
+																					[
+																						$elm$html$Html$Attributes$class('fas text-5xl text-slate-700 fa-mars')
+																					]),
+																				_List_Nil)
+																			])),
+																		A2(
+																		$elm$html$Html$span,
+																		_List_fromArray(
+																			[
+																				$elm$html$Html$Attributes$class('block flex items-center')
+																			]),
+																		_List_fromArray(
+																			[
+																				A2(
+																				$elm$html$Html$input,
+																				_List_fromArray(
+																					[
+																						$elm$html$Html$Attributes$name('band'),
+																						$elm$html$Html$Attributes$class('mr-2 w-5 h-5 border-slate-700 text-slate-700'),
+																						$elm$html$Html$Attributes$type_('radio'),
+																						$elm$html$Html$Events$onCheck(
+																						$elm$core$Basics$always($author$project$Main$SoloArtistMaleGenderSelected))
+																					]),
+																				_List_Nil),
+																				A2(
+																				$elm$html$Html$span,
+																				_List_fromArray(
+																					[
+																						$elm$html$Html$Attributes$class('block')
+																					]),
+																				_List_fromArray(
+																					[
+																						$elm$html$Html$text('Male')
+																					]))
+																			]))
+																	])),
+																A2(
+																$elm$html$Html$label,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('mr-8 bg-slate-900 rounded-md w-36 cursor-pointer p-4')
+																	]),
+																_List_fromArray(
+																	[
+																		A2(
+																		$elm$html$Html$span,
+																		_List_fromArray(
+																			[
+																				$elm$html$Html$Attributes$class('flex items-center justify-center py-8 px-12')
+																			]),
+																		_List_fromArray(
+																			[
+																				A2(
+																				$elm$html$Html$i,
+																				_List_fromArray(
+																					[
+																						$elm$html$Html$Attributes$class('fas text-5xl text-slate-700 fa-venus')
+																					]),
+																				_List_Nil)
+																			])),
+																		A2(
+																		$elm$html$Html$span,
+																		_List_fromArray(
+																			[
+																				$elm$html$Html$Attributes$class('block flex items-center')
+																			]),
+																		_List_fromArray(
+																			[
+																				A2(
+																				$elm$html$Html$input,
+																				_List_fromArray(
+																					[
+																						$elm$html$Html$Attributes$name('band'),
+																						$elm$html$Html$Attributes$class('mr-2 w-5 h-5 border-slate-700 text-slate-700'),
+																						$elm$html$Html$Attributes$type_('radio'),
+																						$elm$html$Html$Events$onCheck(
+																						$elm$core$Basics$always($author$project$Main$SoloArtistFemaleGenderSelected))
+																					]),
+																				_List_Nil),
+																				A2(
+																				$elm$html$Html$span,
+																				_List_fromArray(
+																					[
+																						$elm$html$Html$Attributes$class('block')
+																					]),
+																				_List_fromArray(
+																					[
+																						$elm$html$Html$text('Female')
+																					]))
+																			]))
+																	]))
+															]))
+													]))
+											])),
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('bg-slate-800 border-t-2 border-slate-500 p-8')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$div,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('mb-8')
+													]),
+												_List_fromArray(
+													[
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-2 text-base font-medium dark:text-white')
+															]),
+														_List_fromArray(
+															[
+																$elm$html$Html$text('3 of 5 - Artist Gender')
+															])),
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('w-full bg-slate-500 rounded-full h-2.5 mb-4 dark:bg-slate-600')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$div,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('bg-slate-900 h-2.5 rounded-full dark:bg-gray-300 w-3/5')
+																	]),
+																_List_Nil)
+															]))
+													])),
+												A2(
+												$elm$html$Html$button,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('text-white border-2 border-green-500 cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-green-400'),
+														$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+													]),
+												_List_fromArray(
+													[
+														$elm$html$Html$text('Next')
+													])),
+												A2(
+												$elm$html$Html$button,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+													]),
+												_List_fromArray(
+													[
+														$elm$html$Html$text('Back')
+													]))
+											]))
+									]))
+							]));
+				default:
+					var _v4 = model.a;
+					return A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('bg-slate-800 rounded-md mb-5')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('rounded-r-md p-8')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$form,
+												_List_Nil,
+												_List_fromArray(
+													[
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-8')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$h3,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('text-xl')
+																	]),
+																_List_fromArray(
+																	[
+																		$elm$html$Html$text('What is the artist called?')
+																	]))
+															])),
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-4')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$label,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('block mb-2')
+																	]),
+																_List_fromArray(
+																	[
+																		$elm$html$Html$text('First name')
+																	])),
+																A2(
+																$elm$html$Html$input,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$name('first_name'),
+																		$elm$html$Html$Attributes$class('p-2 bg-slate-600 rounded-md'),
+																		$elm$html$Html$Attributes$type_('text')
+																	]),
+																_List_Nil)
+															])),
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-4')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$label,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('block mb-2')
+																	]),
+																_List_fromArray(
+																	[
+																		$elm$html$Html$text('Last name')
+																	])),
+																A2(
+																$elm$html$Html$input,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$name('last_name'),
+																		$elm$html$Html$Attributes$class('p-2 bg-slate-600 rounded-md'),
+																		$elm$html$Html$Attributes$type_('text')
+																	]),
+																_List_Nil)
+															]))
+													]))
+											])),
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('bg-slate-800 border-t-2 border-slate-500 p-8')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$div,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('mb-8')
+													]),
+												_List_fromArray(
+													[
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('mb-2 text-base font-medium dark:text-white')
+															]),
+														_List_fromArray(
+															[
+																$elm$html$Html$text('4 of 5 - Artist Name')
+															])),
+														A2(
+														$elm$html$Html$div,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('w-full bg-slate-500 rounded-full h-2.5 mb-4 dark:bg-slate-600')
+															]),
+														_List_fromArray(
+															[
+																A2(
+																$elm$html$Html$div,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('bg-slate-900 h-2.5 rounded-full dark:bg-gray-300 w-4/5')
+																	]),
+																_List_Nil)
+															]))
+													])),
+												A2(
+												$elm$html$Html$button,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('text-white border-2 border-green-500 cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-green-400'),
+														$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+													]),
+												_List_fromArray(
+													[
+														$elm$html$Html$text('Next')
+													])),
+												A2(
+												$elm$html$Html$button,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+													]),
+												_List_fromArray(
+													[
+														$elm$html$Html$text('Back')
+													]))
+											]))
+									]))
+							]));
+			}
+		default:
 			return A2(
 				$elm$html$Html$div,
 				_List_Nil,
@@ -6018,20 +6465,10 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('bg-slate-800 flex rounded-md mb-5')
+								$elm$html$Html$Attributes$class('bg-slate-800 rounded-md mb-5')
 							]),
 						_List_fromArray(
 							[
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('bg-slate-800 border-r border-slate-500 rounded-l-md p-8')
-									]),
-								_List_fromArray(
-									[
-										$author$project$Main$viewStepsIndicators(model)
-									])),
 								A2(
 								$elm$html$Html$div,
 								_List_fromArray(
@@ -6093,165 +6530,72 @@ var $author$project$Main$view = function (model) {
 														_List_Nil)
 													]))
 											]))
-									]))
-							])),
-						A2(
-						$elm$html$Html$a,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3'),
-								$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Next')
-							])),
-						A2(
-						$elm$html$Html$a,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Back')
-							]))
-					]));
-		default:
-			return A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('bg-slate-800 flex rounded-md mb-5')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('bg-slate-800 border-r border-slate-500 rounded-l-md p-8')
-									]),
-								_List_fromArray(
-									[
-										$author$project$Main$viewStepsIndicators(model)
 									])),
 								A2(
 								$elm$html$Html$div,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('rounded-r-md p-8')
+										$elm$html$Html$Attributes$class('bg-slate-800 border-t-2 border-slate-500 p-8')
 									]),
 								_List_fromArray(
 									[
 										A2(
-										$elm$html$Html$form,
-										_List_Nil,
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('mb-8')
+											]),
 										_List_fromArray(
 											[
 												A2(
 												$elm$html$Html$div,
 												_List_fromArray(
 													[
-														$elm$html$Html$Attributes$class('mb-8')
+														$elm$html$Html$Attributes$class('mb-2 text-base font-medium dark:text-white')
 													]),
 												_List_fromArray(
 													[
-														A2(
-														$elm$html$Html$h3,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$class('text-xl')
-															]),
-														_List_fromArray(
-															[
-																$elm$html$Html$text('What is the artist called?')
-															]))
+														$elm$html$Html$text('2 of 5 - Band Name')
 													])),
 												A2(
 												$elm$html$Html$div,
 												_List_fromArray(
 													[
-														$elm$html$Html$Attributes$class('mb-4')
+														$elm$html$Html$Attributes$class('w-full bg-slate-500 rounded-full h-2.5 mb-4 dark:bg-slate-600')
 													]),
 												_List_fromArray(
 													[
 														A2(
-														$elm$html$Html$label,
+														$elm$html$Html$div,
 														_List_fromArray(
 															[
-																$elm$html$Html$Attributes$class('block mb-2')
-															]),
-														_List_fromArray(
-															[
-																$elm$html$Html$text('First name')
-															])),
-														A2(
-														$elm$html$Html$input,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$name('first_name'),
-																$elm$html$Html$Attributes$class('p-2 bg-slate-600 rounded-md'),
-																$elm$html$Html$Attributes$type_('text')
-															]),
-														_List_Nil)
-													])),
-												A2(
-												$elm$html$Html$div,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('mb-4')
-													]),
-												_List_fromArray(
-													[
-														A2(
-														$elm$html$Html$label,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$class('block mb-2')
-															]),
-														_List_fromArray(
-															[
-																$elm$html$Html$text('Last name')
-															])),
-														A2(
-														$elm$html$Html$input,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$name('last_name'),
-																$elm$html$Html$Attributes$class('p-2 bg-slate-600 rounded-md'),
-																$elm$html$Html$Attributes$type_('text')
+																$elm$html$Html$Attributes$class('bg-slate-900 h-2.5 rounded-full dark:bg-gray-300 w-1/5')
 															]),
 														_List_Nil)
 													]))
+											])),
+										A2(
+										$elm$html$Html$button,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('text-white border-2 border-green-500 cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-green-400'),
+												$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text('Next')
+											])),
+										A2(
+										$elm$html$Html$button,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text('Back')
 											]))
 									]))
-							])),
-						A2(
-						$elm$html$Html$a,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3'),
-								$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Next')
-							])),
-						A2(
-						$elm$html$Html$a,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Back')
 							]))
 					]));
 	}
