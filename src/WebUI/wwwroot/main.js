@@ -5174,19 +5174,8 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (model) {
 	return $elm$core$Platform$Sub$none;
 };
-var $author$project$Main$BandForm = function (a) {
-	return {$: 'BandForm', a: a};
-};
-var $author$project$Main$BandStep2Name = function (a) {
-	return {$: 'BandStep2Name', a: a};
-};
-var $author$project$Main$SoloArtistForm = function (a) {
-	return {$: 'SoloArtistForm', a: a};
-};
-var $author$project$Main$SoloStep2Name = F2(
-	function (a, b) {
-		return {$: 'SoloStep2Name', a: a, b: b};
-	});
+var $author$project$Main$Band = {$: 'Band'};
+var $author$project$Main$SoloArtist = {$: 'SoloArtist'};
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -5194,19 +5183,24 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 			case 'BandSelected':
 				return _Utils_Tuple2(
-					$author$project$Main$BandForm(
-						$author$project$Main$BandStep2Name('')),
+					$author$project$Main$Step1Type(
+						$elm$core$Maybe$Just($author$project$Main$Band)),
 					$elm$core$Platform$Cmd$none);
 			default:
 				return _Utils_Tuple2(
-					$author$project$Main$SoloArtistForm(
-						A2($author$project$Main$SoloStep2Name, '', '')),
+					$author$project$Main$Step1Type(
+						$elm$core$Maybe$Just($author$project$Main$SoloArtist)),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$Main$BandSelected = {$: 'BandSelected'};
+var $author$project$Main$ClickedNext = {$: 'ClickedNext'};
 var $author$project$Main$SoloArtistSelected = {$: 'SoloArtistSelected'};
 var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5234,6 +5228,23 @@ var $elm$html$Html$Events$on = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$Normal(decoder));
 	});
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $elm$html$Html$Events$targetChecked = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'checked']),
+	$elm$json$Json$Decode$bool);
+var $elm$html$Html$Events$onCheck = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'change',
+		A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetChecked));
+};
 var $elm$html$Html$Events$onClick = function (msg) {
 	return A2(
 		$elm$html$Html$Events$on,
@@ -5699,7 +5710,8 @@ var $author$project$Main$view = function (model) {
 																					$elm$html$Html$Attributes$name('band'),
 																					$elm$html$Html$Attributes$class('mr-2 w-5 h-5 border-slate-700 text-slate-700'),
 																					$elm$html$Html$Attributes$type_('radio'),
-																					$elm$html$Html$Events$onClick($author$project$Main$SoloArtistSelected)
+																					$elm$html$Html$Events$onCheck(
+																					$elm$core$Basics$always($author$project$Main$SoloArtistSelected))
 																				]),
 																			_List_Nil),
 																			A2(
@@ -5753,7 +5765,8 @@ var $author$project$Main$view = function (model) {
 																					$elm$html$Html$Attributes$name('band'),
 																					$elm$html$Html$Attributes$class('mr-2 w-5 h-5 border-slate-700 text-slate-700'),
 																					$elm$html$Html$Attributes$type_('radio'),
-																					$elm$html$Html$Events$onClick($author$project$Main$BandSelected)
+																					$elm$html$Html$Events$onCheck(
+																					$elm$core$Basics$always($author$project$Main$BandSelected))
 																				]),
 																			_List_Nil),
 																			A2(
@@ -5776,7 +5789,18 @@ var $author$project$Main$view = function (model) {
 							$elm$html$Html$a,
 							_List_fromArray(
 								[
-									$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+									$elm$html$Html$Attributes$class('text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3'),
+									$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Next')
+								])),
+							A2(
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
 								]),
 							_List_fromArray(
 								[
@@ -5784,7 +5808,205 @@ var $author$project$Main$view = function (model) {
 								]))
 						]));
 			} else {
-				return $elm$html$Html$text('blah');
+				return A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$div,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('bg-slate-800 flex rounded-md mb-5')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('bg-slate-800 border-r border-slate-500 rounded-l-md p-8')
+										]),
+									_List_fromArray(
+										[
+											$author$project$Main$viewStepsIndicators(model)
+										])),
+									A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('rounded-r-md p-8')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$form,
+											_List_Nil,
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('mb-8')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$h3,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('text-xl')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Are they a solo artist or a band?')
+																]))
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('flex')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('mr-8 bg-slate-900 rounded-md w-36 cursor-pointer p-4')
+																]),
+															_List_fromArray(
+																[
+																	A2(
+																	$elm$html$Html$span,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$class('flex items-center justify-center py-8 px-12')
+																		]),
+																	_List_fromArray(
+																		[
+																			A2(
+																			$elm$html$Html$i,
+																			_List_fromArray(
+																				[
+																					$elm$html$Html$Attributes$class('fas text-5xl text-slate-700 fa-user')
+																				]),
+																			_List_Nil)
+																		])),
+																	A2(
+																	$elm$html$Html$span,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$class('block flex items-center')
+																		]),
+																	_List_fromArray(
+																		[
+																			A2(
+																			$elm$html$Html$input,
+																			_List_fromArray(
+																				[
+																					$elm$html$Html$Attributes$name('band'),
+																					$elm$html$Html$Attributes$class('mr-2 w-5 h-5 border-slate-700 text-slate-700'),
+																					$elm$html$Html$Attributes$type_('radio'),
+																					$elm$html$Html$Events$onCheck(
+																					$elm$core$Basics$always($author$project$Main$SoloArtistSelected))
+																				]),
+																			_List_Nil),
+																			A2(
+																			$elm$html$Html$span,
+																			_List_fromArray(
+																				[
+																					$elm$html$Html$Attributes$class('block')
+																				]),
+																			_List_fromArray(
+																				[
+																					$elm$html$Html$text('Solo Artist')
+																				]))
+																		]))
+																])),
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('mr-8 bg-slate-900 rounded-md w-36 cursor-pointer p-4')
+																]),
+															_List_fromArray(
+																[
+																	A2(
+																	$elm$html$Html$span,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$class('flex items-center justify-center py-8 px-12')
+																		]),
+																	_List_fromArray(
+																		[
+																			A2(
+																			$elm$html$Html$i,
+																			_List_fromArray(
+																				[
+																					$elm$html$Html$Attributes$class('fas text-5xl text-slate-700 fa-users')
+																				]),
+																			_List_Nil)
+																		])),
+																	A2(
+																	$elm$html$Html$span,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$class('block flex items-center')
+																		]),
+																	_List_fromArray(
+																		[
+																			A2(
+																			$elm$html$Html$input,
+																			_List_fromArray(
+																				[
+																					$elm$html$Html$Attributes$name('band'),
+																					$elm$html$Html$Attributes$class('mr-2 w-5 h-5 border-slate-700 text-slate-700'),
+																					$elm$html$Html$Attributes$type_('radio'),
+																					$elm$html$Html$Events$onCheck(
+																					$elm$core$Basics$always($author$project$Main$BandSelected))
+																				]),
+																			_List_Nil),
+																			A2(
+																			$elm$html$Html$span,
+																			_List_fromArray(
+																				[
+																					$elm$html$Html$Attributes$class('block')
+																				]),
+																			_List_fromArray(
+																				[
+																					$elm$html$Html$text('Band')
+																				]))
+																		]))
+																]))
+														]))
+												]))
+										]))
+								])),
+							A2(
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3'),
+									$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Next')
+								])),
+							A2(
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Back')
+								]))
+						]));
 			}
 		case 'BandForm':
 			return A2(
@@ -5877,7 +6099,18 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$a,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+								$elm$html$Html$Attributes$class('text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3'),
+								$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Next')
+							])),
+						A2(
+						$elm$html$Html$a,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
 							]),
 						_List_fromArray(
 							[
@@ -6003,7 +6236,18 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$a,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
+								$elm$html$Html$Attributes$class('text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3'),
+								$elm$html$Html$Events$onClick($author$project$Main$ClickedNext)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Next')
+							])),
+						A2(
+						$elm$html$Html$a,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3')
 							]),
 						_List_fromArray(
 							[

@@ -3,7 +3,7 @@ module Main exposing (..)
 import Browser
 import Html exposing (Html, a, div, form, h3, i, input, label, li, pre, span, text, ul)
 import Html.Attributes as Attr
-import Html.Events exposing (onClick)
+import Html.Events exposing (onCheck, onClick)
 import Http
 
 
@@ -79,10 +79,10 @@ update msg model =
             ( model, Cmd.none )
 
         BandSelected ->
-            ( BandForm (BandStep2Name ""), Cmd.none )
+            ( Step1Type (Just Band), Cmd.none )
 
         SoloArtistSelected ->
-            ( SoloArtistForm (SoloStep2Name "" ""), Cmd.none )
+            ( Step1Type (Just SoloArtist), Cmd.none )
 
 
 
@@ -113,14 +113,14 @@ view model =
                                 [ label [ Attr.class "mr-8 bg-slate-900 rounded-md w-36 cursor-pointer p-4" ]
                                     [ span [ Attr.class "flex items-center justify-center py-8 px-12" ] [ i [ Attr.class "fas text-5xl text-slate-700 fa-user" ] [] ]
                                     , span [ Attr.class "block flex items-center" ]
-                                        [ input [ Attr.name "band", Attr.class "mr-2 w-5 h-5 border-slate-700 text-slate-700", Attr.type_ "radio", onClick SoloArtistSelected ] []
+                                        [ input [ Attr.name "band", Attr.class "mr-2 w-5 h-5 border-slate-700 text-slate-700", Attr.type_ "radio", onCheck (always SoloArtistSelected) ] []
                                         , span [ Attr.class "block" ] [ text "Solo Artist" ]
                                         ]
                                     ]
                                 , label [ Attr.class "mr-8 bg-slate-900 rounded-md w-36 cursor-pointer p-4" ]
                                     [ span [ Attr.class "flex items-center justify-center py-8 px-12" ] [ i [ Attr.class "fas text-5xl text-slate-700 fa-users" ] [] ]
                                     , span [ Attr.class "block flex items-center" ]
-                                        [ input [ Attr.name "band", Attr.class "mr-2 w-5 h-5 border-slate-700 text-slate-700", Attr.type_ "radio", onClick BandSelected ] []
+                                        [ input [ Attr.name "band", Attr.class "mr-2 w-5 h-5 border-slate-700 text-slate-700", Attr.type_ "radio", onCheck (always BandSelected) ] []
                                         , span [ Attr.class "block" ] [ text "Band" ]
                                         ]
                                     ]
@@ -128,11 +128,40 @@ view model =
                             ]
                         ]
                     ]
-                , a [ Attr.class "text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3" ] [ text "Back" ]
+                , a [ Attr.class "text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3", onClick ClickedNext ] [ text "Next" ]
+                , a [ Attr.class "text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3" ] [ text "Back" ]
                 ]
 
         Step1Type (Just _) ->
-            text "blah"
+            div []
+                [ div [ Attr.class "bg-slate-800 flex rounded-md mb-5" ]
+                    [ div [ Attr.class "bg-slate-800 border-r border-slate-500 rounded-l-md p-8" ]
+                        [ viewStepsIndicators model ]
+                    , div [ Attr.class "rounded-r-md p-8" ]
+                        [ form []
+                            [ div [ Attr.class "mb-8" ] [ h3 [ Attr.class "text-xl" ] [ text "Are they a solo artist or a band?" ] ]
+                            , div [ Attr.class "flex" ]
+                                [ label [ Attr.class "mr-8 bg-slate-900 rounded-md w-36 cursor-pointer p-4" ]
+                                    [ span [ Attr.class "flex items-center justify-center py-8 px-12" ] [ i [ Attr.class "fas text-5xl text-slate-700 fa-user" ] [] ]
+                                    , span [ Attr.class "block flex items-center" ]
+                                        [ input [ Attr.name "band", Attr.class "mr-2 w-5 h-5 border-slate-700 text-slate-700", Attr.type_ "radio", onCheck (always SoloArtistSelected) ] []
+                                        , span [ Attr.class "block" ] [ text "Solo Artist" ]
+                                        ]
+                                    ]
+                                , label [ Attr.class "mr-8 bg-slate-900 rounded-md w-36 cursor-pointer p-4" ]
+                                    [ span [ Attr.class "flex items-center justify-center py-8 px-12" ] [ i [ Attr.class "fas text-5xl text-slate-700 fa-users" ] [] ]
+                                    , span [ Attr.class "block flex items-center" ]
+                                        [ input [ Attr.name "band", Attr.class "mr-2 w-5 h-5 border-slate-700 text-slate-700", Attr.type_ "radio", onCheck (always BandSelected) ] []
+                                        , span [ Attr.class "block" ] [ text "Band" ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                , a [ Attr.class "text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3", onClick ClickedNext ] [ text "Next" ]
+                , a [ Attr.class "text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3" ] [ text "Back" ]
+                ]
 
         BandForm _ ->
             div []
@@ -149,7 +178,8 @@ view model =
                             ]
                         ]
                     ]
-                , a [ Attr.class "text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3" ] [ text "Back" ]
+                , a [ Attr.class "text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3", onClick ClickedNext ] [ text "Next" ]
+                , a [ Attr.class "text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3" ] [ text "Back" ]
                 ]
 
         SoloArtistForm _ ->
@@ -171,7 +201,8 @@ view model =
                             ]
                         ]
                     ]
-                , a [ Attr.class "text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3" ] [ text "Back" ]
+                , a [ Attr.class "text-white cursor-pointer bg-green-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3", onClick ClickedNext ] [ text "Next" ]
+                , a [ Attr.class "text-white border-2 border-slate-500 cursor-pointer rounded-md py-1 px-2 hover:bg-slate-700 ml-3" ] [ text "Back" ]
                 ]
 
 
