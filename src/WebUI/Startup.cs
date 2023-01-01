@@ -5,6 +5,7 @@ using bejebeje.admin.Infrastructure.Persistence;
 using bejebeje.admin.WebUI.Filters;
 using bejebeje.admin.WebUI.Services;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bejebeje.admin.WebUI;
@@ -45,6 +46,16 @@ public class Startup
     // this method gets called by the runtime. use this method to configure the http request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        ForwardedHeadersOptions forwardedHeadersOptions = new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        };
+
+        forwardedHeadersOptions.KnownNetworks.Clear();
+        forwardedHeadersOptions.KnownProxies.Clear();
+
+        app.UseForwardedHeaders(forwardedHeadersOptions);
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
