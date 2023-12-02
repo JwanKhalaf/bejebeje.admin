@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using Respawn;
+using Respawn.Graph;
 
 namespace bejebeje.admin.Application.IntegrationTests;
 
@@ -17,11 +18,11 @@ public class Testing
 {
     private static IConfigurationRoot _configuration = null!;
     private static IServiceScopeFactory _scopeFactory = null!;
-    private static Checkpoint _checkpoint = null!;
+    private static Respawner _respawner = null!;
     private static string? _currentUserId;
 
     [OneTimeSetUp]
-    public void RunBeforeAnyTests()
+    public async Task RunBeforeAnyTests()
     {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -57,11 +58,11 @@ public class Testing
             Mock.Of<ICurrentUserService>(s => s.UserId == _currentUserId));
 
         _scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
-
-        _checkpoint = new Checkpoint
+        
+        _respawner = await Respawner.CreateAsync(_configuration["ConnectionString"], new RespawnerOptions
         {
-            TablesToIgnore = new[] { "__EFMigrationsHistory" }
-        };
+            TablesToIgnore = new Table[] { "__EFMigrationsHistory" }
+        });
 
         EnsureDatabase();
     }
@@ -86,7 +87,7 @@ public class Testing
 
     public static async Task ResetState()
     {
-        await _checkpoint.Reset(_configuration["ConnectionString"]);
+        await _respawner.ResetAsync(_configuration["ConnectionString"]);
 
         _currentUserId = null;
     }
