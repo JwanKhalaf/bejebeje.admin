@@ -22,7 +22,7 @@ COPY . ./
 # we now publish the project into a folder called 'out'.
 RUN dotnet publish src/WebUI/WebUI.csproj -c Release -o out
 
-# set base image as the dotnet 7.0 runtime.
+# set base image as the dotnet 8.0 runtime.
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
 # telling the application what port to run on.
