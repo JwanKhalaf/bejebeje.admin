@@ -13,8 +13,8 @@
       "launchBrowser": true,
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development",
-        "ASPNETCORE_Kestrel__Certificates__Default__Password": "admin",
-        "ASPNETCORE_Kestrel__Certificates__Default__Path": "/home/j/.aspnet/https/localhost.pfx"
+        "ASPNETCORE_Kestrel__Certificates__Default__Password": "",
+        "ASPNETCORE_Kestrel__Certificates__Default__Path": "/home/j/.aspnet/https/bejebeje-admin.pfx"
       },
       "applicationUrl": "https://localhost:5021;http://localhost:5020"
     },
