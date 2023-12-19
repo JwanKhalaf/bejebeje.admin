@@ -11,6 +11,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoFixture" Version="5.0.0-preview0007" />
+        <PackageReference Include="AutoFixture.NUnit3" Version="5.0.0-preview0007" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0-preview-23531-01" />
         <PackageReference Include="nunit" Version="4.0.1" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.5.0">
