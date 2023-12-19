@@ -1,0 +1,37 @@
+@model bejebeje.admin.Application.Artists.Queries.GetArtist.ArtistDto
+
+@{
+    ViewData["Title"] = $"Details of {@Model.FirstName} {@Model.LastName}";
+}
+
+<div class="mb-8">
+    <h1 class="text-5xl">Artist details</h1>
+</div>
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <div class="bg-slate-900 rounded-md p-10 flex items-center mb-8">
+        <picture>
+            <source type="image/webp" srcset=@($"{Model.ImageUrl}.webp")>
+            <source type="image/jpeg" srcset=@($"{Model.ImageUrl}.jpg")>
+
+            <img src=@($"{Model.ImageUrl}.jpg")
+                 class="border-1 mr-4 border-slate-800 rounded-full w-40 h-40"
+                 loading="lazy"
+                 alt="@Model.ImageAlternateText"/>
+        </picture>
+
+        <div>
+            <h2 class="text-2xl">
+                @Model.FirstName @Model.LastName
+            </h2>
+        </div>
+    </div>
+
+    <div>
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer @(Model.IsApproved ? "pointer-events-none" : "")" asp-controller="Artists" asp-action="Details">Approve Artist</a>
+
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Artists" asp-action="Details">Delete Artist</a>
+
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Artists" asp-action="Details">View @Model.LyricsCount Lyrics</a>
+    </div>
+</div>
