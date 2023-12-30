@@ -1,0 +1,96 @@
+@model bejebeje.admin.Application.Lyrics.Queries.GetLyricsForArtist.GetLyricsForArtistDto
+
+@{
+    ViewData["Title"] = $"{Model.Artist.Name} lyrics";
+}
+
+<div class="mb-8">
+    <h1 class="text-5xl">@Model.Artist.Name Lyrics</h1>
+</div>
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <div class="bg-slate-900 rounded-md p-10 flex items-center mb-8">
+        <picture>
+            <source type="image/webp" srcset=@($"{Model.Artist.ImageUrl}.webp")>
+            <source type="image/jpeg" srcset=@($"{Model.Artist.ImageUrl}.jpg")>
+
+            <img src=@($"{Model.Artist.ImageUrl}.jpg")
+                 class="border-1 mr-4 border-slate-800 rounded-full w-40 h-40"
+                 loading="lazy"
+                 alt="@Model.Artist.ImageAlternateText"/>
+        </picture>
+
+        <div>
+            <h2 class="text-2xl">
+                @Model.Artist.Name
+            </h2>
+        </div>
+    </div>
+
+    <table class="w-full">
+        <thead class="bg-slate-900 rounded-md">
+        <tr class="">
+            <th class="text-sm text-left rounded-tl-md rounded-bl-md py-2 px-4">Lyric Id</th>
+            <th class="text-sm text-left py-2 px-4">Title</th>
+            <th class="text-sm text-left py-2 px-4">Created at</th>
+            <th class="text-sm text-left py-2 px-4">Modified at</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Deleted</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Verified</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Approved</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model.Lyrics)
+        {
+            <tr class="border-b border-slate-600 last:border-0">
+                <td class="py-4 px-4">@item.Id</td>
+                <td class="py-4 px-4 flex items-center">
+                    <h5>@item.Title</h5>
+                </td>
+                <td class="py-4 px-4">@item.CreatedAt</td>
+                <td class="py-4 px-4">
+                    @if (item.ModifiedAt != null)
+                    {
+                        @item.ModifiedAt
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.IsDeleted)
+                    {
+                        <i class="text-red-400 text-md fa-solid fa-trash-check" title="Is deleted"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-solid fa-trash" title="Is not deleted"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.IsVerified)
+                    {
+                        <i class="text-indigo-400 text-md fa-solid fa-shield-check" title="Is verified"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-solid fa-shield" title="Is not verified"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.IsApproved)
+                    {
+                        <i class="text-green-400 text-md fa-solid fa-solid fa-circle-check" title="Is approved"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-solid fa-circle" title="Is not approved"></i>
+                    }
+                </td>
+                <td class="py-4 px-4">
+                    <a asp-controller="Lyrics" asp-action="Details" asp-route-id="@item.Id">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

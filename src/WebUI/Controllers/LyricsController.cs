@@ -3,8 +3,10 @@ using bejebeje.admin.Application.Lyrics.Commands.CreateLyric;
 using bejebeje.admin.Application.Lyrics.Commands.DeleteLyric;
 using bejebeje.admin.Application.Lyrics.Commands.UpdateLyric;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
+using bejebeje.admin.Application.Lyrics.Queries.GetLyricsForArtist;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LyricDto = bejebeje.admin.Application.Lyrics.Queries.GetLyrics.LyricDto;
 
 namespace bejebeje.admin.WebUI.Controllers;
 
@@ -31,6 +33,14 @@ public class LyricsController : CustomControllerBase
     public async Task<ActionResult<PaginatedList<LyricDto>>> Deleted([FromQuery] GetDeletedLyricsWithPaginationQuery query)
     {
         PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
+        
+        return View(viewModel);
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<GetLyricsForArtistDto>> ByArtist([FromQuery] GetAllLyricsForArtistQuery query)
+    {
+        GetLyricsForArtistDto viewModel = await Mediator.Send(query);
         
         return View(viewModel);
     }
