@@ -26,8 +26,8 @@ jobs:
       # auto tag
       - name: bump version and push tag
         uses: mathieudutour/github-tag-action@v6.1
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       # set up qemu
       - name: set up qemu
