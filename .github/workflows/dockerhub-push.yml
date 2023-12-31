@@ -8,9 +8,6 @@ on:
   push:
     branches: [main]
 
-env:
-  IMAGE_NAME: bejebeje/admin
-
 # a workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # this workflow contains two jobs, one to auto-tag and another to push to docker hub
@@ -26,7 +23,7 @@ jobs:
     steps:
       # checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
       - name: checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # auto tag
       - name: bump version and push tag
@@ -45,7 +42,7 @@ jobs:
     steps:
       # checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
       - name: checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # set up qemu
       - name: set up qemu
@@ -67,7 +64,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.IMAGE_NAME }}
+          images: bejebeje/admin
           flavor: |
             latest=true
           tags: |
