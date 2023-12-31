@@ -30,6 +30,7 @@ jobs:
 
       # auto tag
       - name: bump version and push tag
+        id: tagger
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -68,6 +69,7 @@ jobs:
           flavor: |
             latest=true
           tags: |
+            type=raw,value=${{ steps.tagger.outputs.new_tag }}
             type=ref,event=tag
 
       # build the docker image then push it to docker hub
