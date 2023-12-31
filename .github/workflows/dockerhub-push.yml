@@ -5,7 +5,8 @@ name: dockerhub-push
 # triggers the workflow on push or pull request events but only for the main branch
 on:
   push:
-    branches: [main]
+    tags:
+      - 'v*'
 
 env:
   IMAGE_NAME: bejebeje/admin
@@ -17,21 +18,11 @@ jobs:
     # the type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # permissions
-    permissions:
-      contents: write
-
     # steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
       - name: checkout the repository
         uses: actions/checkout@v2
-
-      # auto tag
-      - name: bump version and push tag
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       # set up qemu
       - name: set up qemu
