@@ -1,0 +1,27 @@
+@model bejebeje.admin.Application.Lyrics.Queries.GetLyricDetail.GetLyricDetailDto
+
+@{
+    ViewData["Title"] = $"{Model.Title} lyrics by {Model.Artist.FirstName} {Model.Artist.LastName}";
+}
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <div class="bg-slate-900 rounded-md p-10 flex items-center mb-8">
+        <picture>
+            <source type="image/webp" srcset=@($"{Model.Artist.ImageUrl}.webp")>
+            <source type="image/jpeg" srcset=@($"{Model.Artist.ImageUrl}.jpg")>
+    
+            <img src=@($"{Model.Artist.ImageUrl}.jpg")
+                 class="border-1 mr-4 border-slate-800 rounded-full w-40 h-40"
+                 loading="lazy"
+                 alt="@Model.Artist.ImageAlternateText"/>
+        </picture>
+    
+        <div>
+            <h2 class="text-2xl">
+                @Model.Artist.FirstName @Model.Artist.LastName
+            </h2>
+        </div>
+    </div>
+    
+    <p class="whitespace-pre-wrap">@Model.Body</p>
+</div>

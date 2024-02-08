@@ -2,6 +2,7 @@
 using bejebeje.admin.Application.Lyrics.Commands.CreateLyric;
 using bejebeje.admin.Application.Lyrics.Commands.DeleteLyric;
 using bejebeje.admin.Application.Lyrics.Commands.UpdateLyric;
+using bejebeje.admin.Application.Lyrics.Queries.GetLyricDetail;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyricsForArtist;
 using Microsoft.AspNetCore.Authorization;
@@ -49,6 +50,14 @@ public class LyricsController : CustomControllerBase
     public async Task<ActionResult<int>> Create(CreateLyricCommand command)
     {
         return await Mediator.Send(command);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<GetLyricDetailDto>> Details([FromQuery] GetLyricDetailQuery query)
+    {
+        GetLyricDetailDto viewModel = await Mediator.Send(query);
+
+        return View(viewModel);
     }
 
     [HttpPut("{id}")]
