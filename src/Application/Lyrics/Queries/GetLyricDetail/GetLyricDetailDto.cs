@@ -14,7 +14,9 @@ public class GetLyricDetailDto : IMapFrom<Lyric>
     public string Title { get; set; }
 
     public string Body { get; set; }
-    
+
+    public bool IsDeleted { get; set; }
+
     public ArtistDto Artist { get; set; }
 }
 
@@ -29,7 +31,7 @@ public class ArtistDto : IMapFrom<Artist>
     public string ImageUrl { get; set; }
 
     public string ImageAlternateText { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Artist, ArtistDto>()

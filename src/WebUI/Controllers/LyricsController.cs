@@ -1,6 +1,7 @@
 ﻿using bejebeje.admin.Application.Common.Models;
 using bejebeje.admin.Application.Lyrics.Commands.CreateLyric;
 using bejebeje.admin.Application.Lyrics.Commands.DeleteLyric;
+using bejebeje.admin.Application.Lyrics.Commands.UndeleteLyric;
 using bejebeje.admin.Application.Lyrics.Commands.UpdateLyric;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyricDetail;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
@@ -18,31 +19,33 @@ public class LyricsController : CustomControllerBase
     public async Task<ActionResult<PaginatedList<LyricDto>>> All([FromQuery] GetAllLyricsWithPaginationQuery query)
     {
         PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
-        
+
         return View(viewModel);
     }
-    
+
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<LyricDto>>> Unapproved([FromQuery] GetUnapprovedLyricsWithPaginationQuery query)
+    public async Task<ActionResult<PaginatedList<LyricDto>>> Unapproved(
+        [FromQuery] GetUnapprovedLyricsWithPaginationQuery query)
     {
         PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
-        
+
         return View(viewModel);
     }
-    
+
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<LyricDto>>> Deleted([FromQuery] GetDeletedLyricsWithPaginationQuery query)
+    public async Task<ActionResult<PaginatedList<LyricDto>>> Deleted(
+        [FromQuery] GetDeletedLyricsWithPaginationQuery query)
     {
         PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
-        
+
         return View(viewModel);
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<GetLyricsForArtistDto>> ByArtist([FromQuery] GetAllLyricsForArtistQuery query)
     {
         GetLyricsForArtistDto viewModel = await Mediator.Send(query);
-        
+
         return View(viewModel);
     }
 
@@ -73,11 +76,19 @@ public class LyricsController : CustomControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(int id)
+    [HttpPost]
+    public async Task<ActionResult> Delete(DeleteLyricCommand command)
     {
-        await Mediator.Send(new DeleteLyricCommand { Id = id });
+        await Mediator.Send(command);
 
-        return NoContent();
+        return RedirectToAction("Details", new { lyricId = command.LyricId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Undelete(UndeleteLyricCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { lyricId = command.LyricId });
     }
 }

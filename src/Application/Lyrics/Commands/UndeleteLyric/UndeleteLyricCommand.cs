@@ -4,19 +4,19 @@ using bejebeje.admin.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace bejebeje.admin.Application.Lyrics.Commands.DeleteLyric;
+namespace bejebeje.admin.Application.Lyrics.Commands.UndeleteLyric;
 
-public class DeleteLyricCommand : IRequest
+public class UndeleteLyricCommand : IRequest
 {
     public int LyricId { get; set; }
 }
 
-public class DeleteLyricCommandHandler : IRequestHandler<DeleteLyricCommand>
+public class UndeleteLyricCommandHandler : IRequestHandler<UndeleteLyricCommand>
 {
     private readonly IDateTime _dateTime;
     private readonly IApplicationDbContext _context;
 
-    public DeleteLyricCommandHandler(
+    public UndeleteLyricCommandHandler(
         IDateTime dateTime,
         IApplicationDbContext context)
     {
@@ -24,14 +24,14 @@ public class DeleteLyricCommandHandler : IRequestHandler<DeleteLyricCommand>
         _context = context;
     }
 
-    public async Task<Unit> Handle(DeleteLyricCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UndeleteLyricCommand command, CancellationToken cancellationToken)
     {
         Lyric entity = await _context
             .Lyrics
             .Where(l => l.Id == command.LyricId)
             .SingleAsync(cancellationToken);
 
-        entity.IsDeleted = true;
+        entity.IsDeleted = false;
         entity.ModifiedAt = _dateTime.Now;
 
         await _context.SaveChangesAsync(cancellationToken);
