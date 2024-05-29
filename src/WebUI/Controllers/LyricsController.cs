@@ -1,6 +1,8 @@
 ﻿using bejebeje.admin.Application.Common.Models;
+using bejebeje.admin.Application.Lyrics.Commands.ApproveLyric;
 using bejebeje.admin.Application.Lyrics.Commands.CreateLyric;
 using bejebeje.admin.Application.Lyrics.Commands.DeleteLyric;
+using bejebeje.admin.Application.Lyrics.Commands.UnapproveLyric;
 using bejebeje.admin.Application.Lyrics.Commands.UndeleteLyric;
 using bejebeje.admin.Application.Lyrics.Commands.UnverifyLyric;
 using bejebeje.admin.Application.Lyrics.Commands.UpdateLyric;
@@ -104,6 +106,22 @@ public class LyricsController : CustomControllerBase
 
     [HttpPost]
     public async Task<ActionResult> Unverify(UnverifyLyricCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { lyricId = command.LyricId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Approve(ApproveLyricCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { lyricId = command.LyricId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Unapprove(UnapproveLyricCommand command)
     {
         await Mediator.Send(command);
 
