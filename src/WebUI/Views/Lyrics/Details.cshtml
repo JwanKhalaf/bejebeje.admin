@@ -30,14 +30,29 @@
         {
             <form asp-controller="Lyrics" asp-action="Undelete" method="post">
                 <input name="LyricId" type="hidden" value="@Model.Id"/>
-                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Undelete Lyric</button>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Undelete lyric</button>
             </form>
         }
         else
         {
             <form asp-controller="Lyrics" asp-action="Delete" method="post">
                 <input name="LyricId" type="hidden" value="@Model.Id"/>
-                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Delete Lyric</button>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Delete lyric</button>
+            </form>
+        }
+
+        @if (Model.IsApproved)
+        {
+            <form asp-controller="Lyrics" asp-action="Unapprove" method="post">
+                <input name="LyricId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Unapprove lyric</button>
+            </form>
+        }
+        else
+        {
+            <form asp-controller="Lyrics" asp-action="Approve" method="post">
+                <input name="LyricId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Approve lyric</button>
             </form>
         }
 

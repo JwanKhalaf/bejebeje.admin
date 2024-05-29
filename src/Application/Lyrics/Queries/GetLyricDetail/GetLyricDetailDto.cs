@@ -19,6 +19,8 @@ public class GetLyricDetailDto : IMapFrom<Lyric>
 
     public bool IsVerified { get; set; }
 
+    public bool IsApproved { get; set; }
+
     public ArtistDto Artist { get; set; }
 }
 
