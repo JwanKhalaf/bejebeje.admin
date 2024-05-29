@@ -27,8 +27,21 @@
         </div>
     </div>
 
-    <div>
-        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer @(Model.IsApproved ? "pointer-events-none" : "")" asp-controller="Artists" asp-action="Details">Approve Artist</a>
+    <div class="flex gap-2">
+        @if (Model.IsApproved)
+        {
+            <form asp-controller="Artists" asp-action="Unapprove" method="post">
+                <input name="ArtistId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Unapprove Artist</button>
+            </form>
+        }
+        else
+        {
+            <form asp-controller="Artists" asp-action="Approve" method="post">
+                <input name="ArtistId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Approve Artist</button>
+            </form>
+        }
 
         <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Artists" asp-action="Details">Delete Artist</a>
 

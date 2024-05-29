@@ -14,7 +14,7 @@
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development",
         "ASPNETCORE_Kestrel__Certificates__Default__Password": "",
-        "ASPNETCORE_Kestrel__Certificates__Default__Path": "/home/j/.aspnet/https/dotnet-devcert.pfx"
+        "ASPNETCORE_Kestrel__Certificates__Default__Path": "/home/j/.aspnet/https/local-devcert.pfx"
       },
       "applicationUrl": "https://localhost:5021;http://localhost:5020"
     },
