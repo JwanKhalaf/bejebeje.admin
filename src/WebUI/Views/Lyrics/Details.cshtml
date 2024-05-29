@@ -5,7 +5,7 @@
 }
 
 <div class="bg-slate-800 rounded-md mb-5 p-8">
-    <div class="bg-slate-900 rounded-md p-10 flex items-center mb-8">
+    <a asp-controller="Lyrics" asp-action="ByArtist" asp-route-artistId="@Model.Artist.Id" class="bg-slate-900 rounded-md p-10 flex items-center mb-8">
         <picture>
             <source type="image/webp" srcset=@($"{Model.Artist.ImageUrl}.webp")>
             <source type="image/jpeg" srcset=@($"{Model.Artist.ImageUrl}.jpg")>
@@ -21,7 +21,7 @@
                 @Model.Artist.FirstName @Model.Artist.LastName
             </h2>
         </div>
-    </div>
+    </a>
 
     <p class="whitespace-pre-wrap mb-8">@Model.Body</p>
 
