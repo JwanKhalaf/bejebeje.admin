@@ -32,6 +32,8 @@ public class DeleteLyricCommandHandler : IRequestHandler<DeleteLyricCommand>
             .SingleAsync(cancellationToken);
 
         entity.IsDeleted = true;
+        entity.IsApproved = false;
+        entity.IsVerified = false;
         entity.ModifiedAt = _dateTime.Now;
 
         await _context.SaveChangesAsync(cancellationToken);

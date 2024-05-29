@@ -15,7 +15,7 @@ public class DeleteLyricTests : TestBase
     [Test]
     public async Task ShouldRequireValidTodoItemId()
     {
-        var command = new DeleteLyricCommand { Id = 99 };
+        var command = new DeleteLyricCommand { LyricId = 99 };
 
         await FluentActions.Invoking(() =>
             SendAsync(command)).Should().ThrowAsync<NotFoundException>();
@@ -24,21 +24,11 @@ public class DeleteLyricTests : TestBase
     [Test]
     public async Task ShouldDeleteTodoItem()
     {
-        var artistId = await SendAsync(new CreateArtistCommand
-        {
-            FirstName = "New List"
-        });
+        var artistId = await SendAsync(new CreateArtistCommand { FirstName = "New List" });
 
-        var itemId = await SendAsync(new CreateLyricCommand
-        {
-            ArtistId = artistId,
-            Title = "New Item"
-        });
+        var itemId = await SendAsync(new CreateLyricCommand { ArtistId = artistId, Title = "New Item" });
 
-        await SendAsync(new DeleteLyricCommand
-        {
-            Id = itemId
-        });
+        await SendAsync(new DeleteLyricCommand { LyricId = itemId });
 
         var item = await FindAsync<Lyric>(itemId);
 
