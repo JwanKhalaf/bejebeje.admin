@@ -71,14 +71,6 @@ public class ArtistsController : CustomControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(int id)
-    {
-        await Mediator.Send(new DeleteTodoListCommand { Id = id });
-
-        return NoContent();
-    }
-
     [HttpPost]
     public async Task<ActionResult> Approve(ApproveArtistCommand command)
     {
