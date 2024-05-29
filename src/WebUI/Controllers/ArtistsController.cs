@@ -1,4 +1,6 @@
-﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+﻿using bejebeje.admin.Application.Artists.Commands.ApproveArtist;
+using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Artists.Commands.UnapproveArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
@@ -19,23 +21,26 @@ public class ArtistsController : CustomControllerBase
     public async Task<ActionResult<ArtistsViewModel>> All([FromQuery] GetAllArtistsWithPaginationQuery query)
     {
         PaginatedList<ArtistDto> viewModel = await Mediator.Send(query);
-        
+
         return View(viewModel);
     }
-    
+
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Unapproved(string searchTerm, int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<ArtistsViewModel>> Unapproved(string searchTerm, int pageNumber = 1,
+        int pageSize = 10)
     {
-        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetUnapprovedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
-        
+        PaginatedList<ArtistDto> viewModel =
+            await Mediator.Send(new GetUnapprovedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+
         return View(viewModel);
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<ArtistsViewModel>> Deleted(string searchTerm, int pageNumber = 1, int pageSize = 10)
     {
-        PaginatedList<ArtistDto> viewModel = await Mediator.Send(new GetDeletedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
-        
+        PaginatedList<ArtistDto> viewModel =
+            await Mediator.Send(new GetDeletedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+
         return View(viewModel);
     }
 
@@ -72,5 +77,21 @@ public class ArtistsController : CustomControllerBase
         await Mediator.Send(new DeleteTodoListCommand { Id = id });
 
         return NoContent();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Approve(ApproveArtistCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { artistId = command.ArtistId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Unapprove(UnapproveArtistCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { artistId = command.ArtistId });
     }
 }
