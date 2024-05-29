@@ -17,6 +17,8 @@ public class GetLyricDetailDto : IMapFrom<Lyric>
 
     public bool IsDeleted { get; set; }
 
+    public bool IsVerified { get; set; }
+
     public ArtistDto Artist { get; set; }
 }
 

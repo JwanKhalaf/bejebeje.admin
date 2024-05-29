@@ -2,7 +2,9 @@
 using bejebeje.admin.Application.Lyrics.Commands.CreateLyric;
 using bejebeje.admin.Application.Lyrics.Commands.DeleteLyric;
 using bejebeje.admin.Application.Lyrics.Commands.UndeleteLyric;
+using bejebeje.admin.Application.Lyrics.Commands.UnverifyLyric;
 using bejebeje.admin.Application.Lyrics.Commands.UpdateLyric;
+using bejebeje.admin.Application.Lyrics.Commands.VerifyLyric;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyricDetail;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyricsForArtist;
@@ -86,6 +88,22 @@ public class LyricsController : CustomControllerBase
 
     [HttpPost]
     public async Task<ActionResult> Undelete(UndeleteLyricCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { lyricId = command.LyricId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Verify(VerifyLyricCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { lyricId = command.LyricId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Unverify(UnverifyLyricCommand command)
     {
         await Mediator.Send(command);
 
