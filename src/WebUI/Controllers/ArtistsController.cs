@@ -17,7 +17,8 @@ namespace bejebeje.admin.WebUI.Controllers;
 public class ArtistsController : CustomControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> All([FromQuery] GetAllArtistsWithPaginationQuery query)
+    public async Task<ActionResult<ArtistsViewModel>> All(
+        [FromQuery] GetAllArtistsWithPaginationQuery query)
     {
         PaginatedList<ArtistDto> viewModel = await Mediator.Send(query);
 
@@ -25,17 +26,23 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Unapproved(string searchTerm, int pageNumber = 1,
+    public async Task<ActionResult<ArtistsViewModel>> Unapproved(
+        string searchTerm,
+        int pageNumber = 1,
         int pageSize = 10)
     {
         PaginatedList<ArtistDto> viewModel =
-            await Mediator.Send(new GetUnapprovedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+            await Mediator
+                .Send(new GetUnapprovedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
 
         return View(viewModel);
     }
 
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Deleted(string searchTerm, int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<ArtistsViewModel>> Deleted(
+        string searchTerm,
+        int pageNumber = 1,
+        int pageSize = 10)
     {
         PaginatedList<ArtistDto> viewModel =
             await Mediator.Send(new GetDeletedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
@@ -44,9 +51,11 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ArtistViewModel>> Details(int artistId)
+    public async Task<ActionResult<ArtistViewModel>> Details(
+        int artistId)
     {
-        Application.Artists.Queries.GetArtist.ArtistDto viewModel = await Mediator.Send(new GetArtistQuery(artistId));
+        Application.Artists.Queries.GetArtist.ArtistDto viewModel = await Mediator
+            .Send(new GetArtistQuery(artistId));
 
         return View(viewModel);
     }
@@ -58,7 +67,9 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update(int id, UpdateArtistCommand command)
+    public async Task<ActionResult> Update(
+        int id,
+        UpdateArtistCommand command)
     {
         if (id != command.Id)
         {
@@ -71,7 +82,8 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Approve(ApproveArtistCommand command)
+    public async Task<ActionResult> Approve(
+        ApproveArtistCommand command)
     {
         await Mediator.Send(command);
 
@@ -79,7 +91,8 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Unapprove(UnapproveArtistCommand command)
+    public async Task<ActionResult> Unapprove(
+        UnapproveArtistCommand command)
     {
         await Mediator.Send(command);
 
