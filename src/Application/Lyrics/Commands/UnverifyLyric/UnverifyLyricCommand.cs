@@ -1,5 +1,4 @@
-﻿using bejebeje.admin.Application.Common.Exceptions;
-using bejebeje.admin.Application.Common.Interfaces;
+﻿using bejebeje.admin.Application.Common.Interfaces;
 using bejebeje.admin.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -67,17 +67,20 @@ public class LyricsController : CustomControllerBase
         return View(viewModel);
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult> Update(int id, UpdateLyricCommand command)
+    [HttpGet]
+    public async Task<ActionResult> Update(UpdateLyricQuery query)
     {
-        if (id != command.Id)
-        {
-            return BadRequest();
-        }
+        var viewModel = await Mediator.Send(query);
 
+        return View("Update", viewModel);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Update(UpdateLyricCommand command)
+    {
         await Mediator.Send(command);
 
-        return NoContent();
+        return RedirectToAction("Details", new { lyricId = command.LyricId });
     }
 
     [HttpPost]
