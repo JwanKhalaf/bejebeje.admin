@@ -5,7 +5,6 @@ using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Application.Common.Models;
-using bejebeje.admin.Application.TodoLists.Commands.DeleteTodoList;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtist;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtists;
 using Microsoft.AspNetCore.Authorization;

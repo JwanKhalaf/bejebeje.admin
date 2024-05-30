@@ -1,0 +1,21 @@
+@model bejebeje.admin.Application.Lyrics.Commands.UpdateLyric.UpdateLyricViewModel
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <form asp-controller="Lyrics" asp-action="Update" method="post">
+        <input asp-for="LyricId" type="hidden"/>
+        <div class="mb-3">
+            <label asp-for="Title" class="block text-sm mb-1.5"></label>
+            <input asp-for="Title" class="bg-slate-900 px-3 py-2 mb-6 w-1/2 rounded-md"/>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Body" class="block text-sm mb-1.5"></label>
+            <textarea asp-for="Body" class="bg-slate-900 px-3 py-2 mb-6 w-1/2 rounded-md" rows="20"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <a asp-controller="Lyrics" asp-action="Details" asp-route-lyricId="@Model.LyricId" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Cancel</a>
+            <input type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" value="Update lyric"/>
+        </div>
+    </form>
+</div>

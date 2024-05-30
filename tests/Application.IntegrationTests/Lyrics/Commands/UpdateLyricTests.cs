@@ -15,7 +15,7 @@ public class UpdateLyricTests : TestBase
     [Test]
     public async Task ShouldRequireValidTodoItemId()
     {
-        var command = new UpdateLyricCommand { Id = 99, Title = "New Title" };
+        var command = new UpdateLyricCommand { LyricId = 99, Title = "New Title" };
         await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<NotFoundException>();
     }
 
@@ -35,7 +35,7 @@ public class UpdateLyricTests : TestBase
 
         var command = new UpdateLyricCommand
         {
-            Id = itemId,
+            LyricId = itemId,
             Title = "Updated Item Title"
         };
 
