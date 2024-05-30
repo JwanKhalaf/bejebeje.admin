@@ -13,6 +13,8 @@ public class LyricDto : IMapFrom<Lyric>
 
     public string Title { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public bool IsApproved { get; set; }
     
     public bool IsVerified { get; set; }
