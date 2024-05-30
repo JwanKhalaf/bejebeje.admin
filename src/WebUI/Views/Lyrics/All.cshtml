@@ -31,6 +31,7 @@
             <th class="text-sm text-left py-2 px-4">Title</th>
             <th class="text-sm text-left py-2 px-4">Created at</th>
             <th class="text-sm text-left py-2 px-4">Modified at</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Deleted</th>
             <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Verified</th>
             <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Approved</th>
         </tr>
@@ -65,6 +66,16 @@
                     }
                 </td>
                 <td class="text-center">
+                    @if (item.IsDeleted)
+                    {
+                        <i class="text-red-400 text-md fa-solid fa-trash-check" title="Is deleted"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-solid fa-trash" title="Is not deleted"></i>
+                    }
+                </td>
+                <td class="text-center">
                     @if (item.IsVerified)
                     {
                         <i class="fas text-indigo-400 text-md fa-shield-check"></i>
@@ -74,7 +85,16 @@
                         <i class="fas text-slate-600 text-md fa-shield-check"></i>
                     }
                 </td>
-                <td class="py-4 px-4">@await Html.PartialAsync("_ApprovalStatusPartial", item.IsApproved)</td>
+                <td class="text-center">
+                    @if (item.IsApproved)
+                    {
+                        <i class="text-green-400 text-md fa-solid fa-solid fa-circle-check" title="Is approved"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-solid fa-circle" title="Is not approved"></i>
+                    }
+                </td>
             </tr>
         }
         </tbody>
@@ -87,7 +107,7 @@
     </div>
 
     <div>
-        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 @(Model.HasPreviousPage ? "" : "pointer-events-none")" asp-controller="Lyrics" asp-action="All" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
-        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3 @(Model.HasNextPage ? "" : "pointer-events-none")" asp-controller="Lyrics" asp-action="All" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 @(Model.HasPreviousPage ? "" : "pointer-events-none text-slate-500")" asp-controller="Lyrics" asp-action="All" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3 @(Model.HasNextPage ? "" : "pointer-events-none text-slate-500")" asp-controller="Lyrics" asp-action="All" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
     </div>
 </div>
