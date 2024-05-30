@@ -20,7 +20,8 @@ namespace bejebeje.admin.WebUI.Controllers;
 public class LyricsController : CustomControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<LyricDto>>> All([FromQuery] GetAllLyricsWithPaginationQuery query)
+    public async Task<ActionResult<PaginatedList<LyricDto>>> All(
+        [FromQuery] GetAllLyricsWithPaginationQuery query)
     {
         PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
 
@@ -46,7 +47,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<GetLyricsForArtistDto>> ByArtist([FromQuery] GetAllLyricsForArtistQuery query)
+    public async Task<ActionResult<GetLyricsForArtistDto>> ByArtist(
+        [FromQuery] GetAllLyricsForArtistQuery query)
     {
         GetLyricsForArtistDto viewModel = await Mediator.Send(query);
 
@@ -54,13 +56,15 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<int>> Create(CreateLyricCommand command)
+    public async Task<ActionResult<int>> Create(
+        CreateLyricCommand command)
     {
         return await Mediator.Send(command);
     }
 
     [HttpGet]
-    public async Task<ActionResult<GetLyricDetailDto>> Details([FromQuery] GetLyricDetailQuery query)
+    public async Task<ActionResult<GetLyricDetailDto>> Details(
+        [FromQuery] GetLyricDetailQuery query)
     {
         GetLyricDetailDto viewModel = await Mediator.Send(query);
 
@@ -68,7 +72,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> Update(UpdateLyricQuery query)
+    public async Task<ActionResult> Update(
+        UpdateLyricQuery query)
     {
         var viewModel = await Mediator.Send(query);
 
@@ -76,7 +81,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Update(UpdateLyricCommand command)
+    public async Task<ActionResult> Update(
+        UpdateLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -84,7 +90,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Delete(DeleteLyricCommand command)
+    public async Task<ActionResult> Delete(
+        DeleteLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -92,7 +99,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Undelete(UndeleteLyricCommand command)
+    public async Task<ActionResult> Undelete(
+        UndeleteLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -100,7 +108,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Verify(VerifyLyricCommand command)
+    public async Task<ActionResult> Verify(
+        VerifyLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -108,7 +117,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Unverify(UnverifyLyricCommand command)
+    public async Task<ActionResult> Unverify(
+        UnverifyLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -116,7 +126,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Approve(ApproveLyricCommand command)
+    public async Task<ActionResult> Approve(
+        ApproveLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -124,7 +135,8 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Unapprove(UnapproveLyricCommand command)
+    public async Task<ActionResult> Unapprove(
+        UnapproveLyricCommand command)
     {
         await Mediator.Send(command);
 
