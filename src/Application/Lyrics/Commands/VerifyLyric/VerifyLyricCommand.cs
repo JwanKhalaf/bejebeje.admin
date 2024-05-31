@@ -12,14 +12,11 @@ public class VerifyLyricCommand : IRequest
 
 public class VerifyLyricCommandHandler : IRequestHandler<VerifyLyricCommand>
 {
-    private readonly IDateTime _dateTime;
     private readonly IApplicationDbContext _context;
 
     public VerifyLyricCommandHandler(
-        IDateTime dateTime,
         IApplicationDbContext context)
     {
-        _dateTime = dateTime;
         _context = context;
     }
 
@@ -31,7 +28,6 @@ public class VerifyLyricCommandHandler : IRequestHandler<VerifyLyricCommand>
             .SingleAsync(cancellationToken);
 
         entity.IsVerified = true;
-        entity.ModifiedAt = _dateTime.Now;
 
         await _context.SaveChangesAsync(cancellationToken);
 

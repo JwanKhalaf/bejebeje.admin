@@ -12,14 +12,11 @@ public class DeleteLyricCommand : IRequest
 
 public class DeleteLyricCommandHandler : IRequestHandler<DeleteLyricCommand>
 {
-    private readonly IDateTime _dateTime;
     private readonly IApplicationDbContext _context;
 
     public DeleteLyricCommandHandler(
-        IDateTime dateTime,
         IApplicationDbContext context)
     {
-        _dateTime = dateTime;
         _context = context;
     }
 
@@ -33,7 +30,6 @@ public class DeleteLyricCommandHandler : IRequestHandler<DeleteLyricCommand>
         entity.IsDeleted = true;
         entity.IsApproved = false;
         entity.IsVerified = false;
-        entity.ModifiedAt = _dateTime.Now;
 
         await _context.SaveChangesAsync(cancellationToken);
 

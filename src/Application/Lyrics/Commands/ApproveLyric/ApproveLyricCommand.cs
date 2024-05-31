@@ -12,14 +12,11 @@ public class ApproveLyricCommand : IRequest
 
 public class ApproveLyricCommandHandler : IRequestHandler<ApproveLyricCommand>
 {
-    private readonly IDateTime _dateTime;
     private readonly IApplicationDbContext _context;
 
     public ApproveLyricCommandHandler(
-        IDateTime dateTime,
         IApplicationDbContext context)
     {
-        _dateTime = dateTime;
         _context = context;
     }
 
@@ -31,7 +28,6 @@ public class ApproveLyricCommandHandler : IRequestHandler<ApproveLyricCommand>
             .SingleAsync(cancellationToken);
 
         entity.IsApproved = true;
-        entity.ModifiedAt = _dateTime.Now;
 
         await _context.SaveChangesAsync(cancellationToken);
 

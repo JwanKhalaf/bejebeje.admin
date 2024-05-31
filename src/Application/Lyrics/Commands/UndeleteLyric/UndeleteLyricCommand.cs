@@ -12,14 +12,11 @@ public class UndeleteLyricCommand : IRequest
 
 public class UndeleteLyricCommandHandler : IRequestHandler<UndeleteLyricCommand>
 {
-    private readonly IDateTime _dateTime;
     private readonly IApplicationDbContext _context;
 
     public UndeleteLyricCommandHandler(
-        IDateTime dateTime,
         IApplicationDbContext context)
     {
-        _dateTime = dateTime;
         _context = context;
     }
 
@@ -31,7 +28,6 @@ public class UndeleteLyricCommandHandler : IRequestHandler<UndeleteLyricCommand>
             .SingleAsync(cancellationToken);
 
         entity.IsDeleted = false;
-        entity.ModifiedAt = _dateTime.Now;
 
         await _context.SaveChangesAsync(cancellationToken);
 

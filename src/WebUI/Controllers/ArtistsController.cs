@@ -1,6 +1,8 @@
 ﻿using bejebeje.admin.Application.Artists.Commands.ApproveArtist;
 using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Artists.Commands.DeleteArtist;
 using bejebeje.admin.Application.Artists.Commands.UnapproveArtist;
+using bejebeje.admin.Application.Artists.Commands.UndeleteArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
@@ -79,6 +81,24 @@ public class ArtistsController : CustomControllerBase
         await Mediator.Send(command);
 
         return NoContent();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Delete(
+        DeleteArtistCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { artistId = command.ArtistId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Undelete(
+        UndeleteArtistCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { artistId = command.ArtistId });
     }
 
     [HttpPost]
