@@ -55,11 +55,22 @@ public class LyricsController : CustomControllerBase
         return View(viewModel);
     }
 
+    [HttpGet]
+    public async Task<ActionResult> Create(
+        CreateLyricQuery query)
+    {
+        var viewModel = await Mediator.Send(query);
+
+        return View("Create", viewModel);
+    }
+
     [HttpPost]
     public async Task<ActionResult<int>> Create(
         CreateLyricCommand command)
     {
-        return await Mediator.Send(command);
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", "Artists", new { artistId = command.ArtistId });
     }
 
     [HttpGet]

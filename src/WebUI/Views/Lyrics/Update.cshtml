@@ -1,5 +1,9 @@
 @model bejebeje.admin.Application.Lyrics.Commands.UpdateLyric.UpdateLyricViewModel
 
+@{
+    ViewData["Title"] = $"Update {Model.Title} lyric";
+}
+
 <div class="bg-slate-800 rounded-md mb-5 p-8">
     <form asp-controller="Lyrics" asp-action="Update" method="post">
         <input asp-for="LyricId" type="hidden"/>
