@@ -16,14 +16,11 @@ public class UpdateLyricCommand : IRequest
 
 public class UpdateLyricCommandHandler : IRequestHandler<UpdateLyricCommand>
 {
-    private readonly IDateTime _dateTime;
     private readonly IApplicationDbContext _context;
 
     public UpdateLyricCommandHandler(
-        IDateTime dateTime,
         IApplicationDbContext context)
     {
-        _dateTime = dateTime;
         _context = context;
     }
 
@@ -36,7 +33,6 @@ public class UpdateLyricCommandHandler : IRequestHandler<UpdateLyricCommand>
 
         entity.Title = command.Title;
         entity.Body = command.Body;
-        entity.ModifiedAt = _dateTime.Now;
 
         await _context.SaveChangesAsync(cancellationToken);
 

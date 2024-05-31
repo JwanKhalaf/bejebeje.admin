@@ -16,13 +16,10 @@ public class CreateArtistCommand : IRequest<int>
 
 public class CreateArtistCommandHandler : IRequestHandler<CreateArtistCommand, int>
 {
-    private readonly IDateTime _dateTime;
-
     private readonly IApplicationDbContext _context;
 
-    public CreateArtistCommandHandler(IDateTime datetime, IApplicationDbContext context)
+    public CreateArtistCommandHandler(IApplicationDbContext context)
     {
-        _dateTime = datetime;
         _context = context;
     }
 
@@ -35,8 +32,7 @@ public class CreateArtistCommandHandler : IRequestHandler<CreateArtistCommand, i
             FullName = string.IsNullOrEmpty(request.FirstName)
                 ? request.FirstName
                 : $"{request.FirstName} {request.LastName}",
-            Sex = char.Parse(request.Sex),
-            CreatedAt = _dateTime.Now
+            Sex = char.Parse(request.Sex)
         };
 
         _context.Artists.Add(entity);

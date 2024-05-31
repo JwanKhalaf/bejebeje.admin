@@ -43,7 +43,20 @@
             </form>
         }
 
-        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Artists" asp-action="Details">Delete Artist</a>
+        @if (Model.IsDeleted)
+        {
+            <form asp-controller="Artists" asp-action="Undelete" method="post">
+                <input name="ArtistId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Undelete Artist</button>
+            </form>
+        }
+        else
+        {
+            <form asp-controller="Artists" asp-action="Delete" method="post">
+                <input name="ArtistId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Delete Artist</button>
+            </form>
+        }
 
         <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Lyrics" asp-action="Create" asp-route-artistId="@Model.Id">Add new lyric</a>
 

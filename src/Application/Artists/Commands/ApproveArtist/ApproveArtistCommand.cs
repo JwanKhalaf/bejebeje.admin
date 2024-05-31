@@ -12,13 +12,10 @@ public class ApproveArtistCommand : IRequest
 
 public class ApproveArtistCommandHandler : IRequestHandler<ApproveArtistCommand>
 {
-    private readonly IDateTime _dateTime;
-
     private readonly IApplicationDbContext _context;
 
-    public ApproveArtistCommandHandler(IDateTime datetime, IApplicationDbContext context)
+    public ApproveArtistCommandHandler(IApplicationDbContext context)
     {
-        _dateTime = datetime;
         _context = context;
     }
 
@@ -29,7 +26,6 @@ public class ApproveArtistCommandHandler : IRequestHandler<ApproveArtistCommand>
             .Where(a => a.Id == request.ArtistId)
             .SingleAsync();
 
-        artist.ModifiedAt = _dateTime.Now;
         artist.IsApproved = true;
 
         await _context.SaveChangesAsync(cancellationToken);
