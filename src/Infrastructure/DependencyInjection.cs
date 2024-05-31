@@ -48,6 +48,7 @@ public static class DependencyInjection
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.ClaimActions.MapUniqueJsonKey("role", "role");
+                options.ClaimActions.MapUniqueJsonKey("sub", "sub");
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = "cognito:user", RoleClaimType = "cognito:groups"
