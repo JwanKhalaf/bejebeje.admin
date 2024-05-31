@@ -22,18 +22,21 @@ public class GetDeletedLyricsWithPaginationQuery : IRequest<PaginatedList<LyricD
 
 public class
     GetDeletedLyricsWithPaginationQueryHandler : IRequestHandler<GetDeletedLyricsWithPaginationQuery,
-        PaginatedList<LyricDto>>
+    PaginatedList<LyricDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetDeletedLyricsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetDeletedLyricsWithPaginationQueryHandler(
+        IApplicationDbContext context,
+        IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<LyricDto>> Handle(GetDeletedLyricsWithPaginationQuery request,
+    public async Task<PaginatedList<LyricDto>> Handle(
+        GetDeletedLyricsWithPaginationQuery request,
         CancellationToken cancellationToken)
     {
         PaginatedList<LyricDto> result;

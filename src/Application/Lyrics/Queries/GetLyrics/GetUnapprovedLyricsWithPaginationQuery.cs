@@ -22,18 +22,21 @@ public class GetUnapprovedLyricsWithPaginationQuery : IRequest<PaginatedList<Lyr
 
 public class
     GetUnapprovedLyricsWithPaginationQueryHandler : IRequestHandler<GetUnapprovedLyricsWithPaginationQuery,
-        PaginatedList<LyricDto>>
+    PaginatedList<LyricDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetUnapprovedLyricsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetUnapprovedLyricsWithPaginationQueryHandler(
+        IApplicationDbContext context,
+        IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<LyricDto>> Handle(GetUnapprovedLyricsWithPaginationQuery request,
+    public async Task<PaginatedList<LyricDto>> Handle(
+        GetUnapprovedLyricsWithPaginationQuery request,
         CancellationToken cancellationToken)
     {
         PaginatedList<LyricDto> result;
