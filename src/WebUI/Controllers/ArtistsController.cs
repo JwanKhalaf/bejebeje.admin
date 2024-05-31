@@ -41,6 +41,19 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpGet]
+    public async Task<ActionResult<ArtistsViewModel>> Duplicates(
+        string searchTerm,
+        int pageNumber = 1,
+        int pageSize = 10)
+    {
+        PaginatedList<ArtistDto> viewModel =
+            await Mediator
+                .Send(new GetDuplicateArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
+
+        return View(viewModel);
+    }
+
+    [HttpGet]
     public async Task<ActionResult<ArtistsViewModel>> Deleted(
         string searchTerm,
         int pageNumber = 1,
