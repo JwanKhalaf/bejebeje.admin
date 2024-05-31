@@ -14,24 +14,29 @@ namespace bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 public class GetAllLyricsWithPaginationQuery : IRequest<PaginatedList<LyricDto>>
 {
     public int PageNumber { get; set; } = 1;
-    
+
     public int PageSize { get; set; } = 10;
-    
+
     public string SearchTerm { get; set; } = string.Empty;
 }
 
-public class GetAllLyricsWithPaginationQueryHandler : IRequestHandler<GetAllLyricsWithPaginationQuery, PaginatedList<LyricDto>>
+public class
+    GetAllLyricsWithPaginationQueryHandler : IRequestHandler<GetAllLyricsWithPaginationQuery, PaginatedList<LyricDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetAllLyricsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetAllLyricsWithPaginationQueryHandler(
+        IApplicationDbContext context,
+        IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<LyricDto>> Handle(GetAllLyricsWithPaginationQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<LyricDto>> Handle(
+        GetAllLyricsWithPaginationQuery request,
+        CancellationToken cancellationToken)
     {
         PaginatedList<LyricDto> result;
 
@@ -51,11 +56,11 @@ public class GetAllLyricsWithPaginationQueryHandler : IRequestHandler<GetAllLyri
         {
             string search = request.SearchTerm.ToLowerInvariant();
             string pattern = $"%{search}%";
-            
+
             result = await lyrics
                 .AsNoTracking()
                 .Include(l => l.Artist)
-                .Where(l => 
+                .Where(l =>
                     EF.Functions.Like(l.Title, pattern) ||
                     l.Slugs.Any(y => EF.Functions.Like(y.Name, pattern)))
                 .OrderBy(l => l.Title)

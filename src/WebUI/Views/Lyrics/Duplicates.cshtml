@@ -1,0 +1,113 @@
+@using bejebeje.admin.Application.Common.Models
+@model bejebeje.admin.Application.Common.Models.PaginatedList<bejebeje.admin.Application.Lyrics.Queries.GetLyrics.LyricDto>
+
+@{
+    ViewData["Title"] = "List of duplicated lyrics";
+}
+
+<div class="mb-8">
+    <h1 class="text-5xl">Lyrics</h1>
+</div>
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <ul class="flex items-center mb-6 border-slate-400 border-b-2">
+        @await Html.PartialAsync("_ActiveTab", new ActiveTab("lyrics", "all", "All Lyrics"))
+
+        @await Html.PartialAsync("_ActiveTab", new ActiveTab("lyrics", "unapproved", "Unapproved"))
+
+        @await Html.PartialAsync("_ActiveTab", new ActiveTab("lyrics", "duplicates", "Duplicates"))
+
+        @await Html.PartialAsync("_ActiveTab", new ActiveTab("lyrics", "deleted", "Deleted"))
+    </ul>
+
+    <form action="">
+        <input class="bg-slate-900 px-4 py-2 mb-6 w-1/2 rounded-md" type="text" name="searchTerm" placeholder="Lyric title or alias">
+    </form>
+
+    <table class="w-full">
+        <thead class="bg-slate-900 rounded-md">
+        <tr class="">
+            <th class="text-sm text-left rounded-tl-md rounded-bl-md py-2 px-4">Lyric Id</th>
+            <th class="text-sm text-left py-2 px-4">Title</th>
+            <th class="text-sm text-left py-2 px-4">Created at</th>
+            <th class="text-sm text-left py-2 px-4">Modified at</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Deleted</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Verified</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Approved</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr class="border-b border-slate-600 last:border-0">
+                <td class="py-4 px-4">@item.Id</td>
+                <td class="py-4 px-4 flex items-center">
+                    <picture>
+                        <source type="image/webp" srcset=@($"{item.ArtistImageUrl}.webp")>
+                        <source type="image/jpeg" srcset=@($"{item.ArtistImageUrl}.jpg")>
+
+                        <img src=@($"{item.ArtistImageUrl}.jpg")
+                             class="border-1 mr-4 border-slate-800 rounded-full w-8 h-8"
+                             loading="lazy"
+                             alt="@item.ArtistImageAlternateText"/>
+                    </picture>
+
+                    <div>
+                        <h6 class="text-xs text-slate-400">@item.ArtistName</h6>
+                        <h5>@item.Title</h5>
+                    </div>
+                </td>
+                <td class="py-4 px-4">@item.CreatedAt</td>
+                <td class="py-4 px-4">
+                    @if (item.ModifiedAt != null)
+                    {
+                        @item.ModifiedAt
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.IsDeleted)
+                    {
+                        <i class="text-red-400 text-md fa-solid fa-trash-check" title="Is deleted"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-solid fa-trash" title="Is not deleted"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.IsVerified)
+                    {
+                        <i class="fas text-indigo-400 text-md fa-shield-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fas text-slate-600 text-md fa-shield-check"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.IsApproved)
+                    {
+                        <i class="text-green-400 text-md fa-solid fa-solid fa-circle-check" title="Is approved"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-solid fa-circle" title="Is not approved"></i>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div class="flex justify-between">
+    <div class="">
+        <p>Page @Model.PageNumber of @Model.TotalPages (@Model.TotalCount total records)</p>
+    </div>
+
+    <div>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 @(Model.HasPreviousPage ? "" : "pointer-events-none text-slate-500")" asp-controller="Lyrics" asp-action="Duplicates" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3 @(Model.HasNextPage ? "" : "pointer-events-none text-slate-500")" asp-controller="Lyrics" asp-action="Duplicates" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
+    </div>
+</div>

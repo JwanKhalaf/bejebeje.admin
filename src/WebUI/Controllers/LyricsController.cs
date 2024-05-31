@@ -38,6 +38,15 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpGet]
+    public async Task<ActionResult<PaginatedList<LyricDto>>> Duplicates(
+        [FromQuery] GetDuplicateLyricsWithPaginationQuery query)
+    {
+        PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
+
+        return View(viewModel);
+    }
+
+    [HttpGet]
     public async Task<ActionResult<PaginatedList<LyricDto>>> Deleted(
         [FromQuery] GetDeletedLyricsWithPaginationQuery query)
     {
