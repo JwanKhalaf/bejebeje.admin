@@ -3,6 +3,7 @@ using bejebeje.admin.Application.Common.Interfaces;
 using bejebeje.admin.Domain.Common;
 using bejebeje.admin.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace bejebeje.admin.Infrastructure.Persistence;
 
@@ -46,6 +47,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         var result = await base.SaveChangesAsync(cancellationToken);
 
         return result;
+    }
+
+    public EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class
+    {
+        return base.Entry(entity);
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

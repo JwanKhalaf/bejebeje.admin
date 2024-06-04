@@ -6,6 +6,7 @@ using bejebeje.admin.Application.Artists.Commands.UndeleteArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
+using bejebeje.admin.Application.ArtistSlugs.Commands;
 using bejebeje.admin.Application.ArtistSlugs.Queries.GetArtistSlugs;
 using bejebeje.admin.Application.Common.Models;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtist;
@@ -99,6 +100,22 @@ public class ArtistsController : CustomControllerBase
         int artistId = await Mediator.Send(command);
 
         return RedirectToAction("Details", new { artistId = artistId });
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<int>> CreateSlug(CreateArtistSlugQuery query)
+    {
+        var viewModel = await Mediator.Send(query);
+
+        return View("CreateSlug", viewModel);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<int>> CreateSlug(CreateArtistSlugCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { artistId = command.ArtistId });
     }
 
     [HttpPut("{id}")]

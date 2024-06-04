@@ -22,7 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ArtistSlugs\Commands\" />
       <Folder Include="Dashboard\Commands" />
     </ItemGroup>
 
