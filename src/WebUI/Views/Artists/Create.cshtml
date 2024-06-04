@@ -1,0 +1,30 @@
+@model bejebeje.admin.Application.Artists.Commands.CreateArtist.CreateArtistQueryViewModel
+
+@{
+    ViewData["Title"] = "Add a new artist";
+}
+
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <form asp-controller="Artists" asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="FirstName" class="block text-sm mb-1.5"></label>
+            <input asp-for="FirstName" class="bg-slate-900 px-3 py-2 mb-6 w-1/2 rounded-md"/>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="LastName" class="block text-sm mb-1.5"></label>
+            <input asp-for="LastName" class="bg-slate-900 px-3 py-2 mb-6 w-1/2 rounded-md"/>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Sex" class="block text-sm mb-1.5"></label>
+            <input asp-for="Sex" class="bg-slate-900 px-3 py-2 mb-6 w-1/2 rounded-md"/>
+        </div>
+
+        <div class="mb-3">
+            <a asp-controller="Artists" asp-action="All" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Cancel</a>
+            <input type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" value="Add new artist"/>
+        </div>
+    </form>
+</div>

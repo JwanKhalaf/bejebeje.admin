@@ -75,10 +75,20 @@ public class ArtistsController : CustomControllerBase
         return View(viewModel);
     }
 
+    [HttpGet]
+    public async Task<ActionResult<int>> Create(CreateArtistQuery query)
+    {
+        var viewModel = await Mediator.Send(query);
+
+        return View("Create", viewModel);
+    }
+
     [HttpPost]
     public async Task<ActionResult<int>> Create(CreateArtistCommand command)
     {
-        return await Mediator.Send(command);
+        int artistId = await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { artistId = artistId });
     }
 
     [HttpPut("{id}")]
