@@ -5,8 +5,12 @@
     ViewData["Title"] = "List of artists";
 }
 
-<div class="mb-8">
+<div class="flex justify-between mb-8">
     <h1 class="text-5xl">Artists</h1>
+    
+    <div>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3" asp-controller="Artists" asp-action="Create">Add artist</a>
+    </div>
 </div>
 
 <div class="bg-slate-800 rounded-md mb-5 p-8">

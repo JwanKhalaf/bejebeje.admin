@@ -63,19 +63,26 @@ public class CreateArtistCommandHandler : IRequestHandler<CreateArtistCommand, i
     }
 
     public async Task<int> Handle(
-        CreateArtistCommand request,
+        CreateArtistCommand command,
         CancellationToken cancellationToken)
     {
-        string fullName = string.IsNullOrEmpty(request.FirstName)
-            ? request.FirstName
-            : $"{request.FirstName} {request.LastName}";
+        string fullName = string.IsNullOrEmpty(command.FirstName)
+            ? command.FirstName
+            : $"{command.FirstName} {command.LastName}";
+
+        string sex = command.Sex.ToLower();
+
+        if (!(sex.Equals("f") || sex.Equals("m")))
+        {
+            sex = "n";
+        }
 
         Artist entity = new Artist
         {
-            FirstName = request.FirstName.Standardize(),
-            LastName = request.LastName.Standardize(),
-            FullName = fullName,
-            Sex = char.Parse(request.Sex),
+            FirstName = command.FirstName.Standardize(),
+            LastName = command.LastName.Standardize(),
+            FullName = fullName.ToLower(),
+            Sex = char.Parse(sex),
             UserId = _currentUserService.UserId,
             Slugs = new List<ArtistSlug>
             {
