@@ -7,6 +7,8 @@ public interface IApplicationDbContext
 {
     DbSet<Artist> Artists { get; }
 
+    DbSet<ArtistSlug> ArtistSlugs { get; }
+
     DbSet<Lyric> Lyrics { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

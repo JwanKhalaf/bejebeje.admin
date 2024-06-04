@@ -61,5 +61,7 @@
         <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Lyrics" asp-action="Create" asp-route-artistId="@Model.Id">Add new lyric</a>
 
         <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Lyrics" asp-action="ByArtist" asp-route-artistId="@Model.Id">View @Model.LyricsCount Lyrics</a>
+
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Artists" asp-action="Slugs" asp-route-artistId="@Model.Id">View @Model.SlugsCount slugs</a>
     </div>
 </div>

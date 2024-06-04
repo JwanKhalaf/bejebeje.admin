@@ -17,6 +17,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Artist> Artists => Set<Artist>();
 
+    public DbSet<ArtistSlug> ArtistSlugs => Set<ArtistSlug>();
+
     public DbSet<Lyric> Lyrics => Set<Lyric>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -36,10 +38,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         }
 
         var events = ChangeTracker.Entries<IHasDomainEvent>()
-                .Select(x => x.Entity.DomainEvents)
-                .SelectMany(x => x)
-                .Where(domainEvent => !domainEvent.IsPublished)
-                .ToArray();
+            .Select(x => x.Entity.DomainEvents)
+            .SelectMany(x => x)
+            .Where(domainEvent => !domainEvent.IsPublished)
+            .ToArray();
 
         var result = await base.SaveChangesAsync(cancellationToken);
 

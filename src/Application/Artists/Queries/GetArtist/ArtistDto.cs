@@ -18,15 +18,17 @@ public class ArtistDto : IMapFrom<Artist>
     public string ImageUrl { get; set; }
 
     public string ImageAlternateText { get; set; }
-    
+
     public int LyricsCount { get; set; }
+
+    public int SlugsCount { get; set; }
 
     public bool IsApproved { get; set; }
 
     public bool IsDeleted { get; set; }
 
     public DateTime CreatedAt { get; set; }
-    
+
     public DateTime? ModifiedAt { get; set; }
 
     public void Mapping(Profile profile)
@@ -38,8 +40,11 @@ public class ArtistDto : IMapFrom<Artist>
                 opt.Condition(x => !string.IsNullOrEmpty(x.LastName));
                 opt.MapFrom(x => x.LastName.ToTitleCase());
             })
-            .ForMember(x => x.ImageUrl, opt => opt.MapFrom(s => ImageUrlBuilder.BuildImageUrl(s.HasImage, s.Id, ImageSize.Standard)))
-            .ForMember(x => x.ImageAlternateText, opt => opt.MapFrom( s => ImageUrlBuilder.GetImageAlternateText(s.HasImage, s.FullName)))
-            .ForMember(x => x.LyricsCount, opt => opt.MapFrom(a => a.Lyrics.Count));
+            .ForMember(x => x.ImageUrl,
+                opt => opt.MapFrom(s => ImageUrlBuilder.BuildImageUrl(s.HasImage, s.Id, ImageSize.Standard)))
+            .ForMember(x => x.ImageAlternateText,
+                opt => opt.MapFrom(s => ImageUrlBuilder.GetImageAlternateText(s.HasImage, s.FullName)))
+            .ForMember(x => x.LyricsCount, opt => opt.MapFrom(a => a.Lyrics.Count))
+            .ForMember(x => x.SlugsCount, opt => opt.MapFrom(a => a.Slugs.Count));
     }
 }

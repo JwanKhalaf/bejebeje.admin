@@ -6,6 +6,7 @@ using bejebeje.admin.Application.Artists.Commands.UndeleteArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
+using bejebeje.admin.Application.ArtistSlugs.Queries.GetArtistSlugs;
 using bejebeje.admin.Application.Common.Models;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtist;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtists;
@@ -63,6 +64,15 @@ public class ArtistsController : CustomControllerBase
             await Mediator.Send(new GetDeletedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
 
         return View(viewModel);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<GetArtistSlugsQueryViewModel>> Slugs(
+        GetArtistSlugsQuery query)
+    {
+        var viewModel = await Mediator.Send(query);
+
+        return View("Slugs", viewModel);
     }
 
     [HttpGet]

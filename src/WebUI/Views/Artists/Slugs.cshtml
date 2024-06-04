@@ -1,0 +1,61 @@
+@model bejebeje.admin.Application.ArtistSlugs.Queries.GetArtistSlugs.GetArtistSlugsQueryViewModel
+
+@{
+    ViewData["Title"] = "Artist slugs";
+}
+
+<div class="flex justify-between mb-8">
+    <h1 class="text-5xl">Artist slugs</h1>
+
+    <div>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3" asp-controller="Artists" asp-action="Create">Add artist slug</a>
+    </div>
+</div>
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <table class="w-full">
+        <thead class="bg-slate-900 rounded-md">
+        <tr class="">
+            <th class="text-sm text-left rounded-tl-md rounded-bl-md py-2 px-4">Slug Id</th>
+            <th class="text-sm text-left py-2 px-4">Name</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Deleted</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Primary</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model.ArtistSlugs)
+        {
+            <tr class="border-b border-slate-600 last:border-0">
+                <td class="py-4 px-4">@item.Id</td>
+                <td class="py-4 px-4">@item.Name</td>
+                <td class="text-center">
+                    @if (item.IsDeleted)
+                    {
+                        <i class="text-red-400 text-md fa-solid fa-trash-check" title="Is deleted"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-solid fa-trash" title="Is not deleted"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.IsPrimary)
+                    {
+                        <i class="text-amber-500 text-md fa-regular fa-award" title="Is primary"></i>
+                    }
+                    else
+                    {
+                        <i class="text-slate-600 text-md fa-regular fa-award" title="Is not primary"></i>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3" asp-controller="Artists" asp-action="Details" asp-route-artistId="@Model.ArtistId">Back to artist</a>
+</div>
