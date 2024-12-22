@@ -1,11 +1,13 @@
 ﻿using bejebeje.admin.Application.Artists.Commands.ApproveArtist;
 using bejebeje.admin.Application.Artists.Commands.CreateArtist;
 using bejebeje.admin.Application.Artists.Commands.DeleteArtist;
+using bejebeje.admin.Application.Artists.Commands.SetImage;
 using bejebeje.admin.Application.Artists.Commands.UnapproveArtist;
 using bejebeje.admin.Application.Artists.Commands.UndeleteArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
+using bejebeje.admin.Application.Artists.Queries.SetImage;
 using bejebeje.admin.Application.ArtistSlugs.Commands;
 using bejebeje.admin.Application.ArtistSlugs.Queries.GetArtistSlugs;
 using bejebeje.admin.Application.Common.Models;
@@ -152,6 +154,22 @@ public class ArtistsController : CustomControllerBase
     public async Task<ActionResult> Unapprove(UnapproveArtistCommand command)
     {
         await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { artistId = command.ArtistId });
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> SetImage(SetArtistImageQuery query)
+    {
+        var viewModel = await Mediator.Send(query);
+
+        return View("SetImage", viewModel);
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult> SetImage(SetArtistImageCommand command)
+    {
+        var viewModel = await Mediator.Send(command);
 
         return RedirectToAction("Details", new { artistId = command.ArtistId });
     }

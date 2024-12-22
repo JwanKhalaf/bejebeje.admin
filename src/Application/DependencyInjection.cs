@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Amazon.S3;
 using bejebeje.admin.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
@@ -17,6 +18,7 @@ public static class DependencyInjection
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
+        services.AddAWSService<IAmazonS3>();
 
         return services;
     }
