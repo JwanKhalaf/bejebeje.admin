@@ -28,18 +28,20 @@
     </div>
 
     <div class="flex gap-2">
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Artists" asp-action="Update" asp-route-artistId="@Model.Id">Update artist</a>
+        
         @if (Model.IsApproved)
         {
             <form asp-controller="Artists" asp-action="Unapprove" method="post">
                 <input name="ArtistId" type="hidden" value="@Model.Id"/>
-                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Unapprove Artist</button>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Unapprove artist</button>
             </form>
         }
         else
         {
             <form asp-controller="Artists" asp-action="Approve" method="post">
                 <input name="ArtistId" type="hidden" value="@Model.Id"/>
-                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Approve Artist</button>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Approve artist</button>
             </form>
         }
 
@@ -47,14 +49,14 @@
         {
             <form asp-controller="Artists" asp-action="Undelete" method="post">
                 <input name="ArtistId" type="hidden" value="@Model.Id"/>
-                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Undelete Artist</button>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Undelete artist</button>
             </form>
         }
         else
         {
             <form asp-controller="Artists" asp-action="Delete" method="post">
                 <input name="ArtistId" type="hidden" value="@Model.Id"/>
-                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Delete Artist</button>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Delete artist</button>
             </form>
         }
 

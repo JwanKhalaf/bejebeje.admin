@@ -21,8 +21,7 @@ namespace bejebeje.admin.WebUI.Controllers;
 public class ArtistsController : CustomControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> All(
-        [FromQuery] GetAllArtistsWithPaginationQuery query)
+    public async Task<ActionResult<ArtistsViewModel>> All([FromQuery] GetAllArtistsWithPaginationQuery query)
     {
         PaginatedList<ArtistDto> viewModel = await Mediator.Send(query);
 
@@ -30,9 +29,7 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Unapproved(
-        string searchTerm,
-        int pageNumber = 1,
+    public async Task<ActionResult<ArtistsViewModel>> Unapproved(string searchTerm, int pageNumber = 1,
         int pageSize = 10)
     {
         PaginatedList<ArtistDto> viewModel =
@@ -43,9 +40,7 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Duplicates(
-        string searchTerm,
-        int pageNumber = 1,
+    public async Task<ActionResult<ArtistsViewModel>> Duplicates(string searchTerm, int pageNumber = 1,
         int pageSize = 10)
     {
         PaginatedList<ArtistDto> viewModel =
@@ -56,10 +51,7 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ArtistsViewModel>> Deleted(
-        string searchTerm,
-        int pageNumber = 1,
-        int pageSize = 10)
+    public async Task<ActionResult<ArtistsViewModel>> Deleted(string searchTerm, int pageNumber = 1, int pageSize = 10)
     {
         PaginatedList<ArtistDto> viewModel =
             await Mediator.Send(new GetDeletedArtistsWithPaginationQuery(searchTerm, pageNumber, pageSize));
@@ -68,8 +60,7 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<GetArtistSlugsQueryViewModel>> Slugs(
-        GetArtistSlugsQuery query)
+    public async Task<ActionResult<GetArtistSlugsQueryViewModel>> Slugs(GetArtistSlugsQuery query)
     {
         var viewModel = await Mediator.Send(query);
 
@@ -77,8 +68,7 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ArtistViewModel>> Details(
-        int artistId)
+    public async Task<ActionResult<ArtistViewModel>> Details(int artistId)
     {
         Application.Artists.Queries.GetArtist.ArtistDto viewModel = await Mediator
             .Send(new GetArtistQuery(artistId));
@@ -118,33 +108,24 @@ public class ArtistsController : CustomControllerBase
         return RedirectToAction("Details", new { artistId = command.ArtistId });
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult> Update(
-        int id,
-        UpdateArtistCommand command)
+    [HttpGet]
+    public async Task<ActionResult> Update(UpdateArtistQuery query)
     {
-        if (id != command.Id)
-        {
-            return BadRequest();
-        }
+        var viewModel = await Mediator.Send(query);
 
-        await Mediator.Send(command);
-
-        return NoContent();
+        return View("Update", viewModel);
     }
 
     [HttpPost]
-    public async Task<ActionResult> Delete(
-        DeleteArtistCommand command)
+    public async Task<ActionResult> Update(UpdateArtistCommand command)
     {
         await Mediator.Send(command);
 
-        return RedirectToAction("Details", new { artistId = command.ArtistId });
+        return RedirectToAction("Details", new { artistId = command.Id });
     }
 
     [HttpPost]
-    public async Task<ActionResult> Undelete(
-        UndeleteArtistCommand command)
+    public async Task<ActionResult> Delete(DeleteArtistCommand command)
     {
         await Mediator.Send(command);
 
@@ -152,8 +133,7 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Approve(
-        ApproveArtistCommand command)
+    public async Task<ActionResult> Undelete(UndeleteArtistCommand command)
     {
         await Mediator.Send(command);
 
@@ -161,8 +141,15 @@ public class ArtistsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Unapprove(
-        UnapproveArtistCommand command)
+    public async Task<ActionResult> Approve(ApproveArtistCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { artistId = command.ArtistId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Unapprove(UnapproveArtistCommand command)
     {
         await Mediator.Send(command);
 

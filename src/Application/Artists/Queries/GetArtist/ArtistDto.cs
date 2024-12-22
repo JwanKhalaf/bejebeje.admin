@@ -31,6 +31,8 @@ public class ArtistDto : IMapFrom<Artist>
 
     public DateTime? ModifiedAt { get; set; }
 
+    public char? Sex { get; set; }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Artist, ArtistDto>()
@@ -45,6 +47,7 @@ public class ArtistDto : IMapFrom<Artist>
             .ForMember(x => x.ImageAlternateText,
                 opt => opt.MapFrom(s => ImageUrlBuilder.GetImageAlternateText(s.HasImage, s.FullName)))
             .ForMember(x => x.LyricsCount, opt => opt.MapFrom(a => a.Lyrics.Count))
-            .ForMember(x => x.SlugsCount, opt => opt.MapFrom(a => a.Slugs.Count));
+            .ForMember(x => x.SlugsCount, opt => opt.MapFrom(a => a.Slugs.Count))
+            .ForMember(x => x.Sex, opt => opt.MapFrom(a => a.Sex));
     }
 }
