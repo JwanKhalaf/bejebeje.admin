@@ -29,6 +29,8 @@ public class SetArtistImageCommandHandler : IRequestHandler<SetArtistImageComman
 
     public SetArtistImageCommandHandler(IApplicationDbContext context, IAmazonS3 s3Client)
     {
+        _context = context;
+        _s3Client = s3Client;
     }
 
     public async Task<bool> Handle(SetArtistImageCommand command, CancellationToken cancellationToken)
@@ -39,7 +41,7 @@ public class SetArtistImageCommandHandler : IRequestHandler<SetArtistImageComman
         {
             throw new NotFoundException(nameof(Artist), command.ArtistId);
         }
-        
+
         // validate file type
         var validFileTypes = new[] { "image/jpeg", "image/png", "image/webp" };
         if (!validFileTypes.Contains(command.ArtistImage.ContentType))
@@ -49,7 +51,7 @@ public class SetArtistImageCommandHandler : IRequestHandler<SetArtistImageComman
 
         // load image using ImageSharp
         await using var stream = command.ArtistImage.OpenReadStream();
-        
+
         // detect the format
         var format = await Image.DetectFormatAsync(stream, cancellationToken);
         if (format == null)
@@ -76,7 +78,7 @@ public class SetArtistImageCommandHandler : IRequestHandler<SetArtistImageComman
         await ProcessAndUploadImage(image, command.ArtistId, 300, 300, cancellationToken);
         await ProcessAndUploadImage(image, command.ArtistId, 80, 80, cancellationToken);
         await ProcessAndUploadImage(image, command.ArtistId, 60, 60, cancellationToken);
-        
+
         artist.HasImage = true;
         artist.ModifiedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(cancellationToken);
@@ -129,10 +131,7 @@ public class SetArtistImageCommandHandler : IRequestHandler<SetArtistImageComman
         await transferUtility.UploadAsync(
             new TransferUtilityUploadRequest
             {
-                InputStream = memoryStream,
-                BucketName = _bucketName,
-                Key = key,
-                ContentType = $"image/{extension}"
+                InputStream = memoryStream, BucketName = _bucketName, Key = key, ContentType = $"image/{extension}"
             }, cancellationToken);
     }
 }
