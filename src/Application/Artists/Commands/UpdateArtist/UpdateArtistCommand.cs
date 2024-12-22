@@ -54,7 +54,7 @@ public class UpdateArtistCommand : IRequest
 
     public string FirstName { get; set; }
 
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 
     [RegularExpression("^(m|f)?$", ErrorMessage = "Invalid value for Sex.")]
     public string? Sex { get; set; }

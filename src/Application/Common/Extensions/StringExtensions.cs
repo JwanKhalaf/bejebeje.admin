@@ -46,7 +46,7 @@ public static class StringExtensions
 
     public static string ToTitleCase(this string value)
     {
-        return _textInfo.ToTitleCase(value);
+        return string.IsNullOrEmpty(value) ? value : _textInfo.ToTitleCase(value);
     }
 
     public static string ToSentenceCase(this string name)
