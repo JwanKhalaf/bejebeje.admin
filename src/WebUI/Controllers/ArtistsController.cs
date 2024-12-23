@@ -11,6 +11,7 @@ using bejebeje.admin.Application.Artists.Queries.SetImage;
 using bejebeje.admin.Application.ArtistSlugs.Commands;
 using bejebeje.admin.Application.ArtistSlugs.Queries.GetArtistSlugs;
 using bejebeje.admin.Application.Common.Models;
+using bejebeje.admin.Domain.Exceptions;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtist;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtists;
 using Microsoft.AspNetCore.Authorization;
@@ -105,9 +106,44 @@ public class ArtistsController : CustomControllerBase
     [HttpPost]
     public async Task<ActionResult<int>> CreateSlug(CreateArtistSlugCommand command)
     {
-        await Mediator.Send(command);
+        if (!ModelState.IsValid)
+        {
+            CreateArtistSlugQueryViewModel viewModel = new CreateArtistSlugQueryViewModel
+            {
+                ArtistId = command.ArtistId, Name = command.Name, IsPrimary = command.IsPrimary
+            };
 
-        return RedirectToAction("Details", new { artistId = command.ArtistId });
+            return View("CreateSlug", viewModel);
+        }
+
+        try
+        {
+            await Mediator.Send(command);
+
+            return RedirectToAction("Details", new { artistId = command.ArtistId });
+        }
+        catch (ArtistSlugAlreadyExistsException ex)
+        {
+            ModelState.AddModelError(nameof(command.Name), ex.Message);
+
+            CreateArtistSlugQueryViewModel viewModel = new CreateArtistSlugQueryViewModel
+            {
+                ArtistId = command.ArtistId, Name = command.Name, IsPrimary = command.IsPrimary
+            };
+
+            return View("CreateSlug", viewModel);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please try again.");
+
+            CreateArtistSlugQueryViewModel viewModel = new CreateArtistSlugQueryViewModel
+            {
+                ArtistId = command.ArtistId, Name = command.Name, IsPrimary = command.IsPrimary
+            };
+
+            return View("CreateSlug", viewModel);
+        }
     }
 
     [HttpGet]
@@ -165,7 +201,7 @@ public class ArtistsController : CustomControllerBase
 
         return View("SetImage", viewModel);
     }
-    
+
     [HttpPost]
     public async Task<ActionResult> SetImage(SetArtistImageCommand command)
     {

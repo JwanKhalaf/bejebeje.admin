@@ -1,13 +1,24 @@
 @model bejebeje.admin.Application.ArtistSlugs.Commands.CreateArtistSlugQueryViewModel
 
 @{
-    ViewData["Title"] = "Add a new artist";
+    ViewData["Title"] = "Add a new artist slug";
 }
-
 
 <div class="bg-slate-800 rounded-md mb-5 p-8">
     <form asp-controller="Artists" asp-action="CreateSlug" method="post">
         <input asp-for="ArtistId" type="hidden"/>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="bg-red-500 text-white rounded-md p-3 mb-5">
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
 
         <div class="mb-3">
             <label asp-for="Name" class="block text-sm mb-1.5"></label>
@@ -20,8 +31,11 @@
         </div>
 
         <div class="mb-3">
-            <a asp-controller="Artists" asp-action="All" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Cancel</a>
-            <input type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" value="Add new artist slug"/>
+            <a asp-controller="Artists" asp-action="All"
+               class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Cancel</a>
+            <input type="submit"
+                   class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer"
+                   value="Add new artist slug"/>
         </div>
     </form>
 </div>

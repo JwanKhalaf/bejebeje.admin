@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using bejebeje.admin.Application.Common.Extensions;
 using bejebeje.admin.Application.Common.Interfaces;
 using bejebeje.admin.Domain.Entities;
+using bejebeje.admin.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -67,9 +69,25 @@ public class CreateArtistSlugCommandHandler : IRequestHandler<CreateArtistSlugCo
         CreateArtistSlugCommand command,
         CancellationToken cancellationToken)
     {
+        // normalise the slug name
+        string normalizedSlugName = command.Name.NormalizeStringForUrl();
+
+        // check if the slug already exists for the artist
+        bool slugExists = await _context.ArtistSlugs
+            .AnyAsync(slug =>
+                    slug.Name == normalizedSlugName &&
+                    slug.ArtistId == command.ArtistId &&
+                    !slug.IsDeleted,
+                cancellationToken);
+
+        if (slugExists)
+        {
+            throw new ArtistSlugAlreadyExistsException(normalizedSlugName, command.ArtistId);
+        }
+
         ArtistSlug slug = new ArtistSlug
         {
-            Name = command.Name,
+            Name = normalizedSlugName,
             IsPrimary = command.IsPrimary,
             IsDeleted = false,
             CreatedAt = _dateTime.Now,
