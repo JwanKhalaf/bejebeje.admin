@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using bejebeje.admin.Application.Common.Extensions;
 using bejebeje.admin.Application.Common.Interfaces;
 using bejebeje.admin.Application.Common.Mappings;
 using bejebeje.admin.Application.Common.Models;
@@ -55,7 +56,7 @@ public class
         }
         else
         {
-            string search = request.SearchTerm.ToLowerInvariant();
+            string search = request.SearchTerm.NormalizeStringForUrl();
             string pattern = $"%{search}%";
 
             result = await lyrics
@@ -66,6 +67,8 @@ public class
                 .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
+
+        result.SearchTerm = request.SearchTerm;
 
         return result;
     }

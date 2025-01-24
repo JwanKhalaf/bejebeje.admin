@@ -107,7 +107,7 @@
     </div>
 
     <div>
-        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 @(Model.HasPreviousPage ? "" : "pointer-events-none text-slate-500")" asp-controller="Lyrics" asp-action="Unapproved" asp-route-pageNumber="@(Model.PageNumber - 1)">Previous</a>
-        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3 @(Model.HasNextPage ? "" : "pointer-events-none text-slate-500")" asp-controller="Lyrics" asp-action="Unapproved" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 @(Model.HasPreviousPage ? "" : "pointer-events-none text-slate-500")" asp-controller="Lyrics" asp-action="Unapproved" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-searchTerm="@Model.SearchTerm">Previous</a>
+        <a class="text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 ml-3 @(Model.HasNextPage ? "" : "pointer-events-none text-slate-500")" asp-controller="Lyrics" asp-action="Unapproved" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-searchTerm="@Model.SearchTerm">Next</a>
     </div>
 </div>

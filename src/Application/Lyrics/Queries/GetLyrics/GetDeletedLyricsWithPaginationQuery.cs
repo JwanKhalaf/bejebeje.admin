@@ -67,6 +67,8 @@ public class
                 .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
+        
+        result.SearchTerm = request.SearchTerm;
 
         return result;
     }
