@@ -13,6 +13,8 @@ public class Lyric : AuditableEntity
     public IEnumerable<LyricSlug> Slugs { get; set; } = new List<LyricSlug>();
     
     public bool IsVerified { get; set; }
+    
+    public DateTime? VerifiedAt { get; set; }
 
     public bool IsDeleted { get; set; }
 

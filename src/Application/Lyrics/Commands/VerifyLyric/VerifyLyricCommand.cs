@@ -28,6 +28,7 @@ public class VerifyLyricCommandHandler : IRequestHandler<VerifyLyricCommand>
             .SingleAsync(cancellationToken);
 
         entity.IsVerified = true;
+        entity.VerifiedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync(cancellationToken);
 
