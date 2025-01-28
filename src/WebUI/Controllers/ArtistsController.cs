@@ -9,6 +9,7 @@ using bejebeje.admin.Application.Artists.Queries.GetArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Application.Artists.Queries.SetImage;
 using bejebeje.admin.Application.ArtistSlugs.Commands;
+using bejebeje.admin.Application.ArtistSlugs.Commands.DeleteArtistSlugCommand;
 using bejebeje.admin.Application.ArtistSlugs.Queries.GetArtistSlugs;
 using bejebeje.admin.Application.Common.Models;
 using bejebeje.admin.Domain.Exceptions;
@@ -208,5 +209,13 @@ public class ArtistsController : CustomControllerBase
         var viewModel = await Mediator.Send(command);
 
         return RedirectToAction("Details", new { artistId = command.ArtistId });
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult<int>> DeleteSlug(DeleteArtistSlugCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Slugs", new { artistId = command.ArtistId });
     }
 }

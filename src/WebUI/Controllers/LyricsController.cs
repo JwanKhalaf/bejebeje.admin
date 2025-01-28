@@ -11,6 +11,7 @@ using bejebeje.admin.Application.Lyrics.Queries.GetLyricDetail;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyricsForArtist;
 using bejebeje.admin.Application.LyricSlugs.Commands.CreateLyricSlug;
+using bejebeje.admin.Application.LyricSlugs.Commands.DeleteLyricSlug;
 using bejebeje.admin.Application.LyricSlugs.Queries.GetLyricSlugs;
 using bejebeje.admin.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -160,7 +161,7 @@ public class LyricsController : CustomControllerBase
 
         return View("Slugs", viewModel);
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<int>> CreateSlug(CreateLyricSlugQuery query)
     {
@@ -168,7 +169,7 @@ public class LyricsController : CustomControllerBase
 
         return View("CreateSlug", viewModel);
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<int>> CreateSlug(CreateLyricSlugCommand command)
     {
@@ -210,5 +211,13 @@ public class LyricsController : CustomControllerBase
 
             return View("CreateSlug", viewModel);
         }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<int>> DeleteSlug(DeleteLyricSlugCommand command)
+    {
+        await Mediator.Send(command);
+
+        return RedirectToAction("Slugs", new { lyricId = command.LyricId });
     }
 }
