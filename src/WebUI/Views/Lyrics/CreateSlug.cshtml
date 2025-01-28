@@ -1,0 +1,41 @@
+@model bejebeje.admin.Application.LyricSlugs.Commands.CreateLyricSlug.CreateLyricSlugQueryViewModel
+
+@{
+    ViewData["Title"] = "Add a new lyric slug";
+}
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <form asp-controller="Lyrics" asp-action="CreateSlug" method="post">
+        <input asp-for="LyricId" type="hidden"/>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="bg-red-500 text-white rounded-md p-3 mb-5">
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <div class="mb-3">
+            <label asp-for="Name" class="block text-sm mb-1.5"></label>
+            <input asp-for="Name" class="bg-slate-900 px-3 py-2 mb-6 w-1/2 rounded-md"/>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="IsPrimary" class="block text-sm mb-1.5"></label>
+            <input asp-for="IsPrimary" class="bg-slate-900 px-3 py-2 mb-6 w-1/2 rounded-md"/>
+        </div>
+
+        <div class="mb-3">
+            <a asp-controller="Lyrics" asp-action="All"
+               class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Cancel</a>
+            <input type="submit"
+                   class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer"
+                   value="Add new lyric slug"/>
+        </div>
+    </form>
+</div>

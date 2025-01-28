@@ -10,7 +10,7 @@ public class Lyric : AuditableEntity
 
     public string UserId { get; set; }
 
-    public IEnumerable<LyricSlug> Slugs { get; set; } = new List<LyricSlug>();
+    public IList<LyricSlug> Slugs { get; set; } = new List<LyricSlug>();
     
     public bool IsVerified { get; set; }
     

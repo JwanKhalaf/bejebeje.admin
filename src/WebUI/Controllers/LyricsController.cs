@@ -10,6 +10,9 @@ using bejebeje.admin.Application.Lyrics.Commands.VerifyLyric;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyricDetail;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyricsForArtist;
+using bejebeje.admin.Application.LyricSlugs.Commands.CreateLyricSlug;
+using bejebeje.admin.Application.LyricSlugs.Queries.GetLyricSlugs;
+using bejebeje.admin.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LyricDto = bejebeje.admin.Application.Lyrics.Queries.GetLyrics.LyricDto;
@@ -20,8 +23,7 @@ namespace bejebeje.admin.WebUI.Controllers;
 public class LyricsController : CustomControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<LyricDto>>> All(
-        [FromQuery] GetAllLyricsWithPaginationQuery query)
+    public async Task<ActionResult<PaginatedList<LyricDto>>> All([FromQuery] GetAllLyricsWithPaginationQuery query)
     {
         PaginatedList<LyricDto> viewModel = await Mediator.Send(query);
 
@@ -56,8 +58,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<GetLyricsForArtistDto>> ByArtist(
-        [FromQuery] GetAllLyricsForArtistQuery query)
+    public async Task<ActionResult<GetLyricsForArtistDto>> ByArtist([FromQuery] GetAllLyricsForArtistQuery query)
     {
         GetLyricsForArtistDto viewModel = await Mediator.Send(query);
 
@@ -65,8 +66,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> Create(
-        CreateLyricQuery query)
+    public async Task<ActionResult> Create(CreateLyricQuery query)
     {
         var viewModel = await Mediator.Send(query);
 
@@ -74,8 +74,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<int>> Create(
-        CreateLyricCommand command)
+    public async Task<ActionResult<int>> Create(CreateLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -83,8 +82,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<GetLyricDetailDto>> Details(
-        [FromQuery] GetLyricDetailQuery query)
+    public async Task<ActionResult<GetLyricDetailDto>> Details([FromQuery] GetLyricDetailQuery query)
     {
         GetLyricDetailDto viewModel = await Mediator.Send(query);
 
@@ -92,8 +90,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> Update(
-        UpdateLyricQuery query)
+    public async Task<ActionResult> Update(UpdateLyricQuery query)
     {
         var viewModel = await Mediator.Send(query);
 
@@ -101,8 +98,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Update(
-        UpdateLyricCommand command)
+    public async Task<ActionResult> Update(UpdateLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -110,8 +106,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Delete(
-        DeleteLyricCommand command)
+    public async Task<ActionResult> Delete(DeleteLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -119,8 +114,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Undelete(
-        UndeleteLyricCommand command)
+    public async Task<ActionResult> Undelete(UndeleteLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -128,8 +122,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Verify(
-        VerifyLyricCommand command)
+    public async Task<ActionResult> Verify(VerifyLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -137,8 +130,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Unverify(
-        UnverifyLyricCommand command)
+    public async Task<ActionResult> Unverify(UnverifyLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -146,8 +138,7 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Approve(
-        ApproveLyricCommand command)
+    public async Task<ActionResult> Approve(ApproveLyricCommand command)
     {
         await Mediator.Send(command);
 
@@ -155,11 +146,69 @@ public class LyricsController : CustomControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Unapprove(
-        UnapproveLyricCommand command)
+    public async Task<ActionResult> Unapprove(UnapproveLyricCommand command)
     {
         await Mediator.Send(command);
 
         return RedirectToAction("Details", new { lyricId = command.LyricId });
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<GetLyricSlugsQueryViewModel>> Slugs(GetLyricSlugsQuery query)
+    {
+        var viewModel = await Mediator.Send(query);
+
+        return View("Slugs", viewModel);
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<int>> CreateSlug(CreateLyricSlugQuery query)
+    {
+        var viewModel = await Mediator.Send(query);
+
+        return View("CreateSlug", viewModel);
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult<int>> CreateSlug(CreateLyricSlugCommand command)
+    {
+        if (!ModelState.IsValid)
+        {
+            CreateLyricSlugQueryViewModel viewModel = new CreateLyricSlugQueryViewModel
+            {
+                LyricId = command.LyricId, Name = command.Name, IsPrimary = command.IsPrimary
+            };
+
+            return View("CreateSlug", viewModel);
+        }
+
+        try
+        {
+            await Mediator.Send(command);
+
+            return RedirectToAction("Slugs", new { lyricId = command.LyricId });
+        }
+        catch (LyricSlugAlreadyExistsException ex)
+        {
+            ModelState.AddModelError(nameof(command.Name), ex.Message);
+
+            CreateLyricSlugQueryViewModel viewModel = new CreateLyricSlugQueryViewModel
+            {
+                LyricId = command.LyricId, Name = command.Name, IsPrimary = command.IsPrimary
+            };
+
+            return View("CreateSlug", viewModel);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please try again.");
+
+            CreateLyricSlugQueryViewModel viewModel = new CreateLyricSlugQueryViewModel
+            {
+                LyricId = command.LyricId, Name = command.Name, IsPrimary = command.IsPrimary
+            };
+
+            return View("CreateSlug", viewModel);
+        }
     }
 }

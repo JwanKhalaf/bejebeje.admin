@@ -12,6 +12,8 @@ public interface IApplicationDbContext
 
     DbSet<Lyric> Lyrics { get; }
 
+    DbSet<LyricSlug> LyricSlugs { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
     EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;

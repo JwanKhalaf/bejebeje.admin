@@ -22,6 +22,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Lyric> Lyrics => Set<Lyric>();
 
+    public DbSet<LyricSlug> LyricSlugs => Set<LyricSlug>();
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
