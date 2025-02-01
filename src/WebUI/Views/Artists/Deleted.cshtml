@@ -33,6 +33,7 @@
             <th class="text-sm text-left py-2 px-4">Modified at</th>
             <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Deleted</th>
             <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Approved</th>
+            <th></th>
         </tr>
         </thead>
 
@@ -79,6 +80,9 @@
                     {
                         <i class="text-slate-600 text-md fa-solid fa-circle" title="Is not approved"></i>
                     }
+                </td>
+                <td>
+                    <a asp-controller="Artists" asp-action="Details" asp-route-artistId="@item.Id">View</a>
                 </td>
             </tr>
         }
