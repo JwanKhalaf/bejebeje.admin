@@ -1,4 +1,6 @@
-﻿namespace bejebeje.admin.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace bejebeje.admin.Domain.Entities;
 
 public class Lyric : AuditableEntity
 {
@@ -21,6 +23,9 @@ public class Lyric : AuditableEntity
     public bool IsApproved { get; set; }
 
     public int ArtistId { get; set; }
+
+    [Column("youtube_link")]
+    public string? YouTubeLink { get; set; }
 
     public Artist Artist { get; set; } = null!;
 }

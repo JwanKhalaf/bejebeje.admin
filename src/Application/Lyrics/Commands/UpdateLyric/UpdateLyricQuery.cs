@@ -16,6 +16,8 @@ public class UpdateLyricViewModel : IMapFrom<Lyric>
 
     public string Body { get; set; }
 
+    public string YouTubeLink { get; set; }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Lyric, UpdateLyricViewModel>()

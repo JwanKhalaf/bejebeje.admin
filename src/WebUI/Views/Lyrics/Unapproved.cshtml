@@ -34,6 +34,7 @@
             <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Deleted</th>
             <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Verified</th>
             <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">Approved</th>
+            <th class="text-sm text-left rounded-tr-md rounded-br-md py-2 px-4 w-4">YouTube</th>
             <th></th>
         </tr>
         </thead>
@@ -94,6 +95,16 @@
                     else
                     {
                         <i class="text-slate-600 text-md fa-solid fa-circle" title="Is not approved"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (string.IsNullOrEmpty(item.YouTubeLink))
+                    {
+                        <i class="text-slate-600 text-md fa-brands fa-youtube" title="Has no YouTube link"></i>
+                    }
+                    else
+                    {
+                        <i class="text-red-500 text-md fa-brands fa-youtube" title="YouTube link provided"></i>
                     }
                 </td>
                 <td>

@@ -29,6 +29,8 @@ public class LyricDto : IMapFrom<Lyric>
     
     public DateTime? ModifiedAt { get; set; }
     
+    public string YouTubeLink { get; set; }
+    
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Lyric, LyricDto>()

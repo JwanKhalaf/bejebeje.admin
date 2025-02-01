@@ -12,6 +12,8 @@ public class UpdateLyricCommand : IRequest
     public string Title { get; set; }
 
     public string Body { get; set; }
+
+    public string YouTubeLink { get; set; }
 }
 
 public class UpdateLyricCommandHandler : IRequestHandler<UpdateLyricCommand>
@@ -33,6 +35,7 @@ public class UpdateLyricCommandHandler : IRequestHandler<UpdateLyricCommand>
 
         entity.Title = command.Title;
         entity.Body = command.Body;
+        entity.YouTubeLink = command.YouTubeLink;
 
         await _context.SaveChangesAsync(cancellationToken);
 
