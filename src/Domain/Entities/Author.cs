@@ -10,6 +10,8 @@ public class Author : AuditableEntity
 
     public string FullName { get; set; }
 
+    public string Biography { get; set; }
+
     public IList<AuthorSlug> Slugs { get; set; } = new List<AuthorSlug>();
     
     public bool IsApproved { get; set; }

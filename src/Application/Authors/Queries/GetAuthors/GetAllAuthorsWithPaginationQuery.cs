@@ -21,12 +21,12 @@ public class GetAllAuthorsWithPaginationQuery : IRequest<PaginatedList<AuthorDto
     public string SearchTerm { get; set; } = string.Empty;
 }
 
-public class GetAllAuthorsHandler : IRequestHandler<GetAllAuthorsWithPaginationQuery, PaginatedList<AuthorDto>>
+public class GetAllAuthorsWithPaginationQueryHandler : IRequestHandler<GetAllAuthorsWithPaginationQuery, PaginatedList<AuthorDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetAllAuthorsHandler(IApplicationDbContext context, IMapper mapper)
+    public GetAllAuthorsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

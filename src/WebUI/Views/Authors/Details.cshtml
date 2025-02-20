@@ -1,0 +1,76 @@
+@model bejebeje.admin.Application.Authors.Queries.GetAuthor.AuthorDto
+
+@{
+    ViewData["Title"] = $"Details of {Model.FirstName} {Model.LastName}";
+}
+
+<div class="mb-8">
+    <h1 class="text-5xl">Author details</h1>
+</div>
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <div class="bg-slate-900 rounded-md p-10 flex items-center mb-8">
+        <picture>
+            <source type="image/webp" srcset=@($"{Model.ImageUrl}.webp")>
+            <source type="image/jpeg" srcset=@($"{Model.ImageUrl}.jpg")>
+
+            <img src=@($"{Model.ImageUrl}.jpg")
+                 class="border-1 mr-4 border-slate-800 rounded-full w-40 h-40"
+                 loading="lazy"
+                 alt="@Model.ImageAlternateText"/>
+        </picture>
+
+        <div>
+            <h2 class="text-2xl">
+                @Model.FirstName @Model.LastName
+            </h2>
+        </div>
+    </div>
+    
+    <div class="mb-8">
+        <h3 class="text-white font-bold mb-4 text-xl">Biography</h3>
+        <p class="text-neutral-200 whitespace-pre-line">@Model.Biography</p>
+    </div>
+
+    <div class="flex gap-2">
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Authors" asp-action="Update" asp-route-authorId="@Model.Id">Update author</a>
+
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Authors" asp-action="SetImage" asp-route-authorId="@Model.Id">Set author image</a>
+        
+        @if (Model.IsApproved)
+        {
+            <form asp-controller="Authors" asp-action="Unapprove" method="post">
+                <input name="AuthorId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Unapprove author</button>
+            </form>
+        }
+        else
+        {
+            <form asp-controller="Authors" asp-action="Approve" method="post">
+                <input name="AuthorId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Approve author</button>
+            </form>
+        }
+
+        @if (Model.IsDeleted)
+        {
+            <form asp-controller="Authors" asp-action="Undelete" method="post">
+                <input name="AuthorId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Undelete author</button>
+            </form>
+        }
+        else
+        {
+            <form asp-controller="Authors" asp-action="Delete" method="post">
+                <input name="AuthorId" type="hidden" value="@Model.Id"/>
+                <button type="submit" class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Delete author</button>
+            </form>
+        }
+
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Lyrics" asp-action="Create" asp-route-authorId="@Model.Id">Add new lyric</a>
+
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Lyrics" asp-action="ByAuthor" asp-route-authorId="@Model.Id">View @Model.LyricsCount Lyrics</a>
+
+        <a class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer" asp-controller="Authors" asp-action="Slugs" asp-route-authorId="@Model.Id">View @Model.SlugsCount slugs</a>
+    </div>
+</div>
