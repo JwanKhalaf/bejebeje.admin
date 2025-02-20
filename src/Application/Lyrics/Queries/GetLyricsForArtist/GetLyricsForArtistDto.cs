@@ -28,8 +28,8 @@ public class ArtistDto : IMapFrom<Artist>
     {
         profile.CreateMap<Artist, ArtistDto>()
             .ForMember(a => a.Name, opt => opt.MapFrom(x => x.FullName.ToTitleCase()))
-            .ForMember(a => a.ImageUrl, opt => opt.MapFrom(s => ImageUrlBuilder.BuildImageUrl(s.HasImage, s.Id, ImageSize.Standard)))
-            .ForMember(a => a.ImageAlternateText, opt => opt.MapFrom( s => ImageUrlBuilder.GetImageAlternateText(s.HasImage, s.FullName)));
+            .ForMember(a => a.ImageUrl, opt => opt.MapFrom(s => ImageUrlBuilder.BuildArtistImageUrl(s.HasImage, s.Id, ImageSize.Standard)))
+            .ForMember(a => a.ImageAlternateText, opt => opt.MapFrom( s => ImageUrlBuilder.GetArtistImageAlternateText(s.HasImage, s.FullName)));
     }
 }
 

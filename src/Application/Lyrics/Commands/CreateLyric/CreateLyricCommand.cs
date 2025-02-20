@@ -69,8 +69,8 @@ public class CreateLyricQueryHandler : IRequestHandler<CreateLyricQuery, CreateL
             {
                 ArtistId = query.ArtistId,
                 ArtistName = artist.FullName.ToTitleCase(),
-                ArtistImageUrl = ImageUrlBuilder.BuildImageUrl(artist.HasImage, artist.Id, ImageSize.Standard),
-                ArtistImageAlternateText = ImageUrlBuilder.GetImageAlternateText(artist.HasImage, artist.FullName)
+                ArtistImageUrl = ImageUrlBuilder.BuildArtistImageUrl(artist.HasImage, artist.Id, ImageSize.Standard),
+                ArtistImageAlternateText = ImageUrlBuilder.GetArtistImageAlternateText(artist.HasImage, artist.FullName)
             };
 
         return command;

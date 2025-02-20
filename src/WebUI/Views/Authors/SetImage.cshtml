@@ -1,0 +1,23 @@
+@model bejebeje.admin.Application.Authors.Queries.SetImage.SetAuthorImageQueryViewModel
+
+@{
+    ViewData["Title"] = "Set author image";
+}
+
+<div class="bg-slate-800 rounded-md mb-5 p-8">
+    <form asp-controller="Authors" asp-action="SetImage" method="post" enctype="multipart/form-data">
+        <input asp-for="AuthorId" type="hidden"/>
+        <div class="mb-3">
+            <label class="block text-sm mb-1.5">Author image</label>
+            <input name="authorImage" type="file" class="bg-slate-900 px-3 py-2 mb-6 w-1/2 rounded-md"/>
+        </div>
+
+        <div class="mb-3">
+            <a asp-controller="Authors" asp-action="All"
+               class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer">Cancel</a>
+            <input type="submit"
+                   class="inline-block text-white border-2 border-slate-500 rounded-md py-1 px-2 hover:bg-slate-700 cursor-pointer"
+                   value="Set author image"/>
+        </div>
+    </form>
+</div>

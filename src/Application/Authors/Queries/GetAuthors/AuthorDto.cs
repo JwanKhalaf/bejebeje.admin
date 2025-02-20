@@ -36,7 +36,7 @@ public class AuthorDto : IMapFrom<Author>
                 opt.Condition(x => !string.IsNullOrEmpty(x.LastName));
                 opt.MapFrom(x => x.LastName.ToTitleCase());
             })
-            .ForMember(x => x.ImageUrl, opt => opt.MapFrom(s => ImageUrlBuilder.BuildImageUrl(s.HasImage, s.Id, ImageSize.Small)))
-            .ForMember(x => x.ImageAlternateText, opt => opt.MapFrom( s => ImageUrlBuilder.GetImageAlternateText(s.HasImage, s.FullName)));
+            .ForMember(x => x.ImageUrl, opt => opt.MapFrom(s => ImageUrlBuilder.BuildAuthorImageUrl(s.HasImage, s.Id, ImageSize.Small)))
+            .ForMember(x => x.ImageAlternateText, opt => opt.MapFrom( s => ImageUrlBuilder.GetAuthorImageAlternateText(s.HasImage, s.FullName)));
     }
 }

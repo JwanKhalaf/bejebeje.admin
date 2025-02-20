@@ -43,9 +43,9 @@ public class ArtistDto : IMapFrom<Artist>
                 opt.MapFrom(x => x.LastName.ToTitleCase());
             })
             .ForMember(x => x.ImageUrl,
-                opt => opt.MapFrom(s => ImageUrlBuilder.BuildImageUrl(s.HasImage, s.Id, ImageSize.Standard)))
+                opt => opt.MapFrom(s => ImageUrlBuilder.BuildArtistImageUrl(s.HasImage, s.Id, ImageSize.Standard)))
             .ForMember(x => x.ImageAlternateText,
-                opt => opt.MapFrom(s => ImageUrlBuilder.GetImageAlternateText(s.HasImage, s.FullName)))
+                opt => opt.MapFrom(s => ImageUrlBuilder.GetArtistImageAlternateText(s.HasImage, s.FullName)))
             .ForMember(x => x.LyricsCount, opt => opt.MapFrom(a => a.Lyrics.Count))
             .ForMember(x => x.SlugsCount, opt => opt.MapFrom(a => a.Slugs.Count))
             .ForMember(x => x.Sex, opt => opt.MapFrom(a => a.Sex));

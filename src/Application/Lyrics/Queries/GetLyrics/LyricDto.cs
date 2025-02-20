@@ -35,7 +35,7 @@ public class LyricDto : IMapFrom<Lyric>
     {
         profile.CreateMap<Lyric, LyricDto>()
             .ForMember(x => x.ArtistName, opt => opt.MapFrom(x => x.Artist.FullName.ToTitleCase()))
-            .ForMember(x => x.ArtistImageUrl, opt => opt.MapFrom(s => ImageUrlBuilder.BuildImageUrl(s.Artist.HasImage, s.Artist.Id, ImageSize.Small)))
-            .ForMember(x => x.ArtistImageAlternateText, opt => opt.MapFrom( s => ImageUrlBuilder.GetImageAlternateText(s.Artist.HasImage, s.Artist.FullName)));
+            .ForMember(x => x.ArtistImageUrl, opt => opt.MapFrom(s => ImageUrlBuilder.BuildArtistImageUrl(s.Artist.HasImage, s.Artist.Id, ImageSize.Small)))
+            .ForMember(x => x.ArtistImageAlternateText, opt => opt.MapFrom( s => ImageUrlBuilder.GetArtistImageAlternateText(s.Artist.HasImage, s.Artist.FullName)));
     }
 }
