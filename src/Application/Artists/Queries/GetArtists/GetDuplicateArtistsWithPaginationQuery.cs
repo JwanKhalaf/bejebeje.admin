@@ -14,7 +14,7 @@ public class GetDuplicateArtistsWithPaginationQuery : IRequest<PaginatedList<Art
 
     public int PageSize { get; set; } = 10;
 
-    public string SearchTerm { get; set; }
+    public string SearchTerm { get; set; } = string.Empty;
 
     public GetDuplicateArtistsWithPaginationQuery(string searchTerm, int pageNumber, int pageSize)
     {

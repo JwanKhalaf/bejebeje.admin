@@ -16,7 +16,7 @@ public class GetDeletedArtistsWithPaginationQuery : IRequest<PaginatedList<Artis
 
     public int PageSize { get; set; } = 10;
 
-    public string SearchTerm { get; set; }
+    public string SearchTerm { get; set; } = string.Empty;
 
     public GetDeletedArtistsWithPaginationQuery(string searchTerm, int pageNumber, int pageSize)
     {

@@ -13,6 +13,10 @@ public interface IApplicationDbContext
     DbSet<Lyric> Lyrics { get; }
 
     DbSet<LyricSlug> LyricSlugs { get; }
+    
+    DbSet<Author> Authors { get; }
+    
+    DbSet<AuthorSlug> AuthorSlugs { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

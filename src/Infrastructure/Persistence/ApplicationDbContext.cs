@@ -23,6 +23,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Lyric> Lyrics => Set<Lyric>();
 
     public DbSet<LyricSlug> LyricSlugs => Set<LyricSlug>();
+    
+    public DbSet<Author> Authors => Set<Author>();
+
+    public DbSet<AuthorSlug> AuthorSlugs => Set<AuthorSlug>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
