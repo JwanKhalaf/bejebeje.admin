@@ -1,4 +1,6 @@
+using bejebeje.admin.Application.Authors.Commands.CreateAuthor;
 using bejebeje.admin.Application.Authors.Commands.SetImage;
+using bejebeje.admin.Application.Authors.Queries.CreateAuthor;
 using bejebeje.admin.Application.Authors.Queries.GetAuthor;
 using bejebeje.admin.Application.Authors.Queries.GetAuthors;
 using bejebeje.admin.Application.Authors.Queries.SetImage;
@@ -28,6 +30,22 @@ public class AuthorsController : CustomControllerBase
         AuthorDto viewModel = await Mediator.Send(new GetAuthorQuery(authorId));
 
         return View(viewModel);
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<int>> Create(CreateAuthorQuery query)
+    {
+        var viewModel = await Mediator.Send(query);
+
+        return View("Create", viewModel);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<int>> Create(CreateAuthorCommand command)
+    {
+        int authorId = await Mediator.Send(command);
+
+        return RedirectToAction("Details", new { authorId = authorId });
     }
     
     [HttpGet]
