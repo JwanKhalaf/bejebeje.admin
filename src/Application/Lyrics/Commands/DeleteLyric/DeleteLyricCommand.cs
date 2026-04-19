@@ -20,7 +20,7 @@ public class DeleteLyricCommandHandler : IRequestHandler<DeleteLyricCommand>
         _context = context;
     }
 
-    public async Task<Unit> Handle(DeleteLyricCommand command, CancellationToken cancellationToken)
+    public async Task Handle(DeleteLyricCommand command, CancellationToken cancellationToken)
     {
         Lyric entity = await _context
             .Lyrics
@@ -33,6 +33,5 @@ public class DeleteLyricCommandHandler : IRequestHandler<DeleteLyricCommand>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }

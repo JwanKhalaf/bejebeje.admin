@@ -20,7 +20,7 @@ public class UnverifyLyricCommandHandler : IRequestHandler<UnverifyLyricCommand>
         _context = context;
     }
 
-    public async Task<Unit> Handle(UnverifyLyricCommand command, CancellationToken cancellationToken)
+    public async Task Handle(UnverifyLyricCommand command, CancellationToken cancellationToken)
     {
         Lyric entity = await _context
             .Lyrics
@@ -31,6 +31,5 @@ public class UnverifyLyricCommandHandler : IRequestHandler<UnverifyLyricCommand>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }

@@ -20,7 +20,7 @@ public class ApproveLyricCommandHandler : IRequestHandler<ApproveLyricCommand>
         _context = context;
     }
 
-    public async Task<Unit> Handle(ApproveLyricCommand command, CancellationToken cancellationToken)
+    public async Task Handle(ApproveLyricCommand command, CancellationToken cancellationToken)
     {
         Lyric entity = await _context
             .Lyrics
@@ -31,6 +31,5 @@ public class ApproveLyricCommandHandler : IRequestHandler<ApproveLyricCommand>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }

@@ -1,7 +1,7 @@
-﻿using bejebeje.admin.Application.Artists.Queries.GetArtists;
+using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Domain.Entities;
-using FluentAssertions;
 using NUnit.Framework;
+using Shouldly;
 
 namespace bejebeje.admin.Application.IntegrationTests.Artists.Queries;
 
@@ -21,6 +21,6 @@ public class GetArtistsTests : TestBase
 
         var result = await SendAsync(query);
 
-        result.Items.Should().HaveCount(1);
+        result.Items.Count.ShouldBe(1);
     }
 }

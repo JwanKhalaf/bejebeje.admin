@@ -65,7 +65,7 @@ public class CreateLyricSlugCommandHandler : IRequestHandler<CreateLyricSlugComm
         _context = context;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         CreateLyricSlugCommand command,
         CancellationToken cancellationToken)
     {
@@ -119,6 +119,5 @@ public class CreateLyricSlugCommandHandler : IRequestHandler<CreateLyricSlugComm
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }

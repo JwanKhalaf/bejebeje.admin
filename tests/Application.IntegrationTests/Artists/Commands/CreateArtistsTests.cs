@@ -1,8 +1,8 @@
-﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Artists.Commands.CreateArtist;
 using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Domain.Entities;
-using FluentAssertions;
 using NUnit.Framework;
+using Shouldly;
 
 namespace bejebeje.admin.Application.IntegrationTests.Artists.Commands;
 
@@ -14,7 +14,7 @@ public class CreateArtistsTests : TestBase
     public async Task ShouldRequireMinimumFields()
     {
         var command = new CreateArtistCommand();
-        await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<ValidationException>();
+        await Should.ThrowAsync<ValidationException>(() => SendAsync(command));
     }
 
     [Test]
@@ -30,8 +30,7 @@ public class CreateArtistsTests : TestBase
             FirstName = "Shopping"
         };
 
-        await FluentActions.Invoking(() =>
-            SendAsync(command)).Should().ThrowAsync<ValidationException>();
+        await Should.ThrowAsync<ValidationException>(() => SendAsync(command));
     }
 
     [Test]
@@ -46,8 +45,8 @@ public class CreateArtistsTests : TestBase
 
         var list = await FindAsync<Artist>(id);
 
-        list.Should().NotBeNull();
-        list!.FirstName.Should().Be(command.FirstName);
-        list.CreatedAt.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
+        list.ShouldNotBeNull();
+        list.FirstName.ShouldBe(command.FirstName);
+        list.CreatedAt.ShouldBe(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
 }

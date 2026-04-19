@@ -65,7 +65,7 @@ public class CreateArtistSlugCommandHandler : IRequestHandler<CreateArtistSlugCo
         _context = context;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         CreateArtistSlugCommand command,
         CancellationToken cancellationToken)
     {
@@ -119,6 +119,5 @@ public class CreateArtistSlugCommandHandler : IRequestHandler<CreateArtistSlugCo
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }
