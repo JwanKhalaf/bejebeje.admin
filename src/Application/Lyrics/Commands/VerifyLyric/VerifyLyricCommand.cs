@@ -1,5 +1,5 @@
 ﻿using bejebeje.admin.Application.Common.Interfaces;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

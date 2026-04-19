@@ -3,7 +3,7 @@ using AutoMapper;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Application.Common.Mappings;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 

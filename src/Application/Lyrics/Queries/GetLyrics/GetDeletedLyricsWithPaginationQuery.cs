@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 using bejebeje.admin.Application.Common.Interfaces;
 using bejebeje.admin.Application.Common.Mappings;
 using bejebeje.admin.Application.Common.Models;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

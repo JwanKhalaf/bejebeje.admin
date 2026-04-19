@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using bejebeje.admin.Application.Common.Interfaces;
-using bejebeje.admin.Domain.Common;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
+using Bejebeje.Shared.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -30,7 +30,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+        foreach (var entry in ChangeTracker.Entries<IBaseEntity>())
         {
             switch (entry.State)
             {
@@ -44,15 +44,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             }
         }
 
-        var events = ChangeTracker.Entries<IHasDomainEvent>()
-            .Select(x => x.Entity.DomainEvents)
-            .SelectMany(x => x)
-            .Where(domainEvent => !domainEvent.IsPublished)
-            .ToArray();
-
-        var result = await base.SaveChangesAsync(cancellationToken);
-
-        return result;
+        return await base.SaveChangesAsync(cancellationToken);
     }
 
     public EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class

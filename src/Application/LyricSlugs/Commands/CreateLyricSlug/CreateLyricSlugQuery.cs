@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using bejebeje.admin.Application.Common.Extensions;
 using bejebeje.admin.Application.Common.Interfaces;
-using bejebeje.admin.Domain.Entities;
-using bejebeje.admin.Domain.Exceptions;
+using Bejebeje.Shared.Domain;
+using bejebeje.admin.Application.Common.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -107,15 +107,9 @@ public class CreateLyricSlugCommandHandler : IRequestHandler<CreateLyricSlugComm
             {
                 item.IsPrimary = false;
             }
-
-            lyric.Slugs.Add(slug);
-
-            _context.Entry(lyric).State = EntityState.Modified;
         }
-        else
-        {
-            _context.LyricSlugs.Add(slug);
-        }
+
+        _context.LyricSlugs.Add(slug);
 
         await _context.SaveChangesAsync(cancellationToken);
 

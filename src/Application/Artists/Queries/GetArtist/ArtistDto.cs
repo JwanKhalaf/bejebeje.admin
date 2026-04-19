@@ -3,7 +3,7 @@ using bejebeje.admin.Application.Common.Enums;
 using bejebeje.admin.Application.Common.Extensions;
 using bejebeje.admin.Application.Common.Helpers;
 using bejebeje.admin.Application.Common.Mappings;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 
 namespace bejebeje.admin.Application.Artists.Queries.GetArtist;
 
@@ -46,8 +46,8 @@ public class ArtistDto : IMapFrom<Artist>
                 opt => opt.MapFrom(s => ImageUrlBuilder.BuildArtistImageUrl(s.HasImage, s.Id, ImageSize.Standard)))
             .ForMember(x => x.ImageAlternateText,
                 opt => opt.MapFrom(s => ImageUrlBuilder.GetArtistImageAlternateText(s.HasImage, s.FullName)))
-            .ForMember(x => x.LyricsCount, opt => opt.MapFrom(a => a.Lyrics.Count))
-            .ForMember(x => x.SlugsCount, opt => opt.MapFrom(a => a.Slugs.Count))
+            .ForMember(x => x.LyricsCount, opt => opt.MapFrom(a => a.Lyrics.Count()))
+            .ForMember(x => x.SlugsCount, opt => opt.MapFrom(a => a.Slugs.Count()))
             .ForMember(x => x.Sex, opt => opt.MapFrom(a => a.Sex));
     }
 }
