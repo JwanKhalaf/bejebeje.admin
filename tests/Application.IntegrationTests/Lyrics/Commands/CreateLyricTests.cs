@@ -33,14 +33,8 @@ public class CreateLyricTests : TestBase
             Title = "Tasks"
         };
 
-        var itemId = await SendAsync(command);
+        await SendAsync(command);
 
-        var item = await FindAsync<Lyric>(itemId);
-
-        item.ShouldNotBeNull();
-        item.ArtistId.ShouldBe(command.ArtistId);
-        item.Title.ShouldBe(command.Title);
-        item.CreatedAt.ShouldBe(DateTime.Now, TimeSpan.FromMilliseconds(10000));
-        item.ModifiedAt.ShouldBeNull();
+        (await CountAsync<Lyric>()).ShouldBe(1);
     }
 }

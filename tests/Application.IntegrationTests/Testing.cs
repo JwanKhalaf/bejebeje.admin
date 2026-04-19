@@ -85,6 +85,15 @@ public class Testing
         return await mediator.Send(request);
     }
 
+    public static async Task SendAsync(IRequest request)
+    {
+        using var scope = _scopeFactory.CreateScope();
+
+        var mediator = scope.ServiceProvider.GetRequiredService<ISender>();
+
+        await mediator.Send(request);
+    }
+
     public static async Task ResetState()
     {
         await _respawner.ResetAsync(_configuration["ConnectionString"]);
