@@ -1,5 +1,5 @@
+using bejebeje.admin.Application.Artists.Commands.CreateArtist;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
-using bejebeje.admin.Domain.Entities;
 using NUnit.Framework;
 using Shouldly;
 
@@ -12,9 +12,10 @@ public class GetArtistsTests : TestBase
     [Test]
     public async Task ShouldReturnArtists()
     {
-        await AddAsync(new Artist
+        await SendAsync(new CreateArtistCommand
         {
-            FirstName = "Beytocan"
+            FirstName = "Beytocan",
+            Sex = "m"
         });
 
         var query = new GetAllArtistsWithPaginationQuery();

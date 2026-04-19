@@ -24,13 +24,16 @@ public class CreateLyricTests : TestBase
     {
         var artistId = await SendAsync(new CreateArtistCommand
         {
-            FirstName = "New List"
+            FirstName = "New List",
+            Sex = "m"
         });
 
         var command = new CreateLyricCommand
         {
             ArtistId = artistId,
-            Title = "Tasks"
+            Title = "Tasks",
+            Body = "some lyric body",
+            YouTubeLink = "https://youtu.be/example"
         };
 
         await SendAsync(command);

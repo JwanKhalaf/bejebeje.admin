@@ -7,15 +7,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Npgsql;
 using NUnit.Framework;
 using Respawn;
 using Respawn.Graph;
+using Testcontainers.PostgreSql;
 
 namespace bejebeje.admin.Application.IntegrationTests;
 
 [SetUpFixture]
 public class Testing
 {
+    private static PostgreSqlContainer _postgres = null!;
     private static IConfigurationRoot _configuration = null!;
     private static IServiceScopeFactory _scopeFactory = null!;
     private static Respawner _respawner = null!;
@@ -24,10 +27,20 @@ public class Testing
     [OneTimeSetUp]
     public async Task RunBeforeAnyTests()
     {
+        _postgres = new PostgreSqlBuilder()
+            .WithImage("postgres:18.3")
+            .Build();
+
+        await _postgres.StartAsync();
+
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", true, true)
-            .AddEnvironmentVariables();
+            .AddEnvironmentVariables()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["ConnectionString"] = _postgres.GetConnectionString(),
+            });
 
         _configuration = builder.Build();
 
@@ -58,13 +71,20 @@ public class Testing
             Mock.Of<ICurrentUserService>(s => s.UserId == _currentUserId));
 
         _scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
-        
-        _respawner = await Respawner.CreateAsync(_configuration["ConnectionString"], new RespawnerOptions
-        {
-            TablesToIgnore = new Table[] { "__EFMigrationsHistory" }
-        });
+
+        // integration tests run as a default test user so commands that
+        // persist user_id can satisfy the not-null column
+        _currentUserId = "test-user-id";
 
         EnsureDatabase();
+
+        await using var connection = new NpgsqlConnection(_postgres.GetConnectionString());
+        await connection.OpenAsync();
+        _respawner = await Respawner.CreateAsync(connection, new RespawnerOptions
+        {
+            DbAdapter = DbAdapter.Postgres,
+            SchemasToInclude = new[] { "public" },
+        });
     }
 
     private static void EnsureDatabase()
@@ -73,7 +93,7 @@ public class Testing
 
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        context.Database.Migrate();
+        context.Database.EnsureCreated();
     }
 
     public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
@@ -96,9 +116,11 @@ public class Testing
 
     public static async Task ResetState()
     {
-        await _respawner.ResetAsync(_configuration["ConnectionString"]);
+        await using var connection = new NpgsqlConnection(_postgres.GetConnectionString());
+        await connection.OpenAsync();
+        await _respawner.ResetAsync(connection);
 
-        _currentUserId = null;
+        _currentUserId = "test-user-id";
     }
 
     public static async Task<TEntity?> FindAsync<TEntity>(params object[] keyValues)
@@ -133,7 +155,8 @@ public class Testing
     }
 
     [OneTimeTearDown]
-    public void RunAfterAnyTests()
+    public async Task RunAfterAnyTests()
     {
+        await _postgres.DisposeAsync();
     }
 }
