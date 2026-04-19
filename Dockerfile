@@ -1,14 +1,14 @@
-# set base image as the dotnet 8.0 SDK.
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+# set base image as the dotnet 10.0 SDK.
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build-env
 
 # source bashrc
 SHELL ["/bin/bash", "--login", "-c"]
 
-# install nvm to get the right version of nodejs installed
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-
-# install necessary nodejs version
-RUN nvm install 18.3.0
+# install nvm and nodejs in one step
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash \
+    && export NVM_DIR="$HOME/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && nvm install 24.14.0
 
 # set the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD
 # instructions that follows the WORKDIR instruction.
@@ -20,10 +20,12 @@ COPY . ./
 
 # again, on the container (we are in /app folder)
 # we now publish the project into a folder called 'out'.
-RUN dotnet publish src/WebUI/WebUI.csproj -c Release -o out
+RUN export NVM_DIR="$HOME/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && dotnet publish src/WebUI/WebUI.csproj -c Release -o out
 
-# set base image as the dotnet 8.0 runtime.
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+# set base image as the dotnet 10.0 runtime.
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
 # telling the application what port to run on.
 ENV ASPNETCORE_URLS=http://*:5005
