@@ -12,7 +12,7 @@ using bejebeje.admin.Application.ArtistSlugs.Commands;
 using bejebeje.admin.Application.ArtistSlugs.Commands.DeleteArtistSlugCommand;
 using bejebeje.admin.Application.ArtistSlugs.Queries.GetArtistSlugs;
 using bejebeje.admin.Application.Common.Models;
-using bejebeje.admin.Domain.Exceptions;
+using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtist;
 using bejebeje.admin.WebUI.ViewModels.Artists.Queries.GetArtists;
 using Microsoft.AspNetCore.Authorization;

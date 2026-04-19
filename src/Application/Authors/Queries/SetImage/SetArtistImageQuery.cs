@@ -1,6 +1,6 @@
 using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Application.Common.Interfaces;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 using MediatR;
 
 namespace bejebeje.admin.Application.Authors.Queries.SetImage;

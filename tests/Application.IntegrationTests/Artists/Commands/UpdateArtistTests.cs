@@ -1,7 +1,7 @@
 using bejebeje.admin.Application.Artists.Commands.CreateArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Common.Exceptions;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 using NUnit.Framework;
 using Shouldly;
 

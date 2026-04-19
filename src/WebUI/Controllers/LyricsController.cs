@@ -13,7 +13,7 @@ using bejebeje.admin.Application.Lyrics.Queries.GetLyricsForArtist;
 using bejebeje.admin.Application.LyricSlugs.Commands.CreateLyricSlug;
 using bejebeje.admin.Application.LyricSlugs.Commands.DeleteLyricSlug;
 using bejebeje.admin.Application.LyricSlugs.Queries.GetLyricSlugs;
-using bejebeje.admin.Domain.Exceptions;
+using bejebeje.admin.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LyricDto = bejebeje.admin.Application.Lyrics.Queries.GetLyrics.LyricDto;

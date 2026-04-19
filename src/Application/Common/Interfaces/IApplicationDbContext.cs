@@ -1,4 +1,4 @@
-﻿using bejebeje.admin.Domain.Entities;
+﻿using Bejebeje.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

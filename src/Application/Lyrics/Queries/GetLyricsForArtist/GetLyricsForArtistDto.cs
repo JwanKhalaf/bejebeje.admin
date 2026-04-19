@@ -3,7 +3,7 @@ using bejebeje.admin.Application.Common.Enums;
 using bejebeje.admin.Application.Common.Extensions;
 using bejebeje.admin.Application.Common.Helpers;
 using bejebeje.admin.Application.Common.Mappings;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 
 namespace bejebeje.admin.Application.Lyrics.Queries.GetLyricsForArtist;
 

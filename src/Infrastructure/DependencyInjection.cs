@@ -59,8 +59,6 @@ public static class DependencyInjection
 
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-        services.AddScoped<IDomainEventService, DomainEventService>();
-
         services.AddTransient<IDateTime, DateTimeService>();
 
         return services;

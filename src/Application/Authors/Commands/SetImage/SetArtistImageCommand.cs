@@ -2,7 +2,7 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Application.Common.Interfaces;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

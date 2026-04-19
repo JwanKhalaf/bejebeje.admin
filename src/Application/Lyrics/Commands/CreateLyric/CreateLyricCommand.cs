@@ -3,7 +3,7 @@ using bejebeje.admin.Application.Common.Enums;
 using bejebeje.admin.Application.Common.Extensions;
 using bejebeje.admin.Application.Common.Helpers;
 using bejebeje.admin.Application.Common.Interfaces;
-using bejebeje.admin.Domain.Entities;
+using Bejebeje.Shared.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
