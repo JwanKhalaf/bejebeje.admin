@@ -90,7 +90,7 @@ public class CreateLyricCommandHandler : IRequestHandler<CreateLyricCommand>
         _context = context;
     }
 
-    public async Task<Unit> Handle(CreateLyricCommand command, CancellationToken cancellationToken)
+    public async Task Handle(CreateLyricCommand command, CancellationToken cancellationToken)
     {
         var entity = new Lyric
         {
@@ -109,6 +109,5 @@ public class CreateLyricCommandHandler : IRequestHandler<CreateLyricCommand>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }

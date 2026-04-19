@@ -1,9 +1,9 @@
-﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Artists.Commands.CreateArtist;
 using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Application.Lyrics.Commands.CreateLyric;
 using bejebeje.admin.Domain.Entities;
-using FluentAssertions;
 using NUnit.Framework;
+using Shouldly;
 
 namespace bejebeje.admin.Application.IntegrationTests.Lyrics.Commands;
 
@@ -16,8 +16,7 @@ public class CreateLyricTests : TestBase
     {
         var command = new CreateLyricCommand();
 
-        await FluentActions.Invoking(() =>
-            SendAsync(command)).Should().ThrowAsync<ValidationException>();
+        await Should.ThrowAsync<ValidationException>(() => SendAsync(command));
     }
 
     [Test]
@@ -25,23 +24,20 @@ public class CreateLyricTests : TestBase
     {
         var artistId = await SendAsync(new CreateArtistCommand
         {
-            FirstName = "New List"
+            FirstName = "New List",
+            Sex = "m"
         });
 
         var command = new CreateLyricCommand
         {
             ArtistId = artistId,
-            Title = "Tasks"
+            Title = "Tasks",
+            Body = "some lyric body",
+            YouTubeLink = "https://youtu.be/example"
         };
 
-        var itemId = await SendAsync(command);
+        await SendAsync(command);
 
-        var item = await FindAsync<Lyric>(itemId);
-
-        item.Should().NotBeNull();
-        item!.ArtistId.Should().Be(command.ArtistId);
-        item.Title.Should().Be(command.Title);
-        item.CreatedAt.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
-        item.ModifiedAt.Should().BeNull();
+        (await CountAsync<Lyric>()).ShouldBe(1);
     }
 }

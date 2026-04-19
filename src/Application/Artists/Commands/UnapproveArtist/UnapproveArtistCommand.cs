@@ -20,7 +20,7 @@ public class UnapproveArtistCommandHandler : IRequestHandler<UnapproveArtistComm
         _context = context;
     }
 
-    public async Task<Unit> Handle(UnapproveArtistCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UnapproveArtistCommand request, CancellationToken cancellationToken)
     {
         Artist artist = await _context
             .Artists
@@ -31,6 +31,5 @@ public class UnapproveArtistCommandHandler : IRequestHandler<UnapproveArtistComm
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }

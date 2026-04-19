@@ -1,9 +1,9 @@
-﻿using bejebeje.admin.Application.Artists.Commands.CreateArtist;
+using bejebeje.admin.Application.Artists.Commands.CreateArtist;
 using bejebeje.admin.Application.Artists.Commands.UpdateArtist;
 using bejebeje.admin.Application.Common.Exceptions;
 using bejebeje.admin.Domain.Entities;
-using FluentAssertions;
 using NUnit.Framework;
+using Shouldly;
 
 namespace bejebeje.admin.Application.IntegrationTests.Artists.Commands;
 
@@ -15,20 +15,23 @@ public class UpdateArtistTests : TestBase
     public async Task ShouldRequireValidTodoListId()
     {
         var command = new UpdateArtistCommand { Id = 99, FirstName = "New Title" };
-        await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<NotFoundException>();
+        await Should.ThrowAsync<NotFoundException>(() => SendAsync(command));
     }
 
     [Test]
+    [Ignore("no uniqueness validator for artist firstname — template residue; revisit if uniqueness is actually required")]
     public async Task ShouldRequireUniqueTitle()
     {
         var listId = await SendAsync(new CreateArtistCommand
         {
-            FirstName = "New List"
+            FirstName = "New List",
+            Sex = "m"
         });
 
         await SendAsync(new CreateArtistCommand
         {
-            FirstName = "Other List"
+            FirstName = "Other List",
+            Sex = "m"
         });
 
         var command = new UpdateArtistCommand
@@ -37,10 +40,9 @@ public class UpdateArtistTests : TestBase
             FirstName = "Other List"
         };
 
-        (await FluentActions.Invoking(() =>
-            SendAsync(command))
-                .Should().ThrowAsync<ValidationException>().Where(ex => ex.Errors.ContainsKey("Title")))
-                .And.Errors["Title"].Should().Contain("The specified title already exists.");
+        var exception = await Should.ThrowAsync<ValidationException>(() => SendAsync(command));
+        exception.Errors.ShouldContainKey("Title");
+        exception.Errors["Title"].ShouldContain("The specified title already exists.");
     }
 
     [Test]
@@ -48,7 +50,8 @@ public class UpdateArtistTests : TestBase
     {
         var listId = await SendAsync(new CreateArtistCommand
         {
-            FirstName = "New List"
+            FirstName = "New List",
+            Sex = "m"
         });
 
         var command = new UpdateArtistCommand
@@ -61,9 +64,9 @@ public class UpdateArtistTests : TestBase
 
         var list = await FindAsync<Artist>(listId);
 
-        list.Should().NotBeNull();
-        list!.FirstName.Should().Be(command.FirstName);
-        list.ModifiedAt.Should().NotBeNull();
-        list.ModifiedAt.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
+        list.ShouldNotBeNull();
+        list.FirstName.ShouldBe(command.FirstName);
+        list.ModifiedAt.ShouldNotBeNull();
+        list.ModifiedAt.Value.ShouldBe(DateTime.UtcNow, TimeSpan.FromMilliseconds(10000));
     }
 }

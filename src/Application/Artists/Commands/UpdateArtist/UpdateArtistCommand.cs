@@ -69,7 +69,7 @@ public class UpdateArtistCommandHandler : IRequestHandler<UpdateArtistCommand>
         _context = context;
     }
 
-    public async Task<Unit> Handle(UpdateArtistCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateArtistCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Artists
             .FindAsync(new object[] { request.Id }, cancellationToken);
@@ -88,6 +88,5 @@ public class UpdateArtistCommandHandler : IRequestHandler<UpdateArtistCommand>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }

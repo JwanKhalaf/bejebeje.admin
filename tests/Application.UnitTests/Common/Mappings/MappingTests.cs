@@ -1,9 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Runtime.CompilerServices;
 using AutoMapper;
 using bejebeje.admin.Application.Artists.Queries.GetArtists;
 using bejebeje.admin.Application.Common.Mappings;
 using bejebeje.admin.Application.Lyrics.Queries.GetLyrics;
 using bejebeje.admin.Domain.Entities;
+using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 
 namespace bejebeje.admin.Application.UnitTests.Common.Mappings;
@@ -15,8 +16,9 @@ public class MappingTests
 
     public MappingTests()
     {
-        _configuration = new MapperConfiguration(config => 
-            config.AddProfile<MappingProfile>());
+        _configuration = new MapperConfiguration(
+            config => config.AddProfile<MappingProfile>(),
+            NullLoggerFactory.Instance);
 
         _mapper = _configuration.CreateMapper();
     }
@@ -43,6 +45,6 @@ public class MappingTests
             return Activator.CreateInstance(type)!;
 
         // Type without parameterless constructor
-        return FormatterServices.GetUninitializedObject(type);
+        return RuntimeHelpers.GetUninitializedObject(type);
     }
 }

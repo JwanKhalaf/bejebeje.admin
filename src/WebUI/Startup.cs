@@ -4,7 +4,6 @@ using bejebeje.admin.Infrastructure;
 using bejebeje.admin.Infrastructure.Persistence;
 using bejebeje.admin.WebUI.Filters;
 using bejebeje.admin.WebUI.Services;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,8 +24,6 @@ public class Startup
         services.AddApplication();
         services.AddInfrastructure(Configuration);
 
-        services.AddDatabaseDeveloperPageExceptionFilter();
-
         services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
         services.AddHttpContextAccessor();
@@ -36,8 +33,7 @@ public class Startup
             .AddDbContextCheck<ApplicationDbContext>();
 
         services
-            .AddControllersWithViews(options => options.Filters.Add<ApiExceptionFilterAttribute>())
-            .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
+            .AddControllersWithViews(options => options.Filters.Add<ApiExceptionFilterAttribute>());
 
         // customise default api behaviour
         services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
@@ -59,7 +55,6 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-            app.UseMigrationsEndPoint();
         }
         else
         {

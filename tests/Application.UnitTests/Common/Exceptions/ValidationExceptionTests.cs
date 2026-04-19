@@ -1,7 +1,7 @@
-﻿using bejebeje.admin.Application.Common.Exceptions;
-using FluentAssertions;
+using bejebeje.admin.Application.Common.Exceptions;
 using FluentValidation.Results;
 using NUnit.Framework;
+using Shouldly;
 
 namespace bejebeje.admin.Application.UnitTests.Common.Exceptions;
 
@@ -12,7 +12,7 @@ public class ValidationExceptionTests
     {
         var actual = new ValidationException().Errors;
 
-        actual.Keys.Should().BeEquivalentTo(Array.Empty<string>());
+        actual.Keys.ShouldBeEmpty();
     }
 
     [Test]
@@ -25,8 +25,8 @@ public class ValidationExceptionTests
 
         var actual = new ValidationException(failures).Errors;
 
-        actual.Keys.Should().BeEquivalentTo(new string[] { "Age" });
-        actual["Age"].Should().BeEquivalentTo(new string[] { "must be over 18" });
+        actual.Keys.ShouldBe(new[] { "Age" }, ignoreOrder: true);
+        actual["Age"].ShouldBe(new[] { "must be over 18" }, ignoreOrder: true);
     }
 
     [Test]
@@ -44,20 +44,20 @@ public class ValidationExceptionTests
 
         var actual = new ValidationException(failures).Errors;
 
-        actual.Keys.Should().BeEquivalentTo(new string[] { "Password", "Age" });
+        actual.Keys.ShouldBe(new[] { "Password", "Age" }, ignoreOrder: true);
 
-        actual["Age"].Should().BeEquivalentTo(new string[]
+        actual["Age"].ShouldBe(new[]
         {
                 "must be 25 or younger",
                 "must be 18 or older",
-        });
+        }, ignoreOrder: true);
 
-        actual["Password"].Should().BeEquivalentTo(new string[]
+        actual["Password"].ShouldBe(new[]
         {
                 "must contain lower case letter",
                 "must contain upper case letter",
                 "must contain at least 8 characters",
                 "must contain a digit",
-        });
+        }, ignoreOrder: true);
     }
 }

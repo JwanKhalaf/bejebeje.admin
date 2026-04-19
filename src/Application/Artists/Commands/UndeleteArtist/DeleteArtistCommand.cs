@@ -20,7 +20,7 @@ public class UndeleteArtistCommandHandler : IRequestHandler<UndeleteArtistComman
         _context = context;
     }
 
-    public async Task<Unit> Handle(UndeleteArtistCommand command, CancellationToken cancellationToken)
+    public async Task Handle(UndeleteArtistCommand command, CancellationToken cancellationToken)
     {
         Artist artist = await _context.Artists
             .Where(l => l.Id == command.ArtistId)
@@ -30,6 +30,5 @@ public class UndeleteArtistCommandHandler : IRequestHandler<UndeleteArtistComman
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
     }
 }
