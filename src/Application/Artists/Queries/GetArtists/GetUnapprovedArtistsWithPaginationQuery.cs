@@ -52,7 +52,8 @@ public class
         {
             result = await artists
                 .Where(a => !a.IsApproved)
-                .OrderBy(a => a.FirstName)
+                .OrderByDescending(a => a.CreatedAt)
+                .ThenBy(a => a.FirstName)
                 .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
@@ -67,7 +68,8 @@ public class
                         EF.Functions.Like(a.FirstName, pattern) ||
                         EF.Functions.Like(a.LastName, pattern) ||
                         a.Slugs.Any(y => EF.Functions.Like(y.Name, pattern))))
-                .OrderBy(a => a.FirstName)
+                .OrderByDescending(a => a.CreatedAt)
+                .ThenBy(a => a.FirstName)
                 .ProjectTo<ArtistDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }

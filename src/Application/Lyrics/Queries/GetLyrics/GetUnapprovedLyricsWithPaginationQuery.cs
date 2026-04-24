@@ -50,7 +50,8 @@ public class
             result = await lyrics
                 .AsNoTracking()
                 .Where(l => !l.IsApproved && !l.IsDeleted)
-                .OrderBy(l => l.Title)
+                .OrderByDescending(l => l.CreatedAt)
+                .ThenBy(l => l.Title)
                 .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
@@ -63,7 +64,8 @@ public class
                 .Where(l => (!l.IsApproved && !l.IsDeleted) && (
                     EF.Functions.Like(l.Title, pattern) ||
                     l.Slugs.Any(y => EF.Functions.Like(y.Name, pattern))))
-                .OrderBy(l => l.Title)
+                .OrderByDescending(l => l.CreatedAt)
+                .ThenBy(l => l.Title)
                 .ProjectTo<LyricDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
