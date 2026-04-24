@@ -2,7 +2,6 @@
 using Amazon.S3;
 using bejebeje.admin.Application.Common.Behaviours;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace bejebeje.admin.Application;
@@ -17,7 +16,6 @@ public static class DependencyInjection
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             cfg.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
-            cfg.AddOpenBehavior(typeof(AuthorizationBehaviour<,>));
             cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
             cfg.AddOpenBehavior(typeof(PerformanceBehaviour<,>));
         });

@@ -1,5 +1,5 @@
-using bejebeje.admin.Application.Common.Security;
 using bejebeje.admin.Application.Dashboard.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bejebeje.admin.WebUI.Controllers;
